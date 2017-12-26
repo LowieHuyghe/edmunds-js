@@ -1,12 +1,12 @@
 import {
-  default as express,
   Express
 } from 'express'
+import * as express from 'express'
 
 /**
  * Application class
  */
-export default class Application {
+export class Application {
   /**
    * {Express}
    */
