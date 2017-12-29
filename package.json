@@ -2,7 +2,8 @@
   "name": "edmunds",
   "version": "0.0.1",
   "description": "Edmunds is a Express based framework for building web applications with a firm structure to start from.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -10,12 +11,12 @@
     "start": "tsc",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
-    "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' 'lib/**/*.ts'",
-    "test": "mocha -r ts-node/register lib/**/*.spec.ts"
+    "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
+    "test": "mocha -r ts-node/register **/*.spec.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/LowieHuyghe/edmunds-js.git"
+    "url": "git+ssh://git@github.com/LowieHuyghe/edmunds-js.git"
   },
   "keywords": [
     "express",
@@ -25,9 +26,9 @@
   "author": "Lowie Huyghe",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://gitlab.com/LowieHuyghe/edmunds-js/issues"
+    "url": "https://github.com/LowieHuyghe/edmunds-js/issues"
   },
-  "homepage": "https://gitlab.com/LowieHuyghe/edmunds-js#README",
+  "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
   "dependencies": {
     "express": "^4.16.2"
   },

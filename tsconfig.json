@@ -6,7 +6,8 @@
 		"removeComments": true,
 		"preserveConstEnums": true,
 		"sourceMap": true,
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"declaration": true
 	},
 	"files": [
 		"./node_modules/@types/mocha/index.d.ts",
