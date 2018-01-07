@@ -1,35 +1,18 @@
-import { Application } from '../application'
-import Constructor from '../foundation/staticconstructor'
-import {
-  Request,
-  Response,
-  NextFunction
-} from 'express'
+import { NextFunction } from 'express'
+import { Request } from './request'
+import { Response } from './response'
+import { BaseMiddleware } from '../support/basemiddleware'
 
-export class Controller {
+/**
+ * Controller class
+ */
+export abstract class Controller extends BaseMiddleware {
   /**
-   * The current application
-   */
-  public app: Application
-
-  /**
-   * Constructor
-   * @param {Application} app
-   */
-  constructor (app: Application) {
-    this.app = app
-  }
-
-  /**
-   * Route function
+   * Get function to use as middleware
    * @param {string} method
-   * @returns {(req: Request, res: Response, next: NextFunction) => any}
+   * @returns {(req: Request, res: Response, next: NextFunction) => void}
    */
-  static route<T extends Controller> (this: Constructor<T>, method: string): (req: Request, res: Response, next: NextFunction) => any {
-    return (req: Request, res: Response, next: NextFunction) => {
-      const controller = new this()
-      const controllerMethod = (controller as any)[method]
-      return controllerMethod(req, res, next)
-    }
+  static func<T extends Controller> (method: string): (req: Request, res: Response, next: NextFunction) => void {
+    return this.baseFunc(method)
   }
 }
