@@ -1,7 +1,9 @@
-import { Application } from 'express'
-import { NextFunction } from 'express'
-import { Request } from '../http/request'
-import { Response } from '../http/response'
+import {
+  Application,
+  NextFunction,
+  Request,
+  Response
+} from 'express'
 import { Edmunds } from '../edmunds'
 
 /**
@@ -9,6 +11,16 @@ import { Edmunds } from '../edmunds'
  * Note: This class is not abstract because this() in static methods is not supported when the class is abstract
  */
 export class BaseMiddleware {
+  /**
+   * Current express instance
+   */
+  protected app: Application
+
+  /**
+   * Current edmunds instance
+   */
+  protected edmunds: Edmunds
+
   /**
    * Current request
    */
@@ -22,25 +34,15 @@ export class BaseMiddleware {
   protected response: Response
 
   /**
-   * Current express instance
-   */
-  protected app: Application
-
-  /**
-   * Current edmunds instance
-   */
-  protected edmunds: Edmunds
-
-  /**
    * Constructor
    * @param {Request} req
    * @param {Response} res
    */
   protected constructor (req: Request, res: Response) {
+    this.app = req.app
+    this.edmunds = req.app.get('edmunds')
     this.req = this.request = req
     this.res = this.response = res
-    this.app = this.req.app
-    this.edmunds = this.req.edmunds
   }
 
   /**

@@ -1,7 +1,9 @@
-import { NextFunction } from 'express'
-import { Request } from './request'
-import { Response } from './response'
-import { BaseMiddleware } from '../support/basemiddleware'
+import {
+  NextFunction,
+  Request,
+  Response
+} from 'express'
+import { BaseMiddleware } from './basemiddleware'
 
 /**
  * Middleware class

@@ -1,7 +1,6 @@
 import * as express from 'express'
-import { Request } from './http/request'
-import { Response } from './http/response'
 import { ServiceProvider } from './support/serviceprovider'
+import { isUndefined } from 'util'
 
 /**
  * Edmunds class
@@ -10,17 +9,14 @@ export class Edmunds {
   /**
    * {Express}
    */
-  public app: express.Application
+  public app: express.Express
 
   /**
    * Constructor
    */
-  constructor () {
-    this.app = express()
-    this.app.use((req: Request, res: Response, next: express.NextFunction) => {
-      req.edmunds = this
-      next()
-    })
+  constructor (app?: express.Express) {
+    this.app = isUndefined(app) ? express() : app
+    this.app.set('edmunds', this)
   }
 
   /**
