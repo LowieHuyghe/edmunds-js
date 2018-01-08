@@ -1,0 +1,56 @@
+version: 2
+
+jobs:
+
+  test:
+    docker:
+      - image: node:9.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm test
+
+  lint:
+    docker:
+      - image: node:9.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run lint
+
+  deploy-to-npm:
+    docker:
+      - image: node:9.2
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run tsc:clean
+
+
+workflows:
+  version: 2
+
+  flow:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
+      - deploy-to-npm:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
+            branches:
+              ignore: /.*/
