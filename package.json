@@ -8,9 +8,10 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "tsc",
-    "tsc": "tsc",
+    "start": "tsc --watch",
     "tsc:watch": "tsc --watch",
+    "tsc": "tsc",
+    "tsc:clean": "rm -rf dist && tsc",
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
     "test": "mocha -r ts-node/register **/*.spec.ts"
   },
