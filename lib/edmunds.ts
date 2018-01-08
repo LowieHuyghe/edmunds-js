@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { ServiceProvider } from './support/serviceprovider'
 import { isUndefined } from 'util'
+import * as config from 'config'
 
 /**
  * Edmunds class
@@ -12,11 +13,18 @@ export class Edmunds {
   public app: express.Express
 
   /**
+   * Config
+   */
+  public config: config.IConfig
+
+  /**
    * Constructor
    */
   constructor (app?: express.Express) {
     this.app = isUndefined(app) ? express() : app
     this.app.set('edmunds', this)
+
+    this.config = config
   }
 
   /**
