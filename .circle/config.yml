@@ -37,6 +37,8 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run tsc:clean
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish
 
 
 workflows:
@@ -48,9 +50,16 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
+      - lint:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - deploy-to-npm:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
             branches:
               ignore: /.*/
+          requires:
+            - test
+            - lint
