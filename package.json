@@ -40,7 +40,7 @@
     "@types/config": "0.0.33",
     "@types/express": "^4.11.0",
     "@types/mocha": "^2.2.46",
-    "@types/node": "^8.5.2",
+    "@types/node": "^9.3.0",
     "chai": "^4.1.2",
     "docsify-cli": "^4.2.0",
     "mocha": "^4.1.0",
