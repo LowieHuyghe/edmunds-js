@@ -13,7 +13,7 @@
     "tsc": "tsc",
     "tsc:clean": "rm -rf dist && tsc",
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
-    "test": "mocha -r ts-node/register **/*.spec.ts"
+    "test": "nyc mocha **/*.spec.ts"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,8 @@
     "@types/node": "^8.5.2",
     "chai": "^4.1.2",
     "mocha": "^4.1.0",
+    "nyc": "^11.4.1",
+    "source-map-support": "^0.5.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",

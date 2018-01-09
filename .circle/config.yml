@@ -9,12 +9,24 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
+      - run:
+          name: Install Dependencies
+          command: npm install
       - save_cache:
           key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm test
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: Run Tests
+          command: |
+            ./cc-test-reporter before-build
+            npm test
+            ./cc-test-reporter after-build --exit-code $?
 
   lint:
     docker:
@@ -23,12 +35,16 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
+      - run:
+          name: Install Dependencies
+          command: npm install
       - save_cache:
           key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run lint
+      - run:
+          name: Run Linting
+          command: npm run lint
 
   deploy-to-npm:
     docker:
