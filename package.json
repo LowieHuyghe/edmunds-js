@@ -13,7 +13,7 @@
     "tsc": "tsc",
     "tsc:clean": "rm -rf dist && tsc",
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
-    "test": "nyc mocha **/*.spec.ts",
+    "test": "nyc mocha '**/*.spec.ts'",
     "docs": "docsify serve docs"
   },
   "repository": {

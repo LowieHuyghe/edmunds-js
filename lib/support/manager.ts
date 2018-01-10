@@ -57,7 +57,7 @@ export abstract class Manager {
 
     for (let instanceConfig of this.instancesConfig) {
       const name: string = instanceConfig.name
-      if (!(name in instances)) {
+      if (name in instances) {
         throw Error(`Re-declaring instance with name "${name}"`)
       }
       instances[name] = this.resolve(instanceConfig)
@@ -73,9 +73,13 @@ export abstract class Manager {
    */
   protected resolve (config: any): any {
     const driver: string = config.driver
-    const methodName: string = 'create' + driver.charAt(0).toUpperCase() + driver.slice(1)
+    const methodName: string = 'create' + driver.charAt(0).toUpperCase() + driver.slice(1).toLowerCase()
 
     const method: (config: any) => any = (this as any)[methodName]
+    if (isUndefined(method)) {
+      throw Error(`Method "${methodName}" for driver "${driver}" does not exist`)
+    }
+
     return method(config)
   }
 }
