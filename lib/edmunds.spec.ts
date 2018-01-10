@@ -26,6 +26,15 @@ describe('edmunds.js', () => {
   })
 
   it('should register service providers', () => {
+    class MyServiceProvider extends ServiceProvider {
+      static registerCount: number = 0
+
+      register (): void {
+        // Registering
+        ++MyServiceProvider.registerCount
+      }
+    }
+
     const edmunds = new Edmunds()
     expect(MyServiceProvider.registerCount).to.equal(0)
     edmunds.register(MyServiceProvider)
@@ -35,12 +44,3 @@ describe('edmunds.js', () => {
   })
 
 })
-
-class MyServiceProvider extends ServiceProvider {
-  static registerCount: number = 0
-
-  register (): void {
-    // Registering
-    ++MyServiceProvider.registerCount
-  }
-}
