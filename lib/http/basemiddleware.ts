@@ -62,4 +62,22 @@ export class BaseMiddleware {
       instanceMethod(req.params, next)
     }
   }
+
+  /**
+   * Get function to use as error-middleware
+   * @param {string} method
+   * @returns {(err: Error, req: Request, res: Response, next: NextFunction) => void}
+   */
+  protected static baseErrFunc<T extends BaseMiddleware> (method: string): (err: Error, req: Request, res: Response, next: NextFunction) => void {
+    return (err: Error, req: Request, res: Response, next: NextFunction) => {
+      // Instantiate the instance
+      const instance = new this(req, res)
+      // Get the correct method
+      let instanceMethod = (instance as any)[method]
+      // Bind context of instance
+      instanceMethod = instanceMethod.bind(instance)
+      // Call it
+      instanceMethod(err, next)
+    }
+  }
 }

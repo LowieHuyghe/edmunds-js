@@ -19,10 +19,9 @@ export abstract class Middleware extends BaseMiddleware {
 
   /**
    * Call the middleware
-   * @param {Request} req
-   * @param {Response} res
-   * @param {NextFunction} next
+   * @param {any} params The given route params
+   * @param {NextFunction} next The next middleware to call
    * @returns {void}
    */
-  abstract call (req: Request, res: Response, next: NextFunction): void
+  abstract call (params: any, next: NextFunction): void
 }
