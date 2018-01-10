@@ -1,4 +1,3 @@
-
 # Middleware
 
 Middleware is the proper way of layering your application. This is a

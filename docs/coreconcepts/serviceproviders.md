@@ -1,4 +1,3 @@
-
 # Service Providers
 
 Service Providers are a way of keeping the application as light as possible.
