@@ -1,4 +1,5 @@
 import { Edmunds } from './edmunds'
+import { ServiceProvider } from './support/serviceprovider'
 import { expect } from 'chai'
 import * as express from 'express'
 import * as config from 'config'
@@ -24,4 +25,22 @@ describe('edmunds.js', () => {
     expect(edmunds.config).to.equal(config)
   })
 
+  it('should register service providers', () => {
+    const edmunds = new Edmunds()
+    expect(MyServiceProvider.registerCount).to.equal(0)
+    edmunds.register(MyServiceProvider)
+    expect(MyServiceProvider.registerCount).to.equal(1)
+    edmunds.register(MyServiceProvider)
+    expect(MyServiceProvider.registerCount).to.equal(2)
+  })
+
 })
+
+class MyServiceProvider extends ServiceProvider {
+  static registerCount: number = 0
+
+  register (): void {
+    // Registering
+    ++MyServiceProvider.registerCount
+  }
+}
