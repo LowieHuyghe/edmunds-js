@@ -1,4 +1,7 @@
 - [Introduction](/)
 - Core Concepts
   - [Middleware](coreconcepts/middleware.md)
+  - [Controllers](coreconcepts/controllers.md)
   - [Service Providers](coreconcepts/serviceproviders.md)
+- Http
+  - [Routing](http/routing.md)
