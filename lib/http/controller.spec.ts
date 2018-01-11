@@ -1,7 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { Controller } from './controller'
 import * as chai from 'chai'
-import chaiHttp from 'chai-http'
+import * as chaiHttp from 'chai-http'
 import {
   NextFunction
 } from 'express'
