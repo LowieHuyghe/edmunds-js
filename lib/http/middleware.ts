@@ -11,10 +11,11 @@ import { BaseMiddleware } from './basemiddleware'
 export abstract class Middleware extends BaseMiddleware {
   /**
    * Get function to use as middleware
+   * @param {string} method
    * @returns {(req: Request, res: Response, next: NextFunction) => any}
    */
-  static func<T extends Middleware> (): (req: Request, res: Response, next: NextFunction) => any {
-    return this.baseFunc('call')
+  static func<T extends Middleware> (method: string = 'call'): (req: Request, res: Response, next: NextFunction) => any {
+    return this.baseFunc(method)
   }
 
   /**

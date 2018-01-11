@@ -11,10 +11,11 @@ import { BaseMiddleware } from './basemiddleware'
 export abstract class ErrorMiddleware extends BaseMiddleware {
   /**
    * Get function to use as error-middleware
+   * @param {string} method
    * @returns {(err: Error, req: Request, res: Response, next: NextFunction) => any}
    */
-  static func<T extends ErrorMiddleware> (): (err: Error, req: Request, res: Response, next: NextFunction) => any {
-    return this.baseErrFunc('handle')
+  static func<T extends ErrorMiddleware> (method: string = 'handle'): (err: Error, req: Request, res: Response, next: NextFunction) => any {
+    return this.baseErrFunc(method)
   }
 
   /**
