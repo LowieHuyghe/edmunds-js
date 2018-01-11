@@ -27,11 +27,7 @@ describe('errormiddleware.js', () => {
       }
 
       secondaryHandle (err: Error, next: NextFunction): void {
-        if (MyErrorMiddleware.registerCount === 2) {
-          this.res.status(500).send(`Second ${err}`)
-        } else {
-          next(err)
-        }
+        this.res.status(500).send(`Second ${err}`)
       }
     }
 

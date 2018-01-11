@@ -55,6 +55,7 @@ describe('manager.js', () => {
 
     const edmunds = new Edmunds()
     const instances = [
+      { name: 'john1', driver: 'john', number: 1 },
       { name: 'arya1', driver: 'arya', number: 1 }
     ]
     const manager = new MyManager(edmunds, instances)
