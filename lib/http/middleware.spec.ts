@@ -19,19 +19,27 @@ describe('middleware.js', () => {
 
       call (params: any, next: NextFunction): void {
         ++MyMiddleware.registerCount
-        if (MyMiddleware.registerCount !== 1) {
-          this.res.send('My Response')
+        if (MyMiddleware.registerCount === 2) {
+          this.res.send('My Second Response')
+        } else {
+          next()
         }
-        next()
+      }
+
+      secondaryCall (params: any, next: NextFunction): void {
+        if (MyMiddleware.registerCount === 3) {
+          this.res.send('My Third Response')
+        } else {
+          next()
+        }
       }
     }
 
     const edmunds = new Edmunds()
     edmunds.app.use(MyMiddleware.func())
+    edmunds.app.use(MyMiddleware.func('secondaryCall'))
     edmunds.app.use('/', (req: Request, res: Response) => {
-      if (MyMiddleware.registerCount === 1) {
-        res.send('My First Response')
-      }
+      res.send('My First Response')
     })
 
     expect(MyMiddleware.registerCount).to.equal(0)
@@ -46,9 +54,16 @@ describe('middleware.js', () => {
         expect(MyMiddleware.registerCount).to.equal(2)
         expect(err).to.be.a('null')
         expect(res).to.have.status(200)
-        expect(res.text).to.equal('My Response')
+        expect(res.text).to.equal('My Second Response')
 
-        done()
+        chai.request(edmunds.app).get('/').end((err: any, res: any) => {
+          expect(MyMiddleware.registerCount).to.equal(3)
+          expect(err).to.be.a('null')
+          expect(res).to.have.status(200)
+          expect(res.text).to.equal('My Third Response')
+
+          done()
+        })
       })
     })
   })

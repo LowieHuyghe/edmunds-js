@@ -19,7 +19,19 @@ describe('errormiddleware.js', () => {
 
       handle (err: Error, next: NextFunction): void {
         ++MyErrorMiddleware.registerCount
-        this.res.send(`${err}`)
+        if (MyErrorMiddleware.registerCount === 1) {
+          this.res.status(500).send(`First ${err}`)
+        } else {
+          next(err)
+        }
+      }
+
+      secondaryHandle (err: Error, next: NextFunction): void {
+        if (MyErrorMiddleware.registerCount === 2) {
+          this.res.status(500).send(`Second ${err}`)
+        } else {
+          next(err)
+        }
       }
     }
 
@@ -28,16 +40,24 @@ describe('errormiddleware.js', () => {
       throw new Error('This is an error')
     })
     edmunds.app.use(MyErrorMiddleware.func())
+    edmunds.app.use(MyErrorMiddleware.func('secondaryHandle'))
 
     expect(MyErrorMiddleware.registerCount).to.equal(0)
 
     chai.request(edmunds.app).get('/').end((err: any, res: any) => {
       expect(MyErrorMiddleware.registerCount).to.equal(1)
-      expect(err).to.be.a('null')
-      expect(res).to.have.status(200)
-      expect(res.text).to.equal('Error: This is an error')
+      expect(err).to.not.be.a('null')
+      expect(res).to.have.status(500)
+      expect(res.text).to.equal('First Error: This is an error')
 
-      done()
+      chai.request(edmunds.app).get('/').end((err: any, res: any) => {
+        expect(MyErrorMiddleware.registerCount).to.equal(2)
+        expect(err).to.not.be.a('null')
+        expect(res).to.have.status(500)
+        expect(res.text).to.equal('Second Error: This is an error')
+
+        done()
+      })
     })
   })
 
