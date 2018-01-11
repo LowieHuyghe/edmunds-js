@@ -1,11 +1,12 @@
 import { Edmunds } from '../edmunds'
 import { Controller } from './controller'
 import * as chai from 'chai'
-import * as chaiHttp from 'chai-http'
 import {
   NextFunction
 } from 'express'
 import 'mocha'
+
+const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 const expect = chai.expect
 
