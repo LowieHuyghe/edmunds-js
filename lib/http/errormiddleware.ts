@@ -14,14 +14,14 @@ export abstract class ErrorMiddleware extends BaseMiddleware {
    * @returns {(err: Error, req: Request, res: Response, next: NextFunction) => any}
    */
   static func<T extends ErrorMiddleware> (): (err: Error, req: Request, res: Response, next: NextFunction) => any {
-    return this.baseErrFunc('call')
+    return this.baseErrFunc('handle')
   }
 
   /**
-   * Call the middleware
+   * Handle the error
    * @param {Error} err The error
    * @param {NextFunction} next The next middleware to call
    * @returns {void}
    */
-  abstract call (err: Error, next: NextFunction): void
+  abstract handle (err: Error, next: NextFunction): void
 }

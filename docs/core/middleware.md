@@ -69,12 +69,12 @@ import { ErrorMiddleware } from 'edmunds'
 
 export class MyErrorMiddleware extends ErrorMiddleware {
   /**
-   * Call the middleware
+   * Handle the error
    * @param {Error} err The error
    * @param {NextFunction} next The next function to call
    * @returns {void}
    */
-  call (err: Error, next: NextFunction): void {
+  handle (err: Error, next: NextFunction): void {
     console.error(err.stack)
     this.res.status(500).send('Something broke!')
   }
