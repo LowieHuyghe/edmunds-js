@@ -8,19 +8,30 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
       - save_cache:
-          key: deps-test-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run:
-          name: Run Tests
           command: |
             npm test
             ./node_modules/codecov/bin/codecov
+
+  compile:
+    docker:
+      - image: node:9.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run tsc:clean
 
   lint:
     docker:
@@ -28,17 +39,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
       - save_cache:
-          key: deps-lint-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run:
-          name: Run Linting
-          command: npm run lint
+      - run: npm run lint
 
   deploy-to-npm:
     docker:
@@ -60,6 +67,10 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
+      - compile:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - lint:
           filters:
             tags:
@@ -72,4 +83,5 @@ workflows:
               ignore: /.*/
           requires:
             - test
+            - compile
             - lint
