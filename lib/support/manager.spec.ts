@@ -27,6 +27,11 @@ describe('manager.js', () => {
     expect(manager.get('john1')).to.equal('John Snow 1')
     expect(manager.get('John2')).to.equal('John Snow 2')
     expect(manager.get('arya1')).to.equal('Arya Stark 1')
+    expect(manager.all()).to.deep.equal({
+      John2: 'John Snow 2',
+      john1: 'John Snow 1',
+      arya1: 'Arya Stark 1'
+    })
   })
 
   it('should handle double declaration', () => {
@@ -44,6 +49,8 @@ describe('manager.js', () => {
     const manager = new MyManager(edmunds, instances)
 
     expect(() => manager.get()).to.throw('Re-declaring instance with name "john1"')
+    expect(() => manager.load()).to.throw('Re-declaring instance with name "john1"')
+    expect(() => manager.all()).to.throw('Re-declaring instance with name "john1"')
   })
 
   it('should handle non-existing drivers', () => {

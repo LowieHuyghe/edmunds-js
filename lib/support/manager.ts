@@ -46,9 +46,19 @@ export abstract class Manager {
   }
 
   /**
+   * Get all instances
+   * @returns {any[]}
+   */
+  all (): any[] {
+    this.load()
+
+    return { ...this.instances }
+  }
+
+  /**
    * Load the instances
    */
-  protected load () {
+  public load () {
     if (!isUndefined(this.instances)) {
       return
     }
