@@ -1,7 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { ErrorMiddleware } from './errormiddleware'
 import * as chai from 'chai'
-import * as chaiHttp from 'chai-http'
+import chaiHttp from 'chai-http'
 import {
   Response,
   Request,
