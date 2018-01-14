@@ -2,6 +2,7 @@ import * as express from 'express'
 import { ServiceProvider } from './support/serviceprovider'
 import { isUndefined } from 'util'
 import * as config from 'config'
+import { LoggerInstance } from 'winston'
 
 /**
  * Edmunds class
@@ -16,6 +17,11 @@ export class Edmunds {
    * Config
    */
   public config: config.IConfig
+
+  /**
+   * Logger
+   */
+  public logger: LoggerInstance
 
   /**
    * Constructor
