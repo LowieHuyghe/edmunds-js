@@ -70,4 +70,32 @@ describe('manager.js', () => {
     expect(() => manager.get()).to.throw('Method "createArya" for driver "arya" does not exist')
   })
 
+  it('should handle missing name', () => {
+    class MyManager extends Manager {
+      protected createJohn (config: any) {
+        return 'John Snow ' + config.number
+      }
+    }
+
+    const edmunds = new Edmunds()
+
+    let instances: any = [
+      { driver: 'john', number: 1 }
+    ]
+    let manager = new MyManager(edmunds, instances)
+    expect(() => manager.get()).to.throw('Missing name for declared instance')
+
+    instances = [
+      { name: '', driver: 'john', number: 1 }
+    ]
+    manager = new MyManager(edmunds, instances)
+    expect(() => manager.get()).to.throw('Missing name for declared instance')
+
+    instances = [
+      { name: null, driver: 'john', number: 1 }
+    ]
+    manager = new MyManager(edmunds, instances)
+    expect(() => manager.get()).to.throw('Missing name for declared instance')
+  })
+
 })

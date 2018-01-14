@@ -38,7 +38,7 @@ export abstract class Manager {
   get (name?: string): any {
     this.load()
 
-    if (isUndefined(name)) {
+    if (!name) {
       name = Object.keys(this.instances)[0]
     }
 
@@ -67,6 +67,9 @@ export abstract class Manager {
 
     for (let instanceConfig of this.instancesConfig) {
       const name: string = instanceConfig.name
+      if (!name) {
+        throw Error('Missing name for declared instance')
+      }
       if (name in instances) {
         throw Error(`Re-declaring instance with name "${name}"`)
       }
@@ -83,13 +86,22 @@ export abstract class Manager {
    */
   protected resolve (config: any): any {
     const driver: string = config.driver
-    const methodName: string = 'create' + driver.charAt(0).toUpperCase() + driver.slice(1).toLowerCase()
+    const methodName: string = this.resolveCreateMethodName(driver)
 
     const method: (config: any) => any = (this as any)[methodName]
-    if (isUndefined(method)) {
+    if (!method) {
       throw Error(`Method "${methodName}" for driver "${driver}" does not exist`)
     }
 
     return method(config)
+  }
+
+  /**
+   * Resolve the create method name
+   * @param {string} driver
+   * @returns {string}
+   */
+  protected resolveCreateMethodName (driver: string) {
+    return 'create' + driver.charAt(0).toUpperCase() + driver.slice(1).toLowerCase()
   }
 }
