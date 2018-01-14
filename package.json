@@ -50,6 +50,7 @@
     "chai-http": "^3.0.0",
     "codecov": "^3.0.0",
     "docsify-cli": "^4.2.0",
+    "import-fresh": "^2.0.0",
     "mocha": "^4.1.0",
     "nodemon": "^1.14.11",
     "nyc": "^11.4.1",

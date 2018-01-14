@@ -47,7 +47,7 @@ export abstract class Manager {
 
   /**
    * Get all instances
-   * @returns {any[]}
+   * @returns {any}
    */
   all (): any[] {
     this.load()
