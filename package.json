@@ -13,9 +13,9 @@
     "tsc:clean": "rm -rf dist && tsc",
     "tsc:watch": "tsc --watch",
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
-    "lint:watch": "nodemon --exec \"tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'\"",
+    "lint:watch": "nodemon --ext ts --exec npm run lint",
     "test": "nyc mocha --require ts-node/register --require source-map-support/register --recursive --exit '**/*.spec.ts'",
-    "test:watch": "nodemon --exec \"nyc mocha --require ts-node/register --require source-map-support/register --recursive --exit '**/*.spec.ts'\"",
+    "test:watch": "nodemon --ext ts --exec npm test",
     "docs": "docsify serve docs"
   },
   "repository": {
