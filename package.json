@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
   "dependencies": {
-    "config": "^1.29.1",
+    "config": "^1.29.2",
     "express": "^4.16.2",
     "winston": "^2.4.0"
   },
