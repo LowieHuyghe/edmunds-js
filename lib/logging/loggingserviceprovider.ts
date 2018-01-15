@@ -34,15 +34,5 @@ export class LoggingServiceProvider extends ServiceProvider {
       transports,
       ...loggerOptions
     })
-
-    // Override console if wanted
-    if (this.edmunds.config.has('logging.overrideConsole')
-        && this.edmunds.config.get('logging.overrideConsole')) {
-      console.log = (msg: any, ...args: any[]) => this.edmunds.logger.verbose(msg, ...args)
-      console.info = (msg: any, ...args: any[]) => this.edmunds.logger.info(msg, ...args)
-      console.warn = (msg: any, ...args: any[]) => this.edmunds.logger.warn(msg, ...args)
-      console.error = (msg: any, ...args: any[]) => this.edmunds.logger.error(msg, ...args)
-      console.debug = (msg: any, ...args: any[]) => this.edmunds.logger.debug(msg, ...args)
-    }
   }
 }
