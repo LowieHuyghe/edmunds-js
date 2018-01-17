@@ -80,7 +80,6 @@ export class Edmunds {
    * @returns {boolean}
    */
   protected isEnv (env: string): boolean {
-    const currentEnv = this.config.util.getEnv('NODE_ENV')
-    return currentEnv.toLowerCase().indexOf(env.toLowerCase()) === 0
+    return this.app.get('env').toLowerCase().indexOf(env.toLowerCase()) === 0
   }
 }
