@@ -4,7 +4,8 @@ import {
   Controller,
   Middleware,
   ServiceProvider,
-  Manager
+  Manager,
+  LoggingServiceProvider
 } from './index'
 import { expect } from 'chai'
 import 'mocha'
@@ -18,6 +19,7 @@ describe('index.js', () => {
     expect(Middleware).to.not.be.a('undefined')
     expect(ServiceProvider).to.not.be.a('undefined')
     expect(Manager).to.not.be.a('undefined')
+    expect(LoggingServiceProvider).to.not.be.a('undefined')
   })
 
 })
