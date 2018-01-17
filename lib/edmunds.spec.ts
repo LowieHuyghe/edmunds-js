@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import * as express from 'express'
 import * as config from 'config'
 import 'mocha'
-import * as importFresh from "import-fresh"
+import * as importFresh from 'import-fresh'
 
 describe('edmunds.js', () => {
 
