@@ -3,3 +3,6 @@
   - [Middleware](core/middleware.md)
   - [Controllers](core/controllers.md)
   - [Service Providers](core/serviceproviders.md)
+- [Configuration](configuration.md)
+- [Environment](environment.md)
+- [Logging](logging.md)
