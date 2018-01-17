@@ -34,11 +34,53 @@ export class Edmunds {
   }
 
   /**
+   * Check if production
+   * @returns {boolean}
+   */
+  isProduction (): boolean {
+    return this.isEnv('prod')
+  }
+
+  /**
+   * Check if staging
+   * @returns {boolean}
+   */
+  isStaging (): boolean {
+    return this.isEnv('stag')
+  }
+
+  /**
+   * Check if development
+   * @returns {boolean}
+   */
+  isDevelopment (): boolean {
+    return this.isEnv('dev')
+  }
+
+  /**
+   * Check if testing
+   * @returns {boolean}
+   */
+  isTesting (): boolean {
+    return this.isEnv('test')
+  }
+
+  /**
    * Register a service provider
    * @param {{new(edmunds: Edmunds): ServiceProvider}} GivenServiceProvider
    */
   register (GivenServiceProvider: new (app: Edmunds) => ServiceProvider) {
     const instance = new GivenServiceProvider(this)
     instance.register()
+  }
+
+  /**
+   * Is environment
+   * @param {string} env Given environment to check
+   * @returns {boolean}
+   */
+  protected isEnv (env: string): boolean {
+    const currentEnv = this.config.util.getEnv('NODE_ENV')
+    return currentEnv.toLowerCase().indexOf(env.toLowerCase()) === 0
   }
 }
