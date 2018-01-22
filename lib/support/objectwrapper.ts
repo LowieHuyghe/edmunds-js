@@ -1,5 +1,5 @@
 import * as Joi from 'joi'
-import { Promise } from 'es6-promise'
+import * as Bluebird from 'bluebird'
 
 export class ObjectWrapper {
   /**
@@ -48,17 +48,10 @@ export class ObjectWrapper {
   /**
    * Asynchronously validate the data
    * @param {Joi.Schema} schema
-   * @returns {Promise<object>}
+   * @returns {Bluebird<object>}
    */
-  asyncValidate (schema: Joi.Schema): Promise<object> {
-    return new Promise<object>((resolve, reject) => {
-      return schema.validate(this.data, (err: Joi.ValidationError, value: object) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(value)
-        }
-      })
-    })
+  asyncValidate (schema: Joi.Schema): Bluebird<object> {
+    const promise = Bluebird.promisify<object, object>(schema.validate, { context: schema })
+    return promise(this.data)
   }
 }

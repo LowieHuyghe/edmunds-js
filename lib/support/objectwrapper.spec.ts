@@ -11,7 +11,14 @@ describe('objectwrapper.ts', () => {
     age: null,
     country: undefined
   }
-  const schema = Joi.object().keys({
+  const successSchema = Joi.object().keys({
+    name: Joi.string().required(),
+    surname: Joi.string().required(),
+    gender: Joi.string().required(),
+    age: Joi.number().min(18).max(130).allow(null),
+    country: Joi.string()
+  })
+  const errorSchema = Joi.object().keys({
     name: Joi.string().required(),
     surname: Joi.string().required(),
     gender: Joi.string().required(),
@@ -46,11 +53,19 @@ describe('objectwrapper.ts', () => {
     expect(inputWrapper.get('continent', 'Europe')).to.equal('Europe')
   })
 
-  it('should have a functioning validate-function', () => {
+  it('should have a functioning validate-function with success', () => {
     const inputWrapper = new ObjectWrapper(input)
 
-    let validateResult = inputWrapper.validate(schema)
+    let validateResult = inputWrapper.validate(successSchema)
+    expect(validateResult.error).to.be.a('null')
+  })
+
+  it('should have a functioning validate-function with error', () => {
+    const inputWrapper = new ObjectWrapper(input)
+
+    let validateResult = inputWrapper.validate(errorSchema)
     expect(validateResult.error).to.not.be.a('null')
+    expect(validateResult.error).to.not.be.a('undefined')
     expect(validateResult.error.details.length).to.equal(1)
     expect(validateResult.error.details[0].context.key).to.equal('age')
     expect(validateResult.error.details[0].context.label).to.equal('age')
@@ -58,15 +73,30 @@ describe('objectwrapper.ts', () => {
     expect(validateResult.error.details[0].message).to.equal('"age" must be a number')
   })
 
-  it('should have a functioning asyncValidate-function', (done) => {
+  it('should have a functioning asyncValidate-function with success', (done) => {
     const inputWrapper = new ObjectWrapper(input)
 
-    inputWrapper.asyncValidate(schema)
+    inputWrapper.asyncValidate(successSchema)
+      .then((value: object) => {
+        expect(value).to.not.be.a('null')
+        expect(value).to.not.be.a('undefined')
+        done()
+      })
+      .catch((err: Joi.ValidationError) => {
+        throw new Error('Should validate!' + err)
+      })
+  })
+
+  it('should have a functioning asyncValidate-function with error', (done) => {
+    const inputWrapper = new ObjectWrapper(input)
+
+    inputWrapper.asyncValidate(errorSchema)
       .then(() => {
         throw new Error('Should not validate!')
       })
       .catch((err: Joi.ValidationError) => {
         expect(err).to.not.be.a('null')
+        expect(err).to.not.be.a('undefined')
         expect(err.details.length).to.equal(1)
         expect(err.details[0].context.key).to.equal('age')
         expect(err.details[0].context.label).to.equal('age')
