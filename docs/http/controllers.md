@@ -17,6 +17,7 @@ import {
 } from 'express'
 import {
   Edmunds,
+  ObjectWrapper,
   Controller
 } from 'edmunds'
 
@@ -29,10 +30,11 @@ export class MyController extends Controller {
    */
   getHelloWorld (params: any, next: NextFunction): void {
     // Do your thing!
-    //   this.req: Request      Current request
-    //   this.res: Response     Current response
-    //   this.app: Application  Current express application
-    //   this.edmunds: Edmunds  Current edmunds instance
+    //   this.req: Request          Current request
+    //   this.res: Response         Current response
+    //   this.app: Application      Current express application
+    //   this.edmunds: Edmunds      Current edmunds instance
+    //   this.input: ObjectWrapper  Current query and body input
     this.res.send('Hello World!')
   }
 }

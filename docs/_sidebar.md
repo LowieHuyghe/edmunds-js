@@ -1,8 +1,10 @@
 - [Introduction](/)
 - Core
-  - [Middleware](core/middleware.md)
-  - [Controllers](core/controllers.md)
   - [Service Providers](core/serviceproviders.md)
+- Http
+  - [Middleware](http/middleware.md)
+  - [Controllers](http/controllers.md)
+  - [Request Input](http/requestinput.md)
 - [Configuration](configuration.md)
 - [Environment](environment.md)
 - [Logging](logging.md)

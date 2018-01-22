@@ -4,7 +4,7 @@ Middleware is the proper way of layering your application. This is a
 basic class-implementation of a middleware-function and can be used
 everywhere you would use a middleware-function.
 
-More on expresjs.com: [Using middleware](http://expressjs.com/en/guide/using-middleware.html)
+More on expressjs.com: [Using middleware](http://expressjs.com/en/guide/using-middleware.html)
 
 >Note: The Controller-class is based the same principle.
 
@@ -22,6 +22,7 @@ import {
 } from 'express'
 import {
   Edmunds,
+  ObjectWrapper,
   Middleware
 } from 'edmunds'
 
@@ -34,10 +35,11 @@ export class MyMiddleware extends Middleware {
    */
   call (params: any, next: NextFunction): void {
     // Do your thing!
-    //   this.req: Request      Current request
-    //   this.res: Response     Current response
-    //   this.app: Application  Current express application
-    //   this.edmunds: Edmunds  Current edmunds instance
+    //   this.req: Request          Current request
+    //   this.res: Response         Current response
+    //   this.app: Application      Current express application
+    //   this.edmunds: Edmunds      Current edmunds instance
+    //   this.input: ObjectWrapper  Current query and body input
     next()
   }
 }

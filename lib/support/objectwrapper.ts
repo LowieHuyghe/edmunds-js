@@ -30,7 +30,7 @@ export class ObjectWrapper {
    * @param defaultt
    * @returns {any}
    */
-  get (key: string, defaultt: any = undefined) {
+  get (key: string, defaultt?: any) {
     return this.has(key)
       ? (this.data as any)[key]
       : defaultt
