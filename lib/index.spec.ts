@@ -3,6 +3,7 @@ import {
   ErrorMiddleware,
   Controller,
   Middleware,
+  ObjectWrapper,
   ServiceProvider,
   Manager,
   LoggingServiceProvider
@@ -17,6 +18,7 @@ describe('index.js', () => {
     expect(ErrorMiddleware).to.not.be.a('undefined')
     expect(Controller).to.not.be.a('undefined')
     expect(Middleware).to.not.be.a('undefined')
+    expect(ObjectWrapper).to.not.be.a('undefined')
     expect(ServiceProvider).to.not.be.a('undefined')
     expect(Manager).to.not.be.a('undefined')
     expect(LoggingServiceProvider).to.not.be.a('undefined')
