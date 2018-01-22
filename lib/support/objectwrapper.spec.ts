@@ -26,6 +26,12 @@ describe('objectwrapper.ts', () => {
     country: Joi.string()
   })
 
+  it('should have a matching data-object', () => {
+    const inputWrapper = new ObjectWrapper(input)
+
+    expect(inputWrapper.data).to.deep.equal(input)
+  })
+
   it('should have a functioning has-function', () => {
     const inputWrapper = new ObjectWrapper(input)
 

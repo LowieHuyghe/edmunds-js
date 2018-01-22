@@ -5,6 +5,7 @@ import {
   Response
 } from 'express'
 import { Edmunds } from '../edmunds'
+import { ObjectWrapper } from '../support/objectwrapper'
 
 /**
  * Base middleware class
@@ -34,6 +35,11 @@ export class BaseMiddleware {
   protected response: Response
 
   /**
+   * Current input
+   */
+  protected input: ObjectWrapper
+
+  /**
    * Constructor
    * @param {Request} req
    * @param {Response} res
@@ -43,6 +49,14 @@ export class BaseMiddleware {
     this.edmunds = req.app.get('edmunds')
     this.req = this.request = req
     this.res = this.response = res
+
+    let inputData
+    if (req.body instanceof Object) {
+      inputData = { ...req.query, ...req.body }
+    } else {
+      inputData = { ...req.query }
+    }
+    this.input = new ObjectWrapper(inputData)
   }
 
   /**

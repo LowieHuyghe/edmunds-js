@@ -40,6 +40,7 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.16.8",
     "@types/chai": "^4.1.1",
     "@types/chai-http": "^3.0.3",
     "@types/config": "0.0.33",
@@ -48,6 +49,7 @@
     "@types/mocha": "^2.2.46",
     "@types/node": "^9.3.0",
     "@types/winston": "^2.3.7",
+    "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "codecov": "^3.0.0",
