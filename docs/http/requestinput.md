@@ -60,3 +60,7 @@ export class MyController extends Controller {
   }
 }
 ```
+
+> Note: in order for form- or json-post-data to be available in
+> `input`, `body-parser` will have to be defined as middleware. It
+> converts the request-body to an object.
