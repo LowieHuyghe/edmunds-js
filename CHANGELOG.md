@@ -1,5 +1,10 @@
 # Edmunds Changelog
 
+## Next Release
+
+-
+
+
 ## Release 0.0.3 (2018-01-24)
 
 - [#8](https://github.com/LowieHuyghe/edmunds-js/issues/8): Service Providers
