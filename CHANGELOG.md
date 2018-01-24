@@ -1,9 +1,15 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.0.3 (2018-01-24)
 
--
+- [#8](https://github.com/LowieHuyghe/edmunds-js/issues/8): Service Providers
+- [#9](https://github.com/LowieHuyghe/edmunds-js/issues/9): Middleware
+- [#10](https://github.com/LowieHuyghe/edmunds-js/issues/10): Configuration
+- [#12](https://github.com/LowieHuyghe/edmunds-js/issues/12): Logging
+- [#11](https://github.com/LowieHuyghe/edmunds-js/issues/11): Error Handling
+- [#13](https://github.com/LowieHuyghe/edmunds-js/issues/13): Input and Validation
+
 
 ## Release 0.0.2 (2018-01-11)
 
-- [#1](https://github.com/LowieHuyghe/edmunds-js/issues/1): Setup project 
+- [#1](https://github.com/LowieHuyghe/edmunds-js/issues/1): Setup project
