@@ -14,7 +14,8 @@ describe('loggingserviceprovider.ts', () => {
     const edmunds = new Edmunds()
     expect(edmunds.logger).to.be.an('undefined')
     edmunds.register(LoggingServiceProvider)
-    expect(edmunds.logger).to.be.an('undefined')
+    expect(edmunds.logger).to.be.instanceof(Logger)
+    expect(Object.keys(edmunds.logger.transports).length).to.equal(0)
   })
 
   it('should have logger', () => {
