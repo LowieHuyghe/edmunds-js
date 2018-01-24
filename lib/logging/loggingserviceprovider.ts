@@ -11,12 +11,6 @@ export class LoggingServiceProvider extends ServiceProvider {
    * Register the service provider
    */
   register (): void {
-    // Check if logging is enabled
-    if (!this.edmunds.config.has('logging.enabled')
-        || !this.edmunds.config.get('logging.enabled')) {
-      return
-    }
-
     // Load all transports
     let transports: TransportInstance[] = []
     if (this.edmunds.config.has('logging.instances')) {

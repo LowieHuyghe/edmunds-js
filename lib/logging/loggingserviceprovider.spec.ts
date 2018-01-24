@@ -17,26 +17,7 @@ describe('loggingserviceprovider.ts', () => {
     expect(edmunds.logger).to.be.an('undefined')
   })
 
-  it('should have no logger when not enabled', () => {
-    // set up config overrides so that calls to http services will fail fast
-    process.env.NODE_CONFIG = JSON.stringify({
-      logging: {
-        enabled: false,
-        instances: [{
-          name: 'console',
-          driver: 'Console'
-        }]
-      }
-    })
-    const edmunds = new Edmunds()
-    edmunds.config = importFresh('config')
-
-    expect(edmunds.logger).to.be.an('undefined')
-    edmunds.register(LoggingServiceProvider)
-    expect(edmunds.logger).to.be.an('undefined')
-  })
-
-  it('should have logger when enabled', () => {
+  it('should have logger', () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
