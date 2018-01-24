@@ -3,13 +3,10 @@ import { BodyParserServiceProvider } from './bodyparserserviceprovider'
 import * as chai from 'chai'
 import {
   Request,
-  Response,
-  NextFunction
+  Response
 } from 'express'
 import 'mocha'
-import { ObjectWrapper } from '../support/objectwrapper'
-import * as BodyParser from 'body-parser'
-import * as importFresh from "import-fresh"
+import * as importFresh from 'import-fresh'
 
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
