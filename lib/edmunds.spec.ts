@@ -26,11 +26,11 @@ describe('edmunds.js', () => {
     expect(edmunds.config).to.equal(config)
   })
 
-  it('should register service providers', () => {
+  it('should register service providers', async () => {
     class MyServiceProvider extends ServiceProvider {
       static registerCount: number = 0
 
-      register (): void {
+      async register (): Promise<void> {
         // Registering
         ++MyServiceProvider.registerCount
       }
@@ -38,9 +38,9 @@ describe('edmunds.js', () => {
 
     const edmunds = new Edmunds()
     expect(MyServiceProvider.registerCount).to.equal(0)
-    edmunds.register(MyServiceProvider)
+    await edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(1)
-    edmunds.register(MyServiceProvider)
+    await edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(2)
   })
 

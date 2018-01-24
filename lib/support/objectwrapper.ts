@@ -1,5 +1,4 @@
 import * as Joi from 'joi'
-import { Promise } from 'es6-promise'
 
 export class ObjectWrapper {
   /**

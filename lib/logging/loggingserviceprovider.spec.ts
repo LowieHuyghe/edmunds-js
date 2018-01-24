@@ -10,15 +10,15 @@ import {
 
 describe('loggingserviceprovider.ts', () => {
 
-  it('should have no logger without config', () => {
+  it('should have no logger without config', async () => {
     const edmunds = new Edmunds()
     expect(edmunds.logger).to.be.an('undefined')
-    edmunds.register(LoggingServiceProvider)
+    await edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.be.instanceof(Logger)
     expect(Object.keys(edmunds.logger.transports).length).to.equal(0)
   })
 
-  it('should have logger', () => {
+  it('should have logger', async () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
@@ -33,7 +33,7 @@ describe('loggingserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
 
     expect(edmunds.logger).to.be.an('undefined')
-    edmunds.register(LoggingServiceProvider)
+    await edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.be.instanceof(Logger)
 
     expect(edmunds.logger.level).to.equal('info')
@@ -41,7 +41,7 @@ describe('loggingserviceprovider.ts', () => {
     expect(edmunds.logger.transports.console).to.be.instanceof(transports.Console)
   })
 
-  it('should have logger options', () => {
+  it('should have logger options', async () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
@@ -59,7 +59,7 @@ describe('loggingserviceprovider.ts', () => {
     })
     const edmunds = new Edmunds()
     edmunds.config = importFresh('config')
-    edmunds.register(LoggingServiceProvider)
+    await edmunds.register(LoggingServiceProvider)
 
     expect(edmunds.logger.level).to.equal('warn')
   })

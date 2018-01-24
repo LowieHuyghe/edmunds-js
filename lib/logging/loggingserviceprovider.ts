@@ -10,7 +10,7 @@ export class LoggingServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
-  register (): void {
+  async register (): Promise<void> {
     // Load all transports
     let transports: TransportInstance[] = []
     if (this.edmunds.config.has('logging.instances')) {

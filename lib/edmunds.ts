@@ -69,9 +69,9 @@ export class Edmunds {
    * Register a service provider
    * @param {{new(edmunds: Edmunds): ServiceProvider}} GivenServiceProvider
    */
-  register (GivenServiceProvider: new (app: Edmunds) => ServiceProvider) {
+  async register (GivenServiceProvider: new (app: Edmunds) => ServiceProvider): Promise<void> {
     const instance = new GivenServiceProvider(this)
-    instance.register()
+    await instance.register()
   }
 
   /**

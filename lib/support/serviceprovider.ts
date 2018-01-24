@@ -1,8 +1,8 @@
+import { Edmunds } from '../edmunds'
+
 /**
  * Service provider abstract class
  */
-import { Edmunds } from '../edmunds'
-
 export abstract class ServiceProvider {
   /**
    * Current Edmunds this service provider is registered to
@@ -20,5 +20,5 @@ export abstract class ServiceProvider {
   /**
    * Register the service provider
    */
-  abstract register (): void
+  abstract async register (): Promise<void>
 }
