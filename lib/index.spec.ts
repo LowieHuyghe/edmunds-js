@@ -6,7 +6,10 @@ import {
   ObjectWrapper,
   ServiceProvider,
   Manager,
-  LoggingServiceProvider
+  LoggingServiceProvider,
+  ErrorHandlerServiceProvider,
+  BodyParserServiceProvider,
+  MethodOverrideServiceProvider
 } from './index'
 import { expect } from 'chai'
 import 'mocha'
@@ -22,6 +25,9 @@ describe('index.js', () => {
     expect(ServiceProvider).to.not.be.a('undefined')
     expect(Manager).to.not.be.a('undefined')
     expect(LoggingServiceProvider).to.not.be.a('undefined')
+    expect(ErrorHandlerServiceProvider).to.not.be.a('undefined')
+    expect(BodyParserServiceProvider).to.not.be.a('undefined')
+    expect(MethodOverrideServiceProvider).to.not.be.a('undefined')
   })
 
 })
