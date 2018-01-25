@@ -8,9 +8,15 @@ export class DatabaseManager extends Manager {
    * @returns {ConnectionOptions}
    */
   protected createConnectionOptions (config: any): ConnectionOptions {
-    config.type = config.driver
-
     return config as ConnectionOptions
+  }
+
+  /**
+   * Resolve the driver key name
+   * @returns {string}
+   */
+  protected resolveDriverKeyName () {
+    return 'type'
   }
 
   /**
