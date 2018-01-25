@@ -3,6 +3,7 @@ import { ServiceProvider } from './support/serviceprovider'
 import { isUndefined } from 'util'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
+import { getConnection, Connection } from 'typeorm'
 
 /**
  * Edmunds class
@@ -63,6 +64,15 @@ export class Edmunds {
    */
   isTesting (): boolean {
     return this.isEnv('test')
+  }
+
+  /**
+   * Get database connection
+   * @param {string} name
+   * @returns {Connection}
+   */
+  database (name?: string): Connection {
+    return getConnection(name)
   }
 
   /**
