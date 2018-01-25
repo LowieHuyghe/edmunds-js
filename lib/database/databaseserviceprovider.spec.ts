@@ -4,37 +4,20 @@ import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import {
-  Connection
+  Connection,
+  getConnectionManager
 } from 'typeorm'
-import * as fs from 'fs'
 
 describe('databaseserviceprovider.ts', () => {
-  const sqlDb1 = './resources/database/sqlite.db'
-  const sqlDb2 = './resources/database/sqlite2.db'
+  const databaseConnections: string[] = []
 
-  beforeEach(() => {
-    if (fs.existsSync(sqlDb1)) {
-      fs.unlinkSync(sqlDb1)
+  afterEach(async () => {
+    const connManager = getConnectionManager()
+    for (let name of databaseConnections) {
+      if (connManager.has(name) && connManager.get(name).isConnected) {
+        await connManager.get(name).close()
+      }
     }
-    if (fs.existsSync(sqlDb2)) {
-      fs.unlinkSync(sqlDb2)
-    }
-  })
-
-  afterEach(() => {
-    if (fs.existsSync(sqlDb1)) {
-      fs.unlinkSync(sqlDb1)
-    }
-    if (fs.existsSync(sqlDb2)) {
-      fs.unlinkSync(sqlDb2)
-    }
-  })
-
-  it('should have no database without config', async () => {
-    const edmunds = new Edmunds()
-    expect(() => edmunds.database()).to.throw('Connection "default" was not found')
-    await edmunds.register(DatabaseServiceProvider)
-    expect(() => edmunds.database()).to.throw('Connection "default" was not found')
   })
 
   it('should have database', async () => {
@@ -44,43 +27,58 @@ describe('databaseserviceprovider.ts', () => {
         instances: [
           {
             name: 'default',
-            type: 'sqlite',
-            database: sqlDb1
+            type: 'sqljs',
+            database: 'databaseserviceprovider.js.database'
           },
           {
-            name: 'sqlite2',
-            type: 'sqlite',
-            database: sqlDb2
+            name: 'sqljs2',
+            type: 'sqljs',
+            database: 'databaseserviceprovider.js.database2'
           }
         ]
       }
     })
+    databaseConnections.push('default')
+    databaseConnections.push('sqljs2')
+
     const edmunds = new Edmunds()
     edmunds.config = importFresh('config')
 
-    expect(() => edmunds.database()).to.throw('Connection "default" was not found')
+    const connManager = getConnectionManager()
+    if (connManager.has('default')) {
+      expect(edmunds.database().options).to.not.include({
+        name: 'default',
+        type: 'sqljs',
+        database: 'databaseserviceprovider.js.database'
+      })
+    }
+    if (connManager.has('sqljs2')) {
+      expect(edmunds.database().options).to.not.include({
+        name: 'sqljs2',
+        type: 'sqljs',
+        database: 'databaseserviceprovider.js.database2'
+      })
+    }
+
     await edmunds.register(DatabaseServiceProvider)
     expect(edmunds.database()).to.be.instanceof(Connection)
     expect(edmunds.database().options).to.include({
       name: 'default',
-      type: 'sqlite',
-      database: sqlDb1
+      type: 'sqljs',
+      database: 'databaseserviceprovider.js.database'
     })
     expect(edmunds.database('default')).to.be.instanceof(Connection)
     expect(edmunds.database('default').options).to.include({
       name: 'default',
-      type: 'sqlite',
-      database: sqlDb1
+      type: 'sqljs',
+      database: 'databaseserviceprovider.js.database'
     })
-    expect(edmunds.database('sqlite2')).to.be.instanceof(Connection)
-    expect(edmunds.database('sqlite2').options).to.include({
-      name: 'sqlite2',
-      type: 'sqlite',
-      database: sqlDb2
+    expect(edmunds.database('sqljs2')).to.be.instanceof(Connection)
+    expect(edmunds.database('sqljs2').options).to.include({
+      name: 'sqljs2',
+      type: 'sqljs',
+      database: 'databaseserviceprovider.js.database2'
     })
-
-    expect(fs.existsSync(sqlDb1)).to.equal(true)
-    expect(fs.existsSync(sqlDb2)).to.equal(true)
   })
 
 })

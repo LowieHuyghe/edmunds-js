@@ -5,8 +5,23 @@ import * as express from 'express'
 import * as config from 'config'
 import 'mocha'
 import * as importFresh from 'import-fresh'
+import { DatabaseServiceProvider } from './database/databaseserviceprovider'
+import {
+  Connection,
+  getConnectionManager
+} from 'typeorm'
 
 describe('edmunds.js', () => {
+  const databaseConnections: string[] = []
+
+  afterEach(async () => {
+    const connManager = getConnectionManager()
+    for (let name of databaseConnections) {
+      if (connManager.has(name) && connManager.get(name).isConnected) {
+        await connManager.get(name).close()
+      }
+    }
+  })
 
   it('should have express', () => {
     const edmunds = new Edmunds()
@@ -76,6 +91,40 @@ describe('edmunds.js', () => {
       expect(edmunds.isProduction(), given).to.equal(expected === 'prod')
       expect(edmunds.isTesting(), given).to.equal(expected === 'test')
     }
+  })
+
+  it('should have functioning database function', async () => {
+    // Override config
+    process.env.NODE_CONFIG = JSON.stringify({
+      database: {
+        instances: [{
+          name: 'default',
+          type: 'sqljs',
+          database: 'edmunds.js.database'
+        }]
+      }
+    })
+    databaseConnections.push('default')
+
+    const edmunds = new Edmunds()
+    edmunds.config = importFresh('config')
+
+    const connManager = getConnectionManager()
+    if (connManager.has('default')) {
+      expect(edmunds.database().options).to.not.include({
+        name: 'default',
+        type: 'sqljs',
+        database: 'edmunds.js.database'
+      })
+    }
+
+    await edmunds.register(DatabaseServiceProvider)
+    expect(edmunds.database()).to.be.instanceof(Connection)
+    expect(edmunds.database().options).to.include({
+      name: 'default',
+      type: 'sqljs',
+      database: 'edmunds.js.database'
+    })
   })
 
 })
