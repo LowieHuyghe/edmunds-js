@@ -1,6 +1,9 @@
 import { ServiceProvider } from '../support/serviceprovider'
 import { DatabaseManager } from './databasemanager'
-import { createConnections, ConnectionOptions } from 'typeorm'
+import {
+  createConnections,
+  ConnectionOptions
+} from 'typeorm'
 
 export class DatabaseServiceProvider extends ServiceProvider {
   /**

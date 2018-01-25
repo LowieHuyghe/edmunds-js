@@ -22,7 +22,6 @@ describe('loggingserviceprovider.ts', () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
-        enabled: true,
         instances: [{
           name: 'console',
           driver: 'Console'
@@ -45,7 +44,6 @@ describe('loggingserviceprovider.ts', () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
-        enabled: true,
         logger: {
           handleExceptions: true,
           level: 'warn',
