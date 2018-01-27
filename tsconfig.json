@@ -8,6 +8,7 @@
 		"sourceMap": true,
 		"allowSyntheticDefaultImports": true,
 		"declaration": true,
+		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"lib" : [
 			"es2015"
