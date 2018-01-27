@@ -8,10 +8,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "tsc --watch",
+    "start": "npm run tsc:watch",
 
-    "tsc": "tsc",
-    "tsc:clean": "rm -rf dist && tsc",
+    "tsc": "rm -rf dist && tsc",
     "tsc:watch": "tsc --watch",
 
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
