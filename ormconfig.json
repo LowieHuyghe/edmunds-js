@@ -1,0 +1,12 @@
+[
+  {
+    "name": "default",
+    "type": "sqljs",
+    "database": "database1"
+  },
+  {
+    "name": "sqljs2",
+    "type": "sqljs",
+    "database": "database2"
+  }
+]
