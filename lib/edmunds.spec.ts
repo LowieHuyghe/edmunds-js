@@ -102,14 +102,6 @@ describe('edmunds.js', () => {
   it('should have functioning database function', async () => {
     const edmunds = new Edmunds(appRootPath.path)
 
-    const connManager = getConnectionManager()
-    if (connManager.has('default')) {
-      expect(edmunds.database('default').isConnected).to.equal(false)
-    }
-    if (connManager.has('sqljs2')) {
-      expect(edmunds.database('sqljs2').isConnected).to.equal(false)
-    }
-
     await edmunds.register(DatabaseServiceProvider)
     expect(edmunds.database()).to.be.instanceof(Connection)
     expect(edmunds.database().isConnected).to.equal(true)
