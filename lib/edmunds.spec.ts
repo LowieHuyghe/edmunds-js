@@ -6,6 +6,7 @@ import * as config from 'config'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
 import * as importFresh from 'import-fresh'
+import * as path from 'path'
 import { DatabaseServiceProvider } from './database/databaseserviceprovider'
 import {
   Connection,
@@ -38,6 +39,11 @@ describe('edmunds.js', () => {
   it('should have instance of config', () => {
     const edmunds = new Edmunds(appRootPath.path)
     expect(edmunds.config).to.equal(config)
+  })
+
+  it('should have correct root path', () => {
+    const edmunds = new Edmunds(appRootPath.path)
+    expect(edmunds.root).to.equal(path.resolve(__dirname + '/..'))
   })
 
   it('should register service providers', async () => {
