@@ -14,20 +14,24 @@ export abstract class SeedCommand extends Command {
     return program
       .command('db:seed')
       .description('Seed the database')
+      .option('-q, --quiet', 'Run without input')
   }
 
   /**
    * Run the command
+   * @param {any} options
    * @returns {Promise<void>}
    */
-  async run (): Promise<void> {
-    const answers = await inquirer.prompt({
-      name: 'yousure',
-      type: 'confirm',
-      message: `Are you sure you want to seed the database? (env: ${this.edmunds.getEnvironment()})`
-    })
-    if (!answers.yousure) {
-      return
+  async run (options: any): Promise<void> {
+    if (!options.quiet) {
+      const answers = await inquirer.prompt({
+        name: 'yousure',
+        type: 'confirm',
+        message: `Are you sure you want to seed the database? (env: ${this.edmunds.getEnvironment()})`
+      })
+      if (!answers.yousure) {
+        return
+      }
     }
 
     for (let seederClass of this.getSeeders()) {
