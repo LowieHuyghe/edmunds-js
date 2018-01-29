@@ -85,7 +85,8 @@ export abstract class Manager {
    * @returns {any}
    */
   protected resolve (config: any): any {
-    const driver: string = config.driver
+    const driverKeyName: string = this.resolveDriverKeyName()
+    const driver: string = config[driverKeyName]
     const methodName: string = this.resolveCreateMethodName(driver)
 
     const method: (config: any) => any = (this as any)[methodName]
@@ -94,6 +95,14 @@ export abstract class Manager {
     }
 
     return method(config)
+  }
+
+  /**
+   * Resolve the driver key name
+   * @returns {string}
+   */
+  protected resolveDriverKeyName () {
+    return 'driver'
   }
 
   /**

@@ -3,11 +3,18 @@ import { ServiceProvider } from './support/serviceprovider'
 import { isUndefined } from 'util'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
+import { getConnection, Connection } from 'typeorm'
+import 'reflect-metadata'
 
 /**
  * Edmunds class
  */
 export class Edmunds {
+  /**
+   * Root path
+   */
+  public root: string
+
   /**
    * {Express}
    */
@@ -25,8 +32,11 @@ export class Edmunds {
 
   /**
    * Constructor
+   * @param {string} root The root path
+   * @param {express.Express} app
    */
-  constructor (app?: express.Express) {
+  constructor (root: string, app?: express.Express) {
+    this.root = root
     this.app = isUndefined(app) ? express() : app
     this.app.set('edmunds', this)
 
@@ -66,6 +76,23 @@ export class Edmunds {
   }
 
   /**
+   * Get environment
+   * @returns {string}
+   */
+  getEnvironment (): string {
+    return this.app.get('env')
+  }
+
+  /**
+   * Get database connection
+   * @param {string} name
+   * @returns {Connection}
+   */
+  database (name?: string): Connection {
+    return getConnection(name)
+  }
+
+  /**
    * Register a service provider
    * @param {{new(edmunds: Edmunds): ServiceProvider}} GivenServiceProvider
    */
@@ -80,6 +107,6 @@ export class Edmunds {
    * @returns {boolean}
    */
   protected isEnv (env: string): boolean {
-    return this.app.get('env').toLowerCase().indexOf(env.toLowerCase()) === 0
+    return this.getEnvironment().toLowerCase().indexOf(env.toLowerCase()) === 0
   }
 }

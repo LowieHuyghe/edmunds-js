@@ -1,10 +1,16 @@
 - [Introduction](/)
 - Core
   - [Service Providers](core/serviceproviders.md)
+  - [Configuration](core/configuration.md)
+  - [Environment](core/environment.md)
 - Http
   - [Middleware](http/middleware.md)
   - [Controllers](http/controllers.md)
   - [Request Input](http/requestinput.md)
-- [Configuration](configuration.md)
-- [Environment](environment.md)
-- [Logging](logging.md)
+- CLI
+  - [Kernel](cli/kernel.md)
+- Database
+  - [Database](database/database.md)
+  - [Seeding](database/seeding.md)
+- Logging
+  - [Logging](logging/logging.md)

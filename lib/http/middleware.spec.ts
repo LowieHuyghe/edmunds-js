@@ -1,6 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { Middleware } from './middleware'
 import * as chai from 'chai'
+import * as appRootPath from 'app-root-path'
 import {
   Response,
   Request,
@@ -36,7 +37,7 @@ describe('middleware.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use(MyMiddleware.func())
     edmunds.app.use(MyMiddleware.func('secondaryCall'))
     edmunds.app.use('/', (req: Request, res: Response) => {

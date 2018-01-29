@@ -51,10 +51,11 @@ export class MyMiddleware extends Middleware {
 Use the Middleware as followed:
 
 ```typescript
+import * as appRootPath from 'app-root-path'
 import { Edmunds } from 'edmunds'
 import { MyMiddleware } from './mymiddleware'
 
-const edmunds = new Edmunds()
+const edmunds = new Edmunds(appRootPath.path)
 edmunds.app.use(MyMiddleware.func())
 ```
 

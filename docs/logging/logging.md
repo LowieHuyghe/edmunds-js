@@ -38,12 +38,13 @@ Example config:
 
 Example usage:
 ```typescript
+import * as appRootPath from 'app-root-path'
 import {
   Edmunds,
   LoggingServiceProvider
 } from 'edmunds'
 
-const edmunds = new Edmunds()
+const edmunds = new Edmunds(appRootPath.path)
 
 // Logging Service Provider
 await edmunds.register(LoggingServiceProvider)

@@ -1,6 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { LoggingManager } from './loggingmanager'
 import { expect } from 'chai'
+import * as appRootPath from 'app-root-path'
 import 'mocha'
 import {
   transports,
@@ -25,7 +26,7 @@ describe('loggingmanager.ts', () => {
       ...options
     }]
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
     expect(manager.get()).to.be.an.instanceof(transports.Console)
@@ -55,7 +56,7 @@ describe('loggingmanager.ts', () => {
       ...options
     }]
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
     expect(manager.get()).to.be.an.instanceof(transports.File)
@@ -83,7 +84,7 @@ describe('loggingmanager.ts', () => {
       ...options
     }]
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
     expect(manager.get()).to.be.an.instanceof(transports.Http)
@@ -95,7 +96,7 @@ describe('loggingmanager.ts', () => {
   })
 
   it('should not have', () => {
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
 
     let config = [{ name: 'http', driver: 'http' }]
     let manager = new LoggingManager(edmunds, config)

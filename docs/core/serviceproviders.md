@@ -31,10 +31,11 @@ export class MyServiceProvider extends ServiceProvider {
 Register the Service Provider once it needs to be loaded:
 
 ```typescript
+import * as appRootPath from 'app-root-path'
 import { Edmunds } from 'edmunds'
 import { MyServiceProvider } from './myserviceprovider'
 
-const edmunds = new Edmunds()
+const edmunds = new Edmunds(appRootPath.path)
 await edmunds.register(MyServiceProvider)
 ```
 

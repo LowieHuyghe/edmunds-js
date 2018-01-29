@@ -6,7 +6,12 @@ import {
   ObjectWrapper,
   ServiceProvider,
   Manager,
-  LoggingServiceProvider
+  LoggingServiceProvider,
+  Kernel,
+  Command,
+  DatabaseServiceProvider,
+  SeedCommand,
+  Seeder
 } from './index'
 import { expect } from 'chai'
 import 'mocha'
@@ -22,6 +27,11 @@ describe('index.js', () => {
     expect(ServiceProvider).to.not.be.a('undefined')
     expect(Manager).to.not.be.a('undefined')
     expect(LoggingServiceProvider).to.not.be.a('undefined')
+    expect(Kernel).to.not.be.a('undefined')
+    expect(Command).to.not.be.a('undefined')
+    expect(DatabaseServiceProvider).to.not.be.a('undefined')
+    expect(SeedCommand).to.not.be.a('undefined')
+    expect(Seeder).to.not.be.a('undefined')
   })
 
 })

@@ -1,6 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { ErrorMiddleware } from './errormiddleware'
 import * as chai from 'chai'
+import * as appRootPath from 'app-root-path'
 import {
   Response,
   Request,
@@ -32,7 +33,7 @@ describe('errormiddleware.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use('/', (req: Request, res: Response) => {
       throw new Error('This is an error')
     })
