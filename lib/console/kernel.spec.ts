@@ -16,7 +16,7 @@ describe('Kernel', () => {
   it('should pass basics', async () => {
     class ThisKernel extends MyKernel {
       run (): void {
-        expect(edmunds).to.equal(edmunds)
+        expect(this.edmunds).to.equal(edmunds)
         expect(this.argv).to.deep.equal(process.argv)
         super.run()
       }
