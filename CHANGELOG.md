@@ -2,6 +2,8 @@
 
 ## Next Release
 
+- [#17](https://github.com/LowieHuyghe/edmunds-js/issues/17): CLI (Kernel, Commands)
+- [#17](https://github.com/LowieHuyghe/edmunds-js/issues/17): Database
 -
 
 
