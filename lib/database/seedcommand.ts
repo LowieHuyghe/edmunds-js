@@ -2,6 +2,7 @@ import * as commander from 'commander'
 import { Command } from '../console/command'
 import { Seeder } from './seeder'
 import { Edmunds } from '../edmunds'
+import * as inquirer from 'inquirer'
 
 export abstract class SeedCommand extends Command {
   /**
@@ -20,6 +21,15 @@ export abstract class SeedCommand extends Command {
    * @returns {Promise<void>}
    */
   async run (): Promise<void> {
+    const answers = await inquirer.prompt({
+      name: 'yousure',
+      type: 'confirm',
+      message: `Are you sure you want to seed the database? (env: ${this.edmunds.getEnvironment()})`
+    })
+    if (!answers.yousure) {
+      return
+    }
+
     for (let seederClass of this.getSeeders()) {
       const seeder = new seederClass(this.edmunds)
       console.log(`Started seeding using ${seederClass.name}`)

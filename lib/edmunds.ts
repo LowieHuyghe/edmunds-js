@@ -76,6 +76,14 @@ export class Edmunds {
   }
 
   /**
+   * Get environment
+   * @returns {string}
+   */
+  getEnvironment (): string {
+    return this.app.get('env')
+  }
+
+  /**
    * Get database connection
    * @param {string} name
    * @returns {Connection}
@@ -99,6 +107,6 @@ export class Edmunds {
    * @returns {boolean}
    */
   protected isEnv (env: string): boolean {
-    return this.app.get('env').toLowerCase().indexOf(env.toLowerCase()) === 0
+    return this.getEnvironment().toLowerCase().indexOf(env.toLowerCase()) === 0
   }
 }
