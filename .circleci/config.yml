@@ -2,6 +2,20 @@ version: 2
 
 jobs:
 
+  deps-lock:
+    docker:
+      - image: node:9.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: '[ -z "$( git diff package-lock.json )" ]'
+
   test:
     docker:
       - image: node:9.2
@@ -63,6 +77,10 @@ workflows:
 
   flow:
     jobs:
+      - deps-lock:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - test:
           filters:
             tags:
@@ -82,6 +100,7 @@ workflows:
             branches:
               ignore: /.*/
           requires:
+            - deps-lock
             - test
             - compile
             - lint
