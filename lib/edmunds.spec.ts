@@ -85,10 +85,11 @@ describe('edmunds.js', () => {
       const edmunds = new Edmunds(appRootPath.path)
       edmunds.config = importFresh('config')
 
-      expect(edmunds.isDevelopment(), given).to.equal(expected === 'dev')
-      expect(edmunds.isStaging(), given).to.equal(expected === 'stag')
-      expect(edmunds.isProduction(), given).to.equal(expected === 'prod')
-      expect(edmunds.isTesting(), given).to.equal(expected === 'test')
+      expect(edmunds.getEnvironment()).to.equal(given !== '' ? given : 'development')
+      expect(edmunds.isDevelopment()).to.equal(expected === 'dev')
+      expect(edmunds.isStaging()).to.equal(expected === 'stag')
+      expect(edmunds.isProduction()).to.equal(expected === 'prod')
+      expect(edmunds.isTesting()).to.equal(expected === 'test')
     }
   })
 
