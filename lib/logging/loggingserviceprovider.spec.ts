@@ -3,6 +3,7 @@ import { LoggingServiceProvider } from './loggingserviceprovider'
 import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'
+import * as appRootPath from 'app-root-path'
 import {
   Logger,
   transports
@@ -11,7 +12,7 @@ import {
 describe('loggingserviceprovider.ts', () => {
 
   it('should have no logger without config', async () => {
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     expect(edmunds.logger).to.be.an('undefined')
     await edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.be.instanceof(Logger)
@@ -28,7 +29,7 @@ describe('loggingserviceprovider.ts', () => {
         }]
       }
     })
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
     expect(edmunds.logger).to.be.an('undefined')
@@ -55,7 +56,7 @@ describe('loggingserviceprovider.ts', () => {
         }]
       }
     })
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
     await edmunds.register(LoggingServiceProvider)
 

@@ -38,13 +38,17 @@
   },
   "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
   "dependencies": {
+    "app-root-path": "^2.0.1",
+    "commander": "^2.13.0",
     "config": "^1.29.2",
     "express": "^4.16.2",
     "joi": "^13.1.1",
+    "reflect-metadata": "^0.1.12",
     "typeorm": "^0.1.11",
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
     "@types/body-parser": "^1.16.8",
     "@types/chai": "^4.1.2",
     "@types/chai-http": "^3.0.3",

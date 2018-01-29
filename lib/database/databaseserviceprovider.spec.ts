@@ -2,6 +2,7 @@ import { Edmunds } from '../edmunds'
 import { DatabaseServiceProvider } from './databaseserviceprovider'
 import { expect } from 'chai'
 import 'mocha'
+import * as appRootPath from 'app-root-path'
 import {
   Connection,
   getConnectionManager
@@ -18,7 +19,7 @@ describe('databaseserviceprovider.ts', () => {
   })
 
   it('should have database', async () => {
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
 
     const connManager = getConnectionManager()
     if (connManager.has('default')) {

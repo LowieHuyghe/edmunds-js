@@ -1,6 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { Manager } from './manager'
 import { expect } from 'chai'
+import * as appRootPath from 'app-root-path'
 import 'mocha'
 
 describe('manager.js', () => {
@@ -15,7 +16,7 @@ describe('manager.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const instances = [
       { name: 'john1', driver: 'john', number: 1 },
       { name: 'John2', driver: 'JOHN', number: 2 },
@@ -41,7 +42,7 @@ describe('manager.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const instances = [
       { name: 'john1', driver: 'john', number: 1 },
       { name: 'john1', driver: 'JOHN', number: 1 }
@@ -60,7 +61,7 @@ describe('manager.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     const instances = [
       { name: 'john1', driver: 'john', number: 1 },
       { name: 'arya1', driver: 'arya', number: 1 }
@@ -77,7 +78,7 @@ describe('manager.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
 
     let instances: any = [
       { driver: 'john', number: 1 }

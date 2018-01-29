@@ -4,11 +4,17 @@ import { isUndefined } from 'util'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
+import 'reflect-metadata'
 
 /**
  * Edmunds class
  */
 export class Edmunds {
+  /**
+   * Root path
+   */
+  public root: string
+
   /**
    * {Express}
    */
@@ -26,8 +32,11 @@ export class Edmunds {
 
   /**
    * Constructor
+   * @param {string} root The root path
+   * @param {express.Express} app
    */
-  constructor (app?: express.Express) {
+  constructor (root: string, app?: express.Express) {
+    this.root = root
     this.app = isUndefined(app) ? express() : app
     this.app.set('edmunds', this)
 

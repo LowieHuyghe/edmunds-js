@@ -9,12 +9,13 @@ defined in `ormconfig.json`. Use your edmunds-instance to easily
 fetch one of the defined connections.
 
 ```typescript
+import * as appRootPath from 'app-root-path'
 import {
   Edmunds,
   DatabaseServiceProvider
 } from 'edmunds'
 
-const edmunds = new Edmunds()
+const edmunds = new Edmunds(appRootPath.path)
 
 await edmunds.register(DatabaseServiceProvider)
 

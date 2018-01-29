@@ -1,6 +1,7 @@
 import { Edmunds } from '../edmunds'
 import { Controller } from './controller'
 import * as chai from 'chai'
+import * as appRootPath from 'app-root-path'
 import {
   NextFunction
 } from 'express'
@@ -29,7 +30,7 @@ describe('controller.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use('/', MyController.func('getHelloWorld'))
 
     expect(MyController.registerCount).to.equal(0)
@@ -61,7 +62,7 @@ describe('controller.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use('/', MyController.func('getHelloWorld'))
 
     chai.request(edmunds.app).get('/').end(() => {
@@ -80,7 +81,7 @@ describe('controller.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use('/', MyController.func('getHelloWorld'))
 
     chai.request(edmunds.app).post('/?name=John&surname=Snow')
@@ -105,7 +106,7 @@ describe('controller.js', () => {
       }
     }
 
-    const edmunds = new Edmunds()
+    const edmunds = new Edmunds(appRootPath.path)
     edmunds.app.use(BodyParser.json())
     edmunds.app.use('/', MyController.func('getHelloWorld'))
 
