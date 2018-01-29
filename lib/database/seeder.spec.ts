@@ -6,7 +6,7 @@ import * as appRootPath from 'app-root-path'
 
 describe('Seeder', () => {
 
-  it('should have database', async () => {
+  it('should pass basics', async () => {
     class MySeeder extends Seeder {
       async call (): Promise<void> {
         expect(this.edmunds).to.equal(edmunds)

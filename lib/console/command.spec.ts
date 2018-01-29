@@ -4,11 +4,10 @@ import { expect } from 'chai'
 import 'mocha'
 import * as appRootPath from 'app-root-path'
 import * as commander from 'commander'
-import { Seeder } from '../database/seeder'
 
 describe('Command', () => {
 
-  it('should have database', async () => {
+  it('should pass basics', async () => {
     class MyCommand extends Command {
       register (program: commander.Command): commander.Command {
         return program.command('mycommand')

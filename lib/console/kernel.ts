@@ -1,6 +1,7 @@
 import * as commander from 'commander'
 import { Edmunds } from '../edmunds'
 import { Command } from './command'
+import { isUndefined } from 'util'
 
 export abstract class Kernel {
   /**
@@ -9,11 +10,27 @@ export abstract class Kernel {
   protected edmunds: Edmunds
 
   /**
+   * Arguments
+   */
+  protected argv: string[]
+
+  /**
+   * Check if ran command
+   */
+  protected executed: boolean = false
+
+  /**
    * Constructor
    * @param {Edmunds} edmunds
+   * @param {string[]} argv
    */
-  constructor (edmunds: Edmunds) {
+  constructor (edmunds: Edmunds, argv?: string[]) {
     this.edmunds = edmunds
+    if (!isUndefined(argv)) {
+      this.argv = argv
+    } else {
+      this.argv = process.argv
+    }
   }
 
   /**
@@ -21,13 +38,25 @@ export abstract class Kernel {
    */
   run () {
     const program = this.createProgram()
-    let programExecuted = false
+    this.registerCommands(program)
 
+    program.parse(this.argv)
+
+    if (!this.executed) {
+      this.help(program)
+    }
+  }
+
+  /**
+   * Register the commands
+   * @param {commander.Command} program
+   */
+  protected registerCommands (program: commander.Command) {
     for (let commandClass of this.getCommands()) {
       const command = new commandClass(program, this.edmunds)
       command.register(program)
         .action(async (...args: any[]) => {
-          programExecuted = true
+          this.executed = true
           try {
             await command.run(...args)
           } catch (e) {
@@ -40,12 +69,14 @@ export abstract class Kernel {
           }
         })
     }
+  }
 
-    program.parse(process.argv)
-
-    if (!programExecuted) {
-      program.help()
-    }
+  /**
+   * Print the help
+   * @param {commander.Command} program
+   */
+  protected help (program: commander.Command) {
+    program.help()
   }
 
   /**
