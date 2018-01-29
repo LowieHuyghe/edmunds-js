@@ -14,7 +14,10 @@ jobs:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: '[ -z "$( git diff package-lock.json )" ]'
+      - run:
+          command: |
+            echo "$( git diff package-lock.json )"
+            [ -z "$( git diff package-lock.json )" ]
 
   test:
     docker:
