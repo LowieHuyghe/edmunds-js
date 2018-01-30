@@ -1,10 +1,9 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.1.0 (2018-01-30)
 
 - [#17](https://github.com/LowieHuyghe/edmunds-js/issues/17): CLI (Kernel, Commands)
 - [#17](https://github.com/LowieHuyghe/edmunds-js/issues/17): Database
--
 
 
 ## Release 0.0.3 (2018-01-24)
