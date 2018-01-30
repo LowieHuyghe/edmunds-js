@@ -7,14 +7,7 @@ jobs:
       - image: node:9.4
     steps:
       - checkout
-      - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm prune
       - run: npm install
-      - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
       - run:
           command: |
             echo "$( git diff package-lock.json )"
@@ -27,7 +20,6 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm prune
       - run: npm install
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
@@ -45,7 +37,6 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm prune
       - run: npm install
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
@@ -60,7 +51,6 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm prune
       - run: npm install
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "package.json" }}
