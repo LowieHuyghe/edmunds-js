@@ -13,6 +13,6 @@ export class CacheServiceProvider extends ServiceProvider {
     }
 
     // Create manager
-    const manager = new CacheManager(this.edmunds, instances)
+    this.edmunds.cacheManager = new CacheManager(this.edmunds, instances)
   }
 }
