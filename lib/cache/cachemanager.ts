@@ -1,4 +1,5 @@
 import { Manager } from '../support/manager'
+import { isUndefined } from 'util'
 
 export class CacheManager extends Manager {
   /**
@@ -18,6 +19,11 @@ export class CacheManager extends Manager {
    */
   protected createMemcached (config: any): any {
     const Memcached = require('memcached')
+
+    if (isUndefined(config.servers)) {
+      throw new Error(`'servers'-config is missing for cache-instance '${config.name}'`)
+    }
+
     return new Memcached(config.servers, config)
   }
 
