@@ -38,7 +38,7 @@
     "commander": "^2.13.0",
     "config": "^1.29.4",
     "express": "^4.16.2",
-    "inquirer": "^5.0.1",
+    "inquirer": "^5.1.0",
     "joi": "^13.1.2",
     "reflect-metadata": "^0.1.12",
     "typeorm": "^0.1.12",
