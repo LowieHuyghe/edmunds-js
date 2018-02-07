@@ -35,7 +35,7 @@
   "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
   "dependencies": {
     "app-root-path": "^2.0.1",
-    "commander": "^2.13.0",
+    "commander": "^2.14.0",
     "config": "^1.29.4",
     "express": "^4.16.2",
     "inquirer": "^5.1.0",
