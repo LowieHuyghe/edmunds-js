@@ -24,7 +24,7 @@ export abstract class SeedCommand extends Command {
    */
   async run (options: any): Promise<void> {
     if (!options.quiet) {
-      const answers = await inquirer.prompt({
+      const answers: inquirer.Answers = await inquirer.prompt({
         name: 'yousure',
         type: 'confirm',
         message: `Are you sure you want to seed the database? (env: ${this.edmunds.getEnvironment()})`
