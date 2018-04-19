@@ -57,7 +57,7 @@
     "@types/node": "^9.4.6",
     "@types/winston": "^2.3.8",
     "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
+    "chai-http": "^4.0.0",
     "codecov": "^3.0.0",
     "docsify-cli": "^4.2.0",
     "import-fresh": "^2.0.0",
