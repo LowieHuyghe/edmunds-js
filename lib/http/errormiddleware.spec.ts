@@ -44,13 +44,15 @@ describe('errormiddleware.js', () => {
 
     chai.request(edmunds.app).get('/').end((err: any, res: any) => {
       expect(MyErrorMiddleware.registerCount).to.equal(1)
-      expect(err).to.not.be.a('null')
+      expect(err).to.be.a('null')
+      expect(res.error).to.be.instanceof(Error)
       expect(res).to.have.status(500)
       expect(res.text).to.equal('First Error: This is an error')
 
       chai.request(edmunds.app).get('/').end((err: any, res: any) => {
         expect(MyErrorMiddleware.registerCount).to.equal(2)
-        expect(err).to.not.be.a('null')
+        expect(err).to.be.a('null')
+        expect(res.error).to.be.instanceof(Error)
         expect(res).to.have.status(500)
         expect(res.text).to.equal('Second Error: This is an error')
 
