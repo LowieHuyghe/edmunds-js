@@ -41,7 +41,7 @@
     "inquirer": "^5.1.0",
     "joi": "^13.1.2",
     "reflect-metadata": "^0.1.12",
-    "typeorm": "^0.1.12",
+    "typeorm": "^0.2.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
