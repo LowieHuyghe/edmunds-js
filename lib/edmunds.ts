@@ -5,6 +5,7 @@ import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
 import 'reflect-metadata'
+import { CacheManager } from './cache/cachemanager'
 
 /**
  * Edmunds class
@@ -29,6 +30,11 @@ export class Edmunds {
    * Logger
    */
   public logger: LoggerInstance
+
+  /**
+   * Cache Manager
+   */
+  public cacheManager: CacheManager
 
   /**
    * Constructor
@@ -90,6 +96,15 @@ export class Edmunds {
    */
   database (name?: string): Connection {
     return getConnection(name)
+  }
+
+  /**
+   * Get cache instance
+   * @param {string} name
+   * @returns {any}
+   */
+  cache (name?: string): any {
+    return this.cacheManager.get(name)
   }
 
   /**
