@@ -9,7 +9,7 @@ export class FirebaseRealtimeDatabase {
   /**
    * Database reference
    */
-  protected database: firebaseAdmin.database.Reference
+  database: firebaseAdmin.database.Reference
 
   /**
    * Constructor
@@ -33,14 +33,14 @@ export class FirebaseRealtimeDatabase {
    * @param {number} lifetime
    * @return {Promise<void>}
    */
-  async set (key: string, data: any, lifetime: number) {
+  set (key: string, data: any, lifetime: number): Promise<void> {
     const ref = this.database.child(key)
     const snapshotValue: SnapshotValue = {
-      validUntil: lifetime === 0 ? 0 : (Date.now() / 1000) + lifetime,
+      validUntil: lifetime === 0 ? 0 : Math.round(Date.now() / 1000) + lifetime,
       value: data
     }
 
-    await ref.set(snapshotValue)
+    return ref.set(snapshotValue)
   }
 
   /**
@@ -48,8 +48,9 @@ export class FirebaseRealtimeDatabase {
    * @param {string} key
    * @return {Promise<any>}
    */
-  async get (key: string) {
+  async get (key: string): Promise<any> {
     const ref = this.database.child(key)
+
     const snapshot: firebaseAdmin.database.DataSnapshot = await ref.once('value')
 
     if (this.isSnapshotValid(snapshot)) {
@@ -58,14 +59,7 @@ export class FirebaseRealtimeDatabase {
 
     // Snapshot is not valid but exists. So delete it.
     if (snapshot.exists()) {
-      // Don't wait for result
-      this.del(key)
-        .then(() => {
-          //
-        })
-        .catch(() => {
-          //
-        })
+      await this.del(key)
     }
 
     return undefined
@@ -76,9 +70,9 @@ export class FirebaseRealtimeDatabase {
    * @param {string} key
    * @return {Promise<void>}
    */
-  async del (key: string) {
+  del (key: string): Promise<void> {
     const ref = this.database.child(key)
-    await ref.remove()
+    return ref.remove()
   }
 
   /**
@@ -86,7 +80,7 @@ export class FirebaseRealtimeDatabase {
    * @param {admin.database.DataSnapshot} snapshot
    * @return {boolean}
    */
-  protected isSnapshotValid (snapshot: firebaseAdmin.database.DataSnapshot) {
+  protected isSnapshotValid (snapshot: firebaseAdmin.database.DataSnapshot): boolean {
     if (!snapshot.exists()) {
       return false
     }

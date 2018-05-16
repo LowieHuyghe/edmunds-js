@@ -56,29 +56,18 @@ describe('CacheManager', () => {
     expect(manager.get('memcached')).to.be.an.instanceof(memcached)
   })
 
-  it('should have FirebaseRealtimeDatabase with admin-config', () => {
+  it('should have FirebaseRealtimeDatabase', () => {
     const config = [{
-      name: 'firebaserealtimedatabase',
-      driver: 'firebaserealtimedatabase'
-    }]
-
-    const edmunds = new Edmunds(appRootPath.path)
-    const manager = new CacheManager(edmunds, config)
-
-    expect(() => manager.get()).to.throw('Firebase config variables are not available. Please use the latest version of the Firebase CLI to deploy this function.')
-  })
-
-  it('should have FirebaseRealtimeDatabase with custom-config', () => {
-    const config = [{
-      name: 'firebaserealtimedatabase',
+      name: 'managerfirebaserealtimedatabase',
       driver: 'firebaserealtimedatabase',
-      databaseURL: 'https://totally-non-exisiting-project.impossible.firebaseio.com'
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
     }]
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw('Invalid Firebase app options passed as the first argument to initializeApp() for the app named "firebaserealtimedatabase". The "credential" property must be an object which implements the Credential interface.')
+    const driver = manager.get()
+    expect(driver).instanceof(FirebaseRealtimeDatabase)
   })
 
 })
