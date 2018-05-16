@@ -2,7 +2,7 @@
 
 ## Next Release
 
--
+- [#18](https://github.com/LowieHuyghe/edmunds-js/issues/18): Caching
 
 
 ## Release 0.1.0 (2018-01-30)
