@@ -12,5 +12,7 @@
 - Database
   - [Database](database/database.md)
   - [Seeding](database/seeding.md)
+- Cache
+  - [Cache](cache/cache.md)
 - Logging
   - [Logging](logging/logging.md)

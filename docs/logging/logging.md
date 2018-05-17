@@ -11,8 +11,6 @@ Example config:
 ```json
 {
   "logging": {
-    // Enable or disable winston logging
-    "enabled": true,
     // Transporter instances. As many as you like.
     "instances": [
       {
