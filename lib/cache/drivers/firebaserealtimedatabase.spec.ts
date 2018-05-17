@@ -16,7 +16,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw('Firebase config variables are not available. Please use the latest version of the Firebase CLI to deploy this function.')
+    expect(() => manager.get()).to.throw('Can\'t determine Firebase Database URL.')
   })
 
   it('should have FirebaseRealtimeDatabase with custom-config', () => {
