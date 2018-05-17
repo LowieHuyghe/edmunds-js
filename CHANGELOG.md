@@ -3,6 +3,7 @@
 ## Next Release
 
 - [#18](https://github.com/LowieHuyghe/edmunds-js/issues/18): Caching
+- [#15](https://github.com/LowieHuyghe/edmunds-js/issues/15): Filesystem
 
 
 ## Release 0.1.0 (2018-01-30)
