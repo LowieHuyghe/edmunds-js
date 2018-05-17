@@ -1,6 +1,5 @@
 import * as firebaseFunctions from 'firebase-functions'
 import * as firebaseAdmin from 'firebase-admin'
-import { isUndefined } from 'util'
 
 /**
  * Caching class using Firebase Realtime Database
@@ -18,10 +17,6 @@ export class FirebaseRealtimeDatabase {
    * @param {admin.AppOptions} config
    */
   constructor (name: string, ref: string, config?: firebaseAdmin.AppOptions) {
-    if (isUndefined(config)) {
-      config = firebaseFunctions.config().firebase
-    }
-
     const admin = firebaseAdmin.initializeApp(config, name)
     this.database = admin.database().ref(ref)
   }
