@@ -91,7 +91,8 @@ export default class GoogleCloudStorage implements DriverInterface {
   async exists (sourcePath: string): Promise<boolean> {
     const processedSourcePath = this.path(sourcePath)
     const file = this.bucket.file(processedSourcePath)
-    return file.exists() as any
+    const exists = await file.exists()
+    return exists[0]
   }
 
   /**
