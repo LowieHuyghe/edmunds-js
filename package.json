@@ -34,12 +34,14 @@
   },
   "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
   "dependencies": {
+    "@google-cloud/storage": "^1.7.0",
     "app-root-path": "^2.0.1",
     "commander": "^2.14.1",
     "config": "^1.29.4",
     "express": "^4.16.2",
     "inquirer": "^5.1.0",
     "joi": "^13.1.2",
+    "mkdirp": "^0.5.1",
     "reflect-metadata": "^0.1.12",
     "typeorm": "^0.2.0",
     "winston": "^2.4.0"
@@ -54,6 +56,7 @@
     "@types/inquirer": "0.0.41",
     "@types/joi": "^13.0.5",
     "@types/memcached": "^2.2.5",
+    "@types/mkdirp": "^0.5.2",
     "@types/mocha": "^5.1.0",
     "@types/node": "^10.0.3",
     "@types/redis": "^2.8.5",
