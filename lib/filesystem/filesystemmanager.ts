@@ -9,6 +9,7 @@ export default class FileSystemManager extends Manager {
    * @returns {Local}
    */
   protected createLocal (config: any): Local {
+    const rootPath = this.edmunds.root
     const storagePath = config.path
     const prefix = config.prefix
 
@@ -16,7 +17,7 @@ export default class FileSystemManager extends Manager {
       throw new Error(`'path'-config is missing for filesystem-instance '${config.name}'`)
     }
 
-    return new Local(storagePath, prefix)
+    return new Local(rootPath, storagePath, prefix)
   }
 
   /**

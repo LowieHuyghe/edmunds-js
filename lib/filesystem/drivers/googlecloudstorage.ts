@@ -4,8 +4,8 @@ import * as path from 'path'
 import * as Storage from '@google-cloud/storage'
 
 export default class GoogleCloudStorage implements DriverInterface {
-  protected storage: Storage.Storage
-  protected bucket: Storage.Bucket
+  public storage: Storage.Storage
+  public bucket: Storage.Bucket
   protected storagePath: string
   protected prefix: string | undefined
 

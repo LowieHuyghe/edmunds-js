@@ -6,15 +6,18 @@ import * as path from 'path'
 import * as mkdirp from 'mkdirp'
 
 export default class Local implements DriverInterface {
+  protected rootPath: string
   protected storagePath: string
   protected prefix: string | undefined
 
   /**
    * Constructor
+   * @param {string} rootPath
    * @param {string} storagePath
    * @param {string | undefined} prefix
    */
-  constructor (storagePath: string, prefix?: string | undefined) {
+  constructor (rootPath: string, storagePath: string, prefix?: string | undefined) {
+    this.rootPath = rootPath
     this.storagePath = storagePath
     this.prefix = prefix
   }
@@ -120,7 +123,7 @@ export default class Local implements DriverInterface {
    */
   path (sourcePath: string, prefix?: string): string {
     if (!sourcePath) {
-      return this.storagePath
+      return path.join(this.rootPath, this.storagePath)
     }
 
     const prefixToUse = prefix || this.prefix
@@ -135,6 +138,6 @@ export default class Local implements DriverInterface {
       }
     }
 
-    return path.join(this.storagePath, sourcePathToUse)
+    return path.join(this.rootPath, this.storagePath, sourcePathToUse)
   }
 }

@@ -8,8 +8,8 @@ export default class FileSystemServiceProvider extends ServiceProvider {
   async register (): Promise<void> {
     // Load instances
     let instances: any[] = []
-    if (this.edmunds.config.has('file.instances')) {
-      instances = this.edmunds.config.get('file.instances')
+    if (this.edmunds.config.has('filesystem.instances')) {
+      instances = this.edmunds.config.get('filesystem.instances')
     }
 
     // Create manager
