@@ -32,15 +32,17 @@ describe('Local', () => {
   afterEach(async () => {
     while (tempDirs.length) {
       const tempDir = tempDirs.pop()
-      await new Promise((resolve, reject) => {
-        rmdir(tempDir, (err: Error) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve()
-          }
+      if (fs.existsSync(tempDir)) {
+        await new Promise((resolve, reject) => {
+          rmdir(tempDir, (err: Error) => {
+            if (err) {
+              reject(err)
+            } else {
+              resolve()
+            }
+          })
         })
-      })
+      }
     }
   })
 
