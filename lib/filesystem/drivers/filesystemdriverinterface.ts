@@ -66,9 +66,9 @@ export default interface FileSystemDriverInterface {
 
   /**
    * Get a processed file path
-   * @param {string} sourcePath
-   * @param {string} prefix
+   * @param {string|undefined} sourcePath
+   * @param {string|undefined} prefix
    * @returns {string}
    */
-  path (sourcePath: string, prefix?: string): string
+  path (sourcePath?: string, prefix?: string): string
 }

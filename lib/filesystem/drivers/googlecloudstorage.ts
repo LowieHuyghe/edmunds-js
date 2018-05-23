@@ -134,17 +134,17 @@ export default class GoogleCloudStorage implements DriverInterface {
 
   /**
    * Get a processed file path
-   * @param {string} sourcePath
-   * @param {string} prefix
+   * @param {string|undefined} sourcePath
+   * @param {string|undefined} prefix
    * @returns {string}
    */
-  path (sourcePath: string, prefix?: string): string {
+  path (sourcePath?: string, prefix?: string): string {
     if (!sourcePath) {
       return this.storagePath
     }
 
     const prefixToUse = prefix || this.prefix
-    let sourcePathToUse = sourcePath.startsWith(path.sep) ? sourcePath : sourcePath.substr(1)
+    let sourcePathToUse = sourcePath.startsWith(path.sep) ? sourcePath.substr(1) : sourcePath
 
     if (prefixToUse) {
       const fileName = path.basename(sourcePath)
