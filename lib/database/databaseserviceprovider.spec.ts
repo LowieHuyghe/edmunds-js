@@ -43,6 +43,6 @@ describe('databaseserviceprovider.ts', () => {
       type: 'sqljs',
       database: 'database2'
     })
-  })
+  }).timeout(10000)
 
 })
