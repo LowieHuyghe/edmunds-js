@@ -4,7 +4,7 @@ jobs:
 
   deps-lock:
     docker:
-      - image: node:9.4
+      - image: node:latest
     steps:
       - checkout
       - run: npm install
@@ -15,7 +15,7 @@ jobs:
 
   test:
     docker:
-      - image: node:9.4
+      - image: node:latest
     steps:
       - checkout
       - restore_cache:
@@ -32,7 +32,7 @@ jobs:
 
   compile:
     docker:
-      - image: node:9.4
+      - image: node:latest
     steps:
       - checkout
       - restore_cache:
@@ -46,7 +46,7 @@ jobs:
 
   lint:
     docker:
-      - image: node:9.4
+      - image: node:latest
     steps:
       - checkout
       - restore_cache:
@@ -60,7 +60,7 @@ jobs:
 
   deploy-to-npm:
     docker:
-      - image: node:9.4
+      - image: node:latest
     steps:
       - checkout
       - run: npm install
