@@ -124,5 +124,5 @@ describe('edmunds.js', () => {
       type: 'sqljs',
       database: 'database2'
     })
-  })
+  }).timeout(10000)
 })
