@@ -6,6 +6,8 @@ import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
 import 'reflect-metadata'
 import { CacheManager } from './cache/cachemanager'
+import FileManager from './filesystem/filesystemmanager'
+import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 
 /**
  * Edmunds class
@@ -35,6 +37,11 @@ export class Edmunds {
    * Cache Manager
    */
   public cacheManager: CacheManager
+
+  /**
+   * File Manager
+   */
+  public fileSystemManager: FileManager
 
   /**
    * Constructor
@@ -105,6 +112,15 @@ export class Edmunds {
    */
   cache (name?: string): any {
     return this.cacheManager.get(name)
+  }
+
+  /**
+   * Get file system instance
+   * @param {string} name
+   * @returns {FileSystemDriverInterface}
+   */
+  fileSystem (name?: string): FileSystemDriverInterface {
+    return this.fileSystemManager.get(name)
   }
 
   /**

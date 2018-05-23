@@ -89,10 +89,11 @@ export abstract class Manager {
     const driver: string = config[driverKeyName]
     const methodName: string = this.resolveCreateMethodName(driver)
 
-    const method: (config: any) => any = (this as any)[methodName]
+    let method: (config: any) => any = (this as any)[methodName]
     if (!method) {
       throw Error(`Method "${methodName}" for driver "${driver}" does not exist`)
     }
+    method = method.bind(this)
 
     return method(config)
   }
