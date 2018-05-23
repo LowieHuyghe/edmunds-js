@@ -34,32 +34,16 @@ describe('FileSystemManager', () => {
     expect(manager.get('local')).to.be.an.instanceof(Local)
   })
 
-  it('should throw error when instantiating Google Cloud Storage with missing config', () => {
+  it('should throw error when instantiating Google Cloud Storage without bucket', () => {
     const config = [{
       name: 'googlecloudstorage',
       driver: 'googlecloudstorage'
     }]
+
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
-    expect(() => manager.get()).to.throw("'bucket'- or 'path'-config is missing for filesystem-instance 'googlecloudstorage'")
 
-    const config2 = [{
-      name: 'googlecloudstorage',
-      driver: 'googlecloudstorage',
-      path: 'storage'
-    }]
-    const edmunds2 = new Edmunds(appRootPath.path)
-    const manager2 = new FileSystemManager(edmunds2, config2)
-    expect(() => manager2.get()).to.throw("'bucket'- or 'path'-config is missing for filesystem-instance 'googlecloudstorage'")
-
-    const config3 = [{
-      name: 'googlecloudstorage',
-      driver: 'googlecloudstorage',
-      bucket: 'non-existing-bucket'
-    }]
-    const edmunds3 = new Edmunds(appRootPath.path)
-    const manager3 = new FileSystemManager(edmunds3, config3)
-    expect(() => manager3.get()).to.throw("'bucket'- or 'path'-config is missing for filesystem-instance 'googlecloudstorage'")
+    expect(() => manager.get()).to.throw("'bucket'-config is missing for filesystem-instance 'googlecloudstorage'")
   })
 
   it('should have Google Cloud Storage', () => {

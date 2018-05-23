@@ -7,7 +7,7 @@ import { getConnection, Connection } from 'typeorm'
 import 'reflect-metadata'
 import { CacheManager } from './cache/cachemanager'
 import FileManager from './filesystem/filesystemmanager'
-import DriverInterface from './filesystem/drivers/filesystemdriverinterface'
+import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 
 /**
  * Edmunds class
@@ -117,9 +117,9 @@ export class Edmunds {
   /**
    * Get file system instance
    * @param {string} name
-   * @returns {any}
+   * @returns {FileSystemDriverInterface}
    */
-  fileSystem (name?: string): DriverInterface {
+  fileSystem (name?: string): FileSystemDriverInterface {
     return this.fileSystemManager.get(name)
   }
 

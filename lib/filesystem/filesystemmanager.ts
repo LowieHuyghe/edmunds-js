@@ -30,8 +30,8 @@ export default class FileSystemManager extends Manager {
     const storagePath = config.path
     const prefix = config.prefix
 
-    if (!bucket || !storagePath) {
-      throw new Error(`'bucket'- or 'path'-config is missing for filesystem-instance '${config.name}'`)
+    if (!bucket) {
+      throw new Error(`'bucket'-config is missing for filesystem-instance '${config.name}'`)
     }
 
     return new GoogleCloudStorage(bucket, storagePath, prefix)
