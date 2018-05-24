@@ -26,12 +26,12 @@ export default class Redis implements CacheDriverInterface {
    * @return {Promise<void>}
    */
   set (key: string, data: any, lifetime: number): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.redis.set(key, data, 'EX', lifetime, (err: Error, response: 'OK' | undefined) => {
         if (err) {
           reject(err)
         } else if (response !== 'OK') {
-          reject(new Error(`Could not set redis-value with key "${key}" (${response})`))
+          reject(new Error(`Could not set redis-value with key "${key}"`))
         } else {
           resolve()
         }

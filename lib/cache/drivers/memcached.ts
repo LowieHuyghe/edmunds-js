@@ -45,7 +45,7 @@ export default class Memcached implements CacheDriverInterface {
    * @param {string} key
    * @return {Promise<any>}
    */
-  async get (key: string): Promise<any> {
+  get (key: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.memcached.get(key, (err: Error, response: any) => {
         if (err) {

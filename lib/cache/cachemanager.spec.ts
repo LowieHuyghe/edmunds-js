@@ -24,8 +24,12 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(Redis)
-    expect(manager.get('redis')).to.be.an.instanceof(Redis)
+    try {
+      expect(manager.get()).to.be.an.instanceof(Redis)
+      expect(manager.get('redis')).to.be.an.instanceof(Redis)
+    } finally {
+      manager.get().redis.end(false)
+    }
   })
 
   it('should throw error when instantiating Memcached without servers', () => {
@@ -54,8 +58,12 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(Memcached)
-    expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
+    try {
+      expect(manager.get()).to.be.an.instanceof(Memcached)
+      expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
+    } finally {
+      manager.get().memcached.end(false)
+    }
   })
 
   it('should have FirebaseRealtimeDatabase', () => {
