@@ -1,6 +1,6 @@
 import { Edmunds } from '../../edmunds'
 import { CacheManager } from '../cachemanager'
-import { FirebaseRealtimeDatabase } from './firebaserealtimedatabase'
+import FirebaseRealtimeDatabase from './firebaserealtimedatabase'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import * as sinon from 'sinon'
@@ -29,7 +29,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver: FirebaseRealtimeDatabase = manager.get()
+    const driver = manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
   })
 
@@ -43,7 +43,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver: FirebaseRealtimeDatabase = manager.get()
+    const driver = manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     function createSnapshot (key: string, exists: boolean, value: any, lifetime: number) {
@@ -63,7 +63,7 @@ describe('FirebaseRealtimeDatabase', () => {
     getStub.onSecondCall().returns(createSnapshot('secondKey', true, 'secondValue', -10))
     getStub.onThirdCall().returns(createSnapshot('thirdValue', false, 'thirdValue', 10))
     const delStub = sinon.stub().resolves(undefined)
-    const childStub = sinon.stub(driver.database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
     childStub.withArgs('firstKey').returns({ once: getStub, remove: delStub })
     childStub.withArgs('secondKey').returns({ once: getStub, remove: delStub })
     childStub.withArgs('thirdKey').returns({ once: getStub, remove: delStub })
@@ -102,11 +102,11 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver: FirebaseRealtimeDatabase = manager.get()
+    const driver = manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     let givenValue: any = undefined
-    const childStub = sinon.stub(driver.database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
     childStub.withArgs('firstKey').returns({
       set: async (value: any) => {
         givenValue = value
@@ -132,12 +132,12 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver: FirebaseRealtimeDatabase = manager.get()
+    const driver = manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     const delStub = sinon.stub().returns(undefined)
 
-    const childStub = sinon.stub(driver.database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
     childStub.withArgs('firstKey').returns({ remove: delStub })
     childStub.returns(undefined)
 

@@ -1,6 +1,5 @@
 import * as express from 'express'
 import { ServiceProvider } from './support/serviceprovider'
-import { isUndefined } from 'util'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
@@ -8,6 +7,7 @@ import 'reflect-metadata'
 import { CacheManager } from './cache/cachemanager'
 import FileManager from './filesystem/filesystemmanager'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
+import CacheDriverInterface from './cache/drivers/cachedriverinterface'
 
 /**
  * Edmunds class
@@ -50,7 +50,7 @@ export class Edmunds {
    */
   constructor (root: string, app?: express.Express) {
     this.root = root
-    this.app = isUndefined(app) ? express() : app
+    this.app = app || express()
     this.app.set('edmunds', this)
 
     this.config = config
@@ -108,9 +108,9 @@ export class Edmunds {
   /**
    * Get cache instance
    * @param {string} name
-   * @returns {any}
+   * @returns {CacheDriverInterface}
    */
-  cache (name?: string): any {
+  cache (name?: string): CacheDriverInterface {
     return this.cacheManager.get(name)
   }
 

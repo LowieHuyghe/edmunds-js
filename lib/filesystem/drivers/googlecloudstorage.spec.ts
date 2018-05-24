@@ -27,7 +27,7 @@ describe('GoogleCloudStorage', () => {
 
     const instance = manager.get()
     expect(instance).to.be.an.instanceof(GoogleCloudStorage)
-    return instance
+    return instance as GoogleCloudStorage
   }
 
   const tempDir = path.join(os.tmpdir(), 'testing-edmunds')

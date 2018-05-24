@@ -1,10 +1,9 @@
 import { Edmunds } from '../edmunds'
-import { isUndefined } from 'util'
 
 /**
  * Manager abstract class
  */
-export abstract class Manager {
+export abstract class Manager<T> {
   /**
    * Current application registering the manager to
    */
@@ -18,7 +17,7 @@ export abstract class Manager {
   /**
    * List of instances
    */
-  private instances: any
+  private instances: { [key: string]: T }
 
   /**
    * Constructor
@@ -33,9 +32,9 @@ export abstract class Manager {
   /**
    * Get the instance
    * @param {string} name
-   * @returns {any}
+   * @returns {T}
    */
-  get (name?: string): any {
+  get (name?: string): T {
     this.load()
 
     if (!name) {
@@ -47,9 +46,9 @@ export abstract class Manager {
 
   /**
    * Get all instances
-   * @returns {any}
+   * @returns {T}
    */
-  all (): any[] {
+  all (): { [key: string]: T } {
     this.load()
 
     return { ...this.instances }
@@ -59,11 +58,11 @@ export abstract class Manager {
    * Load the instances
    */
   public load () {
-    if (!isUndefined(this.instances)) {
+    if (this.instances) {
       return
     }
 
-    const instances: any = {}
+    const instances: { [key: string]: T } = {}
 
     for (let instanceConfig of this.instancesConfig) {
       const name: string = instanceConfig.name
@@ -84,7 +83,7 @@ export abstract class Manager {
    * @param config
    * @returns {any}
    */
-  protected resolve (config: any): any {
+  protected resolve (config: any): T {
     const driverKeyName: string = this.resolveDriverKeyName()
     const driver: string = config[driverKeyName]
     const methodName: string = this.resolveCreateMethodName(driver)

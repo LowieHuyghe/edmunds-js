@@ -4,7 +4,7 @@ import {
   TransportInstance
 } from 'winston'
 
-export class LoggingManager extends Manager {
+export class LoggingManager extends Manager<TransportInstance> {
   /**
    * Create Winston transporter
    * @param {any} config

@@ -1,39 +1,44 @@
 import { Manager } from '../support/manager'
-import { isUndefined } from 'util'
+import CacheDriverInterface from './drivers/cachedriverinterface'
 
-export class CacheManager extends Manager {
+export class CacheManager extends Manager<CacheDriverInterface> {
   /**
    * Create Redis client
    * @param {any} config
-   * @returns {redis.RedisClient}
+   * @returns {Redis}
    */
-  protected createRedis (config: any): any {
-    const redis = require('redis')
-    return redis.createClient(config)
+  protected createRedis (config: any): CacheDriverInterface {
+    const { default: Redis } = require('./drivers/redis')
+
+    return new Redis(config)
   }
 
   /**
    * Create Memcached client
    * @param {any} config
-   * @returns {memcached}
+   * @returns {Memcached}
    */
-  protected createMemcached (config: any): any {
-    const Memcached = require('memcached')
+  protected createMemcached (config: any): CacheDriverInterface {
+    const { default: Memcached } = require('./drivers/memcached')
+    const {
+      servers,
+      ...remainingConfig
+    } = config
 
-    if (isUndefined(config.servers)) {
+    if (!servers) {
       throw new Error(`'servers'-config is missing for cache-instance '${config.name}'`)
     }
 
-    return new Memcached(config.servers, config)
+    return new Memcached(config.servers, remainingConfig)
   }
 
   /**
    * Create Firebase Realtime Database client
    * @param {any} config
-   * @returns {memcached}
+   * @returns {FirebaseRealtimeDatabase}
    */
-  protected createFirebaserealtimedatabase (config: any): any {
-    const { FirebaseRealtimeDatabase } = require('./drivers/firebaserealtimedatabase')
+  protected createFirebaserealtimedatabase (config: any): CacheDriverInterface {
+    const { default: FirebaseRealtimeDatabase } = require('./drivers/firebaserealtimedatabase')
 
     const name = config.name
     const key = config.ref ? config.ref : 'cache'

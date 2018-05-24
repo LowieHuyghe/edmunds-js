@@ -26,11 +26,7 @@ export abstract class Kernel {
    */
   constructor (edmunds: Edmunds, argv?: string[]) {
     this.edmunds = edmunds
-    if (!isUndefined(argv)) {
-      this.argv = argv
-    } else {
-      this.argv = process.argv
-    }
+    this.argv = argv || process.argv
   }
 
   /**

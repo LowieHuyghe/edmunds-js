@@ -7,7 +7,7 @@ import 'mocha'
 describe('manager.js', () => {
 
   it('should have basic functionality', () => {
-    class MyManager extends Manager {
+    class MyManager extends Manager<string> {
       protected createJohn (config: any) {
         return 'John Snow ' + config.number
       }
@@ -36,7 +36,7 @@ describe('manager.js', () => {
   })
 
   it('should handle double declaration', () => {
-    class MyManager extends Manager {
+    class MyManager extends Manager<string> {
       protected createJohn (config: any) {
         return 'John Snow ' + config.number
       }
@@ -55,7 +55,7 @@ describe('manager.js', () => {
   })
 
   it('should handle non-existing drivers', () => {
-    class MyManager extends Manager {
+    class MyManager extends Manager<string> {
       protected createJohn (config: any) {
         return 'John Snow ' + config.number
       }
@@ -72,7 +72,7 @@ describe('manager.js', () => {
   })
 
   it('should handle missing name', () => {
-    class MyManager extends Manager {
+    class MyManager extends Manager<string> {
       protected createJohn (config: any) {
         return 'John Snow ' + config.number
       }

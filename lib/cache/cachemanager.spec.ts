@@ -1,6 +1,8 @@
 import { Edmunds } from '../edmunds'
 import { CacheManager } from './cachemanager'
-import { FirebaseRealtimeDatabase } from './drivers/firebaserealtimedatabase'
+import FirebaseRealtimeDatabase from './drivers/firebaserealtimedatabase'
+import Memcached from './drivers/memcached'
+import Redis from './drivers/redis'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
@@ -22,8 +24,12 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(redis.RedisClient)
-    expect(manager.get('redis')).to.be.an.instanceof(redis.RedisClient)
+    try {
+      expect(manager.get()).to.be.an.instanceof(Redis)
+      expect(manager.get('redis')).to.be.an.instanceof(Redis)
+    } finally {
+      (manager.get() as Redis).redis.end(false)
+    }
   })
 
   it('should throw error when instantiating Memcached without servers', () => {
@@ -52,8 +58,12 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(memcached)
-    expect(manager.get('memcached')).to.be.an.instanceof(memcached)
+    try {
+      expect(manager.get()).to.be.an.instanceof(Memcached)
+      expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
+    } finally {
+      (manager.get() as Memcached).memcached.end()
+    }
   })
 
   it('should have FirebaseRealtimeDatabase', () => {

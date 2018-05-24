@@ -1,14 +1,15 @@
 import { Manager } from '../support/manager'
-import Local from './drivers/local'
-import GoogleCloudStorage from './drivers/googlecloudstorage'
+import FileSystemDriverInterface from './drivers/filesystemdriverinterface'
 
-export default class FileSystemManager extends Manager {
+export default class FileSystemManager extends Manager<FileSystemDriverInterface> {
   /**
    * Create local driver
    * @param {any} config
    * @returns {Local}
    */
-  protected createLocal (config: any): Local {
+  protected createLocal (config: any): FileSystemDriverInterface {
+    const { default: Local } = require('./drivers/local')
+
     const rootPath = this.edmunds.root
     const storagePath = config.path
     const prefix = config.prefix
@@ -25,7 +26,9 @@ export default class FileSystemManager extends Manager {
    * @param {any} config
    * @returns {GoogleCloudStorage}
    */
-  protected createGooglecloudstorage (config: any): GoogleCloudStorage {
+  protected createGooglecloudstorage (config: any): FileSystemDriverInterface {
+    const { default: GoogleCloudStorage } = require('./drivers/googlecloudstorage')
+
     const bucket = config.bucket
     const storagePath = config.path
     const prefix = config.prefix

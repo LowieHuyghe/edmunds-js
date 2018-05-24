@@ -1,14 +1,15 @@
 import * as firebaseFunctions from 'firebase-functions'
 import * as firebaseAdmin from 'firebase-admin'
+import CacheDriverInterface from './cachedriverinterface'
 
 /**
  * Caching class using Firebase Realtime Database
  */
-export class FirebaseRealtimeDatabase {
+export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
   /**
    * Database reference
    */
-  database: firebaseAdmin.database.Reference
+  public database: firebaseAdmin.database.Reference
 
   /**
    * Constructor
