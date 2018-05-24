@@ -1,6 +1,6 @@
 import { Edmunds } from '../../edmunds'
 import { CacheManager } from '../cachemanager'
-import { FirebaseRealtimeDatabase } from './firebaserealtimedatabase'
+import FirebaseRealtimeDatabase from './firebaserealtimedatabase'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import * as sinon from 'sinon'

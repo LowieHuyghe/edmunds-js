@@ -4,8 +4,8 @@ import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import * as appRootPath from 'app-root-path'
-import * as redis from 'redis'
 import { CacheManager } from './cachemanager'
+import Redis from './drivers/redis'
 
 describe('cacheserviceprovider.ts', () => {
 
@@ -34,10 +34,10 @@ describe('cacheserviceprovider.ts', () => {
     await edmunds.register(CacheServiceProvider)
     expect(edmunds.cacheManager).to.be.instanceof(CacheManager)
 
-    expect(edmunds.cache()).to.be.an.instanceof(redis.RedisClient)
-    expect(edmunds.cache('redis')).to.be.an.instanceof(redis.RedisClient)
-    expect(edmunds.cacheManager.get()).to.be.an.instanceof(redis.RedisClient)
-    expect(edmunds.cacheManager.get('redis')).to.be.an.instanceof(redis.RedisClient)
+    expect(edmunds.cache()).to.be.an.instanceof(Redis)
+    expect(edmunds.cache('redis')).to.be.an.instanceof(Redis)
+    expect(edmunds.cacheManager.get()).to.be.an.instanceof(Redis)
+    expect(edmunds.cacheManager.get('redis')).to.be.an.instanceof(Redis)
   })
 
 })
