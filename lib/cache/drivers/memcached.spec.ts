@@ -1,8 +1,8 @@
 import { Edmunds } from '../../edmunds'
 import { CacheManager } from '../cachemanager'
-import Redis from './redis'
+import Memcached from './memcached'
 import * as appRootPath from 'app-root-path'
-import * as redis from 'redis'
+import * as memcached from 'memcached'
 import * as chai from 'chai'
 import 'mocha'
 
@@ -10,14 +10,15 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 
-describe('Redis', () => {
-  function getDriver (): Redis {
-    const options: redis.ClientOpts = {
-      host: '192.168.123.123'
+describe('Memcached', () => {
+  function getDriver (): Memcached {
+    const options: memcached.options = {
+      maxKeySize: 200
     }
     const config = [{
-      name: 'redis1',
-      driver: 'redis',
+      name: 'memcached1',
+      driver: 'memcached',
+      servers: '192.168.123.123:11211',
       ...options
     }]
 
@@ -25,8 +26,8 @@ describe('Redis', () => {
     const manager = new CacheManager(edmunds, config)
 
     const instance = manager.get()
-    expect(instance).to.be.an.instanceof(Redis)
-    expect(instance.redis).to.be.an.instanceof(redis.RedisClient)
+    expect(instance).to.be.an.instanceof(Memcached)
+    expect(instance.memcached).to.be.an.instanceof(memcached)
     return instance
   }
 
@@ -37,7 +38,7 @@ describe('Redis', () => {
     const keyDoesNotExist = 'myKey2'
     const keyGivesError = 'myKey3'
 
-    driver.redis.get = (key: string, cb?: redis.Callback<string>): boolean => {
+    driver.memcached.get = (key: string, cb?: (err: any, data: any) => void): void => {
       if (key === keyExists) {
         cb(undefined, 'validValue')
       } else if (key === keyDoesNotExist) {
@@ -45,7 +46,6 @@ describe('Redis', () => {
       } else if (key === keyGivesError) {
         cb(new Error('An error'), undefined)
       }
-      return true
     }
 
     try {
@@ -53,7 +53,7 @@ describe('Redis', () => {
       expect(await driver.get(keyDoesNotExist)).to.be.a('undefined')
       await expect(driver.get(keyGivesError)).to.be.rejectedWith('An error')
     } finally {
-      driver.redis.end(false)
+      driver.memcached.end()
     }
   })
 
@@ -64,23 +64,22 @@ describe('Redis', () => {
     const keyDoesNotWork = 'myKey2'
     const keyGivesError = 'myKey3'
 
-    driver.redis.set = ((key: string, value: string, mode: string, duration: number, cb?: redis.Callback<'OK' | undefined>): boolean => {
+    driver.memcached.set = (key: string, value: string, lifetime: number, cb?: (err: any, result: boolean) => void): void => {
       if (key === keyWorks) {
-        cb(undefined, 'OK')
+        cb(undefined, true)
       } else if (key === keyDoesNotWork) {
-        cb(undefined, undefined)
+        cb(undefined, false)
       } else if (key === keyGivesError) {
-        cb(new Error('An error'), undefined)
+        cb(new Error('An error'), false)
       }
-      return true
-    }) as any
+    }
 
     try {
       expect(await driver.set(keyWorks, 'someValue', 10)).to.be.a('undefined')
-      await expect(driver.set(keyDoesNotWork, 'someValue', 10)).to.be.rejectedWith(`Could not set redis-value with key "${keyDoesNotWork}"`)
+      await expect(driver.set(keyDoesNotWork, 'someValue', 10)).to.be.rejectedWith(`Could not set memcached-value with key "${keyDoesNotWork}"`)
       await expect(driver.set(keyGivesError, 'someValue', 10)).to.be.rejectedWith('An error')
     } finally {
-      driver.redis.end(false)
+      driver.memcached.end()
     }
   })
 
@@ -91,23 +90,22 @@ describe('Redis', () => {
     const keyDoesNotWork = 'myKey2'
     const keyGivesError = 'myKey3'
 
-    driver.redis.del = ((key: string, cb?: (err: Error, response: number) => void): boolean => {
+    driver.memcached.del = (key: string, cb?: (err: any, result: boolean) => void): void => {
       if (key === keyWorks) {
-        cb(undefined, 1)
+        cb(undefined, true)
       } else if (key === keyDoesNotWork) {
-        cb(undefined, 0)
+        cb(undefined, false)
       } else if (key === keyGivesError) {
         cb(new Error('An error'), undefined)
       }
-      return true
-    }) as any
+    }
 
     try {
       expect(await driver.del(keyWorks)).to.be.a('undefined')
-      await expect(driver.del(keyDoesNotWork)).to.be.rejectedWith(`Could not delete redis-value with key "${keyDoesNotWork}" (0)`)
+      await expect(driver.del(keyDoesNotWork)).to.be.rejectedWith(`Could not delete memcached-value with key "${keyDoesNotWork}"`)
       await expect(driver.del(keyGivesError)).to.be.rejectedWith('An error')
     } finally {
-      driver.redis.end(false)
+      driver.memcached.end()
     }
   })
 

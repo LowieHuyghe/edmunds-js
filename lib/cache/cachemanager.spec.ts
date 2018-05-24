@@ -62,7 +62,7 @@ describe('CacheManager', () => {
       expect(manager.get()).to.be.an.instanceof(Memcached)
       expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
     } finally {
-      manager.get().memcached.end(false)
+      manager.get().memcached.end()
     }
   })
 
