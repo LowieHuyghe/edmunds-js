@@ -1,5 +1,4 @@
 import { Edmunds } from '../edmunds'
-import { isUndefined } from 'util'
 
 /**
  * Manager abstract class
@@ -59,7 +58,7 @@ export abstract class Manager {
    * Load the instances
    */
   public load () {
-    if (!isUndefined(this.instances)) {
+    if (this.instances) {
       return
     }
 

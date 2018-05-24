@@ -1,6 +1,5 @@
 import * as express from 'express'
 import { ServiceProvider } from './support/serviceprovider'
-import { isUndefined } from 'util'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
@@ -50,7 +49,7 @@ export class Edmunds {
    */
   constructor (root: string, app?: express.Express) {
     this.root = root
-    this.app = isUndefined(app) ? express() : app
+    this.app = app || express()
     this.app.set('edmunds', this)
 
     this.config = config
