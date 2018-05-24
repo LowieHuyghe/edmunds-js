@@ -1,12 +1,13 @@
 import { Manager } from '../support/manager'
+import CacheDriverInterface from './drivers/cachedriverinterface'
 
-export class CacheManager extends Manager {
+export class CacheManager extends Manager<CacheDriverInterface> {
   /**
    * Create Redis client
    * @param {any} config
    * @returns {Redis}
    */
-  protected createRedis (config: any): any {
+  protected createRedis (config: any): CacheDriverInterface {
     const { default: Redis } = require('./drivers/redis')
 
     return new Redis(config)
@@ -17,7 +18,7 @@ export class CacheManager extends Manager {
    * @param {any} config
    * @returns {Memcached}
    */
-  protected createMemcached (config: any): any {
+  protected createMemcached (config: any): CacheDriverInterface {
     const { default: Memcached } = require('./drivers/memcached')
     const {
       servers,
@@ -36,7 +37,7 @@ export class CacheManager extends Manager {
    * @param {any} config
    * @returns {FirebaseRealtimeDatabase}
    */
-  protected createFirebaserealtimedatabase (config: any): any {
+  protected createFirebaserealtimedatabase (config: any): CacheDriverInterface {
     const { default: FirebaseRealtimeDatabase } = require('./drivers/firebaserealtimedatabase')
 
     const name = config.name

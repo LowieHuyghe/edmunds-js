@@ -7,6 +7,7 @@ import 'reflect-metadata'
 import { CacheManager } from './cache/cachemanager'
 import FileManager from './filesystem/filesystemmanager'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
+import CacheDriverInterface from './cache/drivers/cachedriverinterface'
 
 /**
  * Edmunds class
@@ -107,9 +108,9 @@ export class Edmunds {
   /**
    * Get cache instance
    * @param {string} name
-   * @returns {any}
+   * @returns {CacheDriverInterface}
    */
-  cache (name?: string): any {
+  cache (name?: string): CacheDriverInterface {
     return this.cacheManager.get(name)
   }
 
