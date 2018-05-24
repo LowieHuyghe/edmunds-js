@@ -1,7 +1,6 @@
 import * as commander from 'commander'
 import { Edmunds } from '../edmunds'
 import { Command } from './command'
-import { isUndefined } from 'util'
 
 export abstract class Kernel {
   /**
