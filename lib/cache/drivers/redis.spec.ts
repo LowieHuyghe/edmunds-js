@@ -26,8 +26,8 @@ describe('Redis', () => {
 
     const instance = manager.get()
     expect(instance).to.be.an.instanceof(Redis)
-    expect(instance.redis).to.be.an.instanceof(redis.RedisClient)
-    return instance
+    expect((instance as Redis).redis).to.be.an.instanceof(redis.RedisClient)
+    return instance as Redis
   }
 
   it('should have a working get', async () => {

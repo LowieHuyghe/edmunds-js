@@ -27,8 +27,8 @@ describe('Memcached', () => {
 
     const instance = manager.get()
     expect(instance).to.be.an.instanceof(Memcached)
-    expect(instance.memcached).to.be.an.instanceof(memcached)
-    return instance
+    expect((instance as Memcached).memcached).to.be.an.instanceof(memcached)
+    return instance as Memcached
   }
 
   it('should have a working get', async () => {

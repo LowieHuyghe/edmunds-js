@@ -28,7 +28,7 @@ describe('CacheManager', () => {
       expect(manager.get()).to.be.an.instanceof(Redis)
       expect(manager.get('redis')).to.be.an.instanceof(Redis)
     } finally {
-      manager.get().redis.end(false)
+      (manager.get() as Redis).redis.end(false)
     }
   })
 
@@ -62,7 +62,7 @@ describe('CacheManager', () => {
       expect(manager.get()).to.be.an.instanceof(Memcached)
       expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
     } finally {
-      manager.get().memcached.end()
+      (manager.get() as Memcached).memcached.end()
     }
   })
 

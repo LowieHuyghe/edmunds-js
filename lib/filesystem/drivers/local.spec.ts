@@ -25,7 +25,7 @@ describe('Local', () => {
 
     const instance = manager.get()
     expect(instance).to.be.an.instanceof(Local)
-    return instance
+    return instance as Local
   }
 
   const tempDirs: string[] = []

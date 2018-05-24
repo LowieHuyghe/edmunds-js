@@ -32,7 +32,7 @@ describe('loggingmanager.ts', () => {
     expect(manager.get()).to.be.an.instanceof(transports.Console)
     expect(manager.get('console')).to.be.an.instanceof(transports.Console)
 
-    const instance: ConsoleTransportInstance = manager.get()
+    const instance = manager.get() as ConsoleTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.logstash).to.equal(config[0].logstash)
   })
@@ -62,7 +62,7 @@ describe('loggingmanager.ts', () => {
     expect(manager.get()).to.be.an.instanceof(transports.File)
     expect(manager.get('file')).to.be.an.instanceof(transports.File)
 
-    const instance: FileTransportInstance = manager.get()
+    const instance = manager.get() as FileTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.logstash).to.equal(config[0].logstash)
     expect(instance.maxsize).to.equal(config[0].maxsize)
@@ -90,7 +90,7 @@ describe('loggingmanager.ts', () => {
     expect(manager.get()).to.be.an.instanceof(transports.Http)
     expect(manager.get('http')).to.be.an.instanceof(transports.Http)
 
-    const instance: HttpTransportInstance = manager.get()
+    const instance = manager.get() as HttpTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.ssl).to.equal(config[0].ssl)
   })
