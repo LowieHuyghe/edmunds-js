@@ -2,7 +2,7 @@
 
 ## Next Release
 
-- 
+- [#144](https://github.com/LowieHuyghe/edmunds-js/issues/144): Performance optimizations
 
 
 ## Release 0.2.1 (2018-05-26)
