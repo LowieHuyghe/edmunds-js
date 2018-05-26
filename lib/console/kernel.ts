@@ -1,8 +1,8 @@
 import * as commander from 'commander'
-import { Edmunds } from '../edmunds'
-import { Command } from './command'
+import Edmunds from '../edmunds'
+import Command from './command'
 
-export abstract class Kernel {
+export default abstract class Kernel {
   /**
    * Edmunds instance
    */

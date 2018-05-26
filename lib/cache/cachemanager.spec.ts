@@ -1,5 +1,5 @@
-import { Edmunds } from '../edmunds'
-import { CacheManager } from './cachemanager'
+import Edmunds from '../edmunds'
+import CacheManager from './cachemanager'
 import FirebaseRealtimeDatabase from './drivers/firebaserealtimedatabase'
 import Memcached from './drivers/memcached'
 import Redis from './drivers/redis'

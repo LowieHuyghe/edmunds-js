@@ -16,7 +16,7 @@ First let's create a command:
 import * as commander from 'commander'
 import { Command, Edmunds, Seeder } from 'edmunds'
 
-export class HelloWorldCommand extends Command {
+export default class HelloWorldCommand extends Command {
   /**
    * Register the command
    * @param {commander.Command} program
@@ -52,9 +52,9 @@ Next create your kernel and define your newly created command:
 
 import { Edmunds, Kernel as EdmundsKernel, Command } from 'edmunds'
 import * as commander from 'commander'
-import { HelloWorldCommand } from './command/helloworldcommand'
+import HelloWorldCommand from './command/helloworldcommand'
 
-export class Kernel extends EdmundsKernel {
+export default class Kernel extends EdmundsKernel {
   /**
    * Get commands
    */
@@ -74,7 +74,7 @@ Finally create the entry point for cli-usage:
 // src/cli.ts
 
 import { bootstrap } from './bootstrap/app'
-import { Kernel } from './app/console/kernel'
+import Kernel from './app/console/kernel'
 
 (async (): Promise<void> => {
 

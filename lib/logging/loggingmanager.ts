@@ -1,10 +1,10 @@
-import { Manager } from '../support/manager'
+import Manager from '../support/manager'
 import {
   transports,
   TransportInstance
 } from 'winston'
 
-export class LoggingManager extends Manager<TransportInstance> {
+export default class LoggingManager extends Manager<TransportInstance> {
   /**
    * Create Winston transporter
    * @param {any} config

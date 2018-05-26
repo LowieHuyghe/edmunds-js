@@ -15,7 +15,7 @@ Define your Service Provider like so:
 ```typescript
 import { ServiceProvider } from 'edmunds'
 
-export class MyServiceProvider extends ServiceProvider {
+export default class MyServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
@@ -33,7 +33,7 @@ Register the Service Provider once it needs to be loaded:
 ```typescript
 import * as appRootPath from 'app-root-path'
 import { Edmunds } from 'edmunds'
-import { MyServiceProvider } from './myserviceprovider'
+import MyServiceProvider from './myserviceprovider'
 
 const edmunds = new Edmunds(appRootPath.path)
 await edmunds.register(MyServiceProvider)

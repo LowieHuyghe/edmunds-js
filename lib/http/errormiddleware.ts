@@ -3,12 +3,12 @@ import {
   Request,
   Response
 } from 'express'
-import { BaseMiddleware } from './basemiddleware'
+import BaseMiddleware from './basemiddleware'
 
 /**
  * ErrorMiddleware class
  */
-export abstract class ErrorMiddleware extends BaseMiddleware {
+export default abstract class ErrorMiddleware extends BaseMiddleware {
   /**
    * Get function to use as error-middleware
    * @param {string} method

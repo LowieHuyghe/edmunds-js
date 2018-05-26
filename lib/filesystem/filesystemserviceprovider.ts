@@ -1,4 +1,4 @@
-import { ServiceProvider } from '../support/serviceprovider'
+import ServiceProvider from '../support/serviceprovider'
 import FileSystemManager from './filesystemmanager'
 
 export default class FileSystemServiceProvider extends ServiceProvider {

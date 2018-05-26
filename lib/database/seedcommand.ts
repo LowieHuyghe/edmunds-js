@@ -1,10 +1,10 @@
 import * as commander from 'commander'
-import { Command } from '../console/command'
-import { Seeder } from './seeder'
-import { Edmunds } from '../edmunds'
+import Command from '../console/command'
+import Seeder from './seeder'
+import Edmunds from '../edmunds'
 import * as inquirer from 'inquirer'
 
-export abstract class SeedCommand extends Command {
+export default abstract class SeedCommand extends Command {
   /**
    * Register the command
    * @param {commander.Command} program

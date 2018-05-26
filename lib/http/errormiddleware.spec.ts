@@ -1,5 +1,5 @@
-import { Edmunds } from '../edmunds'
-import { ErrorMiddleware } from './errormiddleware'
+import Edmunds from '../edmunds'
+import ErrorMiddleware from './errormiddleware'
 import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import {

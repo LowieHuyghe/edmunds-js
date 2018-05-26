@@ -1,9 +1,9 @@
-import { Edmunds } from '../edmunds'
+import Edmunds from '../edmunds'
 
 /**
  * Service provider abstract class
  */
-export abstract class ServiceProvider {
+export default abstract class ServiceProvider {
   /**
    * Current Edmunds this service provider is registered to
    */

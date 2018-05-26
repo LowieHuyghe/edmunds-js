@@ -1,5 +1,5 @@
-import { Edmunds } from './edmunds'
-import { ServiceProvider } from './support/serviceprovider'
+import Edmunds from './edmunds'
+import ServiceProvider from './support/serviceprovider'
 import { expect } from 'chai'
 import * as express from 'express'
 import * as config from 'config'
@@ -7,7 +7,7 @@ import * as appRootPath from 'app-root-path'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import * as path from 'path'
-import { DatabaseServiceProvider } from './database/databaseserviceprovider'
+import DatabaseServiceProvider from './database/databaseserviceprovider'
 import {
   Connection,
   getConnectionManager

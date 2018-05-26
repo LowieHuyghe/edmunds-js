@@ -4,14 +4,14 @@ import {
   Request,
   Response
 } from 'express'
-import { Edmunds } from '../edmunds'
-import { ObjectWrapper } from '../support/objectwrapper'
+import Edmunds from '../edmunds'
+import ObjectWrapper from '../support/objectwrapper'
 
 /**
  * Base middleware class
  * Note: This class is not abstract because this() in static methods is not supported when the class is abstract
  */
-export class BaseMiddleware {
+export default class BaseMiddleware {
   /**
    * Current express instance
    */

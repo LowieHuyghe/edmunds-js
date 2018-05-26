@@ -26,7 +26,7 @@ import {
   Middleware
 } from 'edmunds'
 
-export class MyMiddleware extends Middleware {
+export default class MyMiddleware extends Middleware {
   /**
    * Call the middleware
    * @param {any} params The given route params
@@ -53,7 +53,7 @@ Use the Middleware as followed:
 ```typescript
 import * as appRootPath from 'app-root-path'
 import { Edmunds } from 'edmunds'
-import { MyMiddleware } from './mymiddleware'
+import MyMiddleware from './mymiddleware'
 
 const edmunds = new Edmunds(appRootPath.path)
 edmunds.app.use(MyMiddleware.func())
@@ -70,7 +70,7 @@ which gets the error instead of the route-params.
 import { NextFunction } from 'express'
 import { ErrorMiddleware } from 'edmunds'
 
-export class MyErrorMiddleware extends ErrorMiddleware {
+export default class MyErrorMiddleware extends ErrorMiddleware {
   /**
    * Handle the error
    * @param {Error} err The error

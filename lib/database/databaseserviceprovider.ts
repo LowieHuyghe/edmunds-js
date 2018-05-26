@@ -1,10 +1,10 @@
-import { ServiceProvider } from '../support/serviceprovider'
+import ServiceProvider from '../support/serviceprovider'
 import {
   createConnections,
   ConnectionOptionsReader
 } from 'typeorm'
 
-export class DatabaseServiceProvider extends ServiceProvider {
+export default class DatabaseServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */

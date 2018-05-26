@@ -1,9 +1,9 @@
-import { Edmunds } from '../edmunds'
+import Edmunds from '../edmunds'
 
 /**
  * Manager abstract class
  */
-export abstract class Manager<T> {
+export default abstract class Manager<T> {
   /**
    * Current application registering the manager to
    */

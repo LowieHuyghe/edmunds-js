@@ -1,4 +1,4 @@
-import { Edmunds } from '../../edmunds'
+import Edmunds from '../../edmunds'
 import FileSystemManager from '../filesystemmanager'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'

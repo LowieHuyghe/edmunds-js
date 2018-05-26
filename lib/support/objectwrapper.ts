@@ -1,6 +1,6 @@
 import * as Joi from 'joi'
 
-export class ObjectWrapper {
+export default class ObjectWrapper {
   /**
    * Data
    */

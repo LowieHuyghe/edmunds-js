@@ -21,7 +21,7 @@ import {
   Controller
 } from 'edmunds'
 
-export class MyController extends Controller {
+export default class MyController extends Controller {
   /**
    * Call the controller
    * @param {any} params The given route params
@@ -48,7 +48,7 @@ Use the Controller as followed:
 ```typescript
 import * as appRootPath from 'app-root-path'
 import { Edmunds } from 'edmunds'
-import { MyController } from './mycontroller'
+import MyController from './mycontroller'
 
 const edmunds = new Edmunds(appRootPath.path)
 edmunds.app.use('/', MyController.func('getHelloWorld'))

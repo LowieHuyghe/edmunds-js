@@ -1,10 +1,10 @@
 import * as commander from 'commander'
-import { Edmunds } from '../edmunds'
+import Edmunds from '../edmunds'
 
 /**
  * Base Command
  */
-export abstract class Command {
+export default abstract class Command {
   /**
    * Current Program
    */

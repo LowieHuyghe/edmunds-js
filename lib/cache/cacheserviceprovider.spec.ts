@@ -1,10 +1,10 @@
-import { Edmunds } from '../edmunds'
-import { CacheServiceProvider } from './cacheserviceprovider'
+import Edmunds from '../edmunds'
+import CacheServiceProvider from './cacheserviceprovider'
 import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import * as appRootPath from 'app-root-path'
-import { CacheManager } from './cachemanager'
+import CacheManager from './cachemanager'
 import Redis from './drivers/redis'
 
 describe('cacheserviceprovider.ts', () => {

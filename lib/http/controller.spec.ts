@@ -1,12 +1,12 @@
-import { Edmunds } from '../edmunds'
-import { Controller } from './controller'
+import Edmunds from '../edmunds'
+import Controller from './controller'
 import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import {
   NextFunction
 } from 'express'
 import 'mocha'
-import { ObjectWrapper } from '../support/objectwrapper'
+import ObjectWrapper from '../support/objectwrapper'
 import * as BodyParser from 'body-parser'
 
 const chaiHttp = require('chai-http')

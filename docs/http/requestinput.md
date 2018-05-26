@@ -23,7 +23,7 @@ import {
 } from 'edmunds'
 import * as Joi from 'joi'
 
-export class MyController extends Controller {
+export default class MyController extends Controller {
   /**
    * Get response without joi
    * @param {any} params The given route params

@@ -1,4 +1,4 @@
-import { Edmunds } from '../edmunds'
+import Edmunds from '../edmunds'
 import FileSystemServiceProvider from './filesystemserviceprovider'
 import { expect } from 'chai'
 import 'mocha'

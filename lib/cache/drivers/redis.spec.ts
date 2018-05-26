@@ -1,5 +1,5 @@
-import { Edmunds } from '../../edmunds'
-import { CacheManager } from '../cachemanager'
+import Edmunds from '../../edmunds'
+import CacheManager from '../cachemanager'
 import Redis from './redis'
 import * as appRootPath from 'app-root-path'
 import * as redis from 'redis'

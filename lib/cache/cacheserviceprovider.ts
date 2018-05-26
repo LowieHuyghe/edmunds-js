@@ -1,7 +1,7 @@
-import { ServiceProvider } from '../support/serviceprovider'
-import { CacheManager } from './cachemanager'
+import ServiceProvider from '../support/serviceprovider'
+import CacheManager from './cachemanager'
 
-export class CacheServiceProvider extends ServiceProvider {
+export default class CacheServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */

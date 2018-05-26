@@ -3,10 +3,10 @@ import {
   LoggerOptions,
   TransportInstance
 } from 'winston'
-import { ServiceProvider } from '../support/serviceprovider'
-import { LoggingManager } from './loggingmanager'
+import ServiceProvider from '../support/serviceprovider'
+import LoggingManager from './loggingmanager'
 
-export class LoggingServiceProvider extends ServiceProvider {
+export default class LoggingServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */

@@ -1,5 +1,5 @@
-import { Edmunds } from '../edmunds'
-import { LoggingServiceProvider } from './loggingserviceprovider'
+import Edmunds from '../edmunds'
+import LoggingServiceProvider from './loggingserviceprovider'
 import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'

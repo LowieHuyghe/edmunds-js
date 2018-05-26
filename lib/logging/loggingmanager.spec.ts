@@ -1,5 +1,5 @@
-import { Edmunds } from '../edmunds'
-import { LoggingManager } from './loggingmanager'
+import Edmunds from '../edmunds'
+import LoggingManager from './loggingmanager'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'

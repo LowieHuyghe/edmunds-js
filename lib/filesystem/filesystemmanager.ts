@@ -1,4 +1,4 @@
-import { Manager } from '../support/manager'
+import Manager from '../support/manager'
 import FileSystemDriverInterface from './drivers/filesystemdriverinterface'
 
 export default class FileSystemManager extends Manager<FileSystemDriverInterface> {

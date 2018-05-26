@@ -18,7 +18,7 @@ You will probably have an typeorm-entity. For example:
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity()
-export class MyEntity {
+export default class MyEntity {
 
   @PrimaryGeneratedColumn()
   id: number
@@ -40,10 +40,10 @@ Then create your seeder:
 // src/app/database/seeder/myentityseeder.ts
 
 import { Seeder } from 'edmunds'
-import { MyEntity } from '../entity/myentity'
+import MyEntity from '../entity/myentity'
 import * as faker from 'faker'
 
-export class MyEntitySeeder extends Seeder {
+export default class MyEntitySeeder extends Seeder {
   /**
    * Call the seeder
    * @returns {Promise<void>}
@@ -72,9 +72,9 @@ Next extend `SeedCommand` and add your seeder:
 // src/app/database/seedcommand.ts
 
 import { Edmunds, Seeder, SeedCommand as EdmundsSeedCommand } from 'edmunds'
-import { MyEntitySeeder } from './seeder/myentityseeder'
+import MyEntitySeeder from './seeder/myentityseeder'
 
-export class SeedCommand extends EdmundsSeedCommand {
+export default class SeedCommand extends EdmundsSeedCommand {
   /**
    * Get seeders
    */

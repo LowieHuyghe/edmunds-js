@@ -1,10 +1,10 @@
-import { Edmunds } from '../edmunds'
-import { Kernel } from './kernel'
+import Edmunds from '../edmunds'
+import Kernel from './kernel'
 import { expect } from 'chai'
 import 'mocha'
 import * as appRootPath from 'app-root-path'
 import * as commander from 'commander'
-import { Command } from './command'
+import Command from './command'
 
 describe('Kernel', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
-import { Edmunds } from '../../edmunds'
-import { CacheManager } from '../cachemanager'
+import Edmunds from '../../edmunds'
+import CacheManager from '../cachemanager'
 import FirebaseRealtimeDatabase from './firebaserealtimedatabase'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'

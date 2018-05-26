@@ -1,4 +1,4 @@
-import { ObjectWrapper } from './objectwrapper'
+import ObjectWrapper from './objectwrapper'
 import { expect } from 'chai'
 import * as Joi from 'joi'
 import 'mocha'

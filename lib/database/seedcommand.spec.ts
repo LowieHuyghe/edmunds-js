@@ -1,12 +1,12 @@
-import { Edmunds } from '../edmunds'
-import { SeedCommand } from './seedcommand'
+import Edmunds from '../edmunds'
+import SeedCommand from './seedcommand'
 import { expect } from 'chai'
 import 'mocha'
 import * as appRootPath from 'app-root-path'
 import * as commander from 'commander'
-import { Seeder } from './seeder'
-import { Command } from '../console/command'
-import { Kernel } from '../console/kernel'
+import Seeder from './seeder'
+import Command from '../console/command'
+import Kernel from '../console/kernel'
 
 describe('SeedCommand', () => {
   beforeEach(() => {

@@ -1,10 +1,10 @@
 import * as express from 'express'
-import { ServiceProvider } from './support/serviceprovider'
+import ServiceProvider from './support/serviceprovider'
 import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { getConnection, Connection } from 'typeorm'
 import 'reflect-metadata'
-import { CacheManager } from './cache/cachemanager'
+import CacheManager from './cache/cachemanager'
 import FileManager from './filesystem/filesystemmanager'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 import CacheDriverInterface from './cache/drivers/cachedriverinterface'
@@ -12,7 +12,7 @@ import CacheDriverInterface from './cache/drivers/cachedriverinterface'
 /**
  * Edmunds class
  */
-export class Edmunds {
+export default class Edmunds {
   /**
    * Root path
    */

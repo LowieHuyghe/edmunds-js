@@ -1,7 +1,7 @@
-import { Manager } from '../support/manager'
+import Manager from '../support/manager'
 import CacheDriverInterface from './drivers/cachedriverinterface'
 
-export class CacheManager extends Manager<CacheDriverInterface> {
+export default class CacheManager extends Manager<CacheDriverInterface> {
   /**
    * Create Redis client
    * @param {any} config

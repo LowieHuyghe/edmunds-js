@@ -3,12 +3,12 @@ import {
   Request,
   Response
 } from 'express'
-import { BaseMiddleware } from './basemiddleware'
+import BaseMiddleware from './basemiddleware'
 
 /**
  * Controller class
  */
-export abstract class Controller extends BaseMiddleware {
+export default abstract class Controller extends BaseMiddleware {
   /**
    * Get function to use as middleware
    * @param {string} method

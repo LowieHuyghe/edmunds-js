@@ -1,9 +1,9 @@
-import { Edmunds } from '../edmunds'
+import Edmunds from '../edmunds'
 
 /**
  * Seeder
  */
-export abstract class Seeder {
+export default abstract class Seeder {
   /**
    * Edmunds instance
    */

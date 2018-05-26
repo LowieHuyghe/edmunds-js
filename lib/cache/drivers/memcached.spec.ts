@@ -1,5 +1,5 @@
-import { Edmunds } from '../../edmunds'
-import { CacheManager } from '../cachemanager'
+import Edmunds from '../../edmunds'
+import CacheManager from '../cachemanager'
 import Memcached from './memcached'
 import * as appRootPath from 'app-root-path'
 import * as memcached from 'memcached'

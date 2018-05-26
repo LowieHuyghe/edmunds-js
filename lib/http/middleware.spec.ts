@@ -1,5 +1,5 @@
-import { Edmunds } from '../edmunds'
-import { Middleware } from './middleware'
+import Edmunds from '../edmunds'
+import Middleware from './middleware'
 import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import {
