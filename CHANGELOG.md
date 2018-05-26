@@ -1,5 +1,10 @@
 # Edmunds Changelog
 
+## Next Release
+
+- 
+
+
 ## Release 0.2.1 (2018-05-26)
 
 - [#149](https://github.com/LowieHuyghe/edmunds-js/issues/149): FileSystemServiceProvider is not exported in index-file
