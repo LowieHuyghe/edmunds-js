@@ -1,5 +1,10 @@
 # Edmunds Changelog
 
+## Next Release
+
+- 
+
+
 ## Release 0.2.0 (2018-05-26)
 
 - [#18](https://github.com/LowieHuyghe/edmunds-js/issues/18): Caching
