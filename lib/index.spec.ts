@@ -12,7 +12,8 @@ import {
   DatabaseServiceProvider,
   SeedCommand,
   Seeder,
-  CacheServiceProvider
+  CacheServiceProvider,
+  FileSystemServiceProvider
 } from './index'
 import { expect } from 'chai'
 import 'mocha'
@@ -34,6 +35,7 @@ describe('index.js', () => {
     expect(SeedCommand).to.not.be.a('undefined')
     expect(Seeder).to.not.be.a('undefined')
     expect(CacheServiceProvider).to.not.be.a('undefined')
+    expect(FileSystemServiceProvider).to.not.be.a('undefined')
   })
 
 })
