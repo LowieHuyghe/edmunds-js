@@ -77,7 +77,7 @@ export default abstract class Manager<T> {
       const index = this.instancesConfigIndexesYetToBeLoaded.shift()
       const instanceConfig = this.instancesConfig[index]
 
-      this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+      this.instances[instanceConfig.name] = this.create(instanceConfig)
     }
   }
 
@@ -101,7 +101,7 @@ export default abstract class Manager<T> {
     const index = this.instancesConfigIndexesYetToBeLoaded.splice(indexPosition, 1)[0]
     const instanceConfig = this.instancesConfig[index]
 
-    this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+    this.instances[instanceConfig.name] = this.create(instanceConfig)
   }
 
   /**
@@ -120,7 +120,7 @@ export default abstract class Manager<T> {
     const index = this.instancesConfigIndexesYetToBeLoaded.shift()
     const instanceConfig = this.instancesConfig[index]
 
-    this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+    this.instances[instanceConfig.name] = this.create(instanceConfig)
   }
 
   /**
@@ -134,6 +134,7 @@ export default abstract class Manager<T> {
 
     const uniqueNames: string[] = []
     for (const instanceConfig of instancesConfig) {
+      // Validate name
       const name: string = instanceConfig.name
       if (!name) {
         throw new Error('Missing name for declared instance')
@@ -142,26 +143,51 @@ export default abstract class Manager<T> {
         throw new Error(`Re-declaring instance with name "${name}"`)
       }
       uniqueNames.push(name)
+
+      // Validate driver
+      const driverKeyName: string = this.resolveDriverKeyName()
+      const driver: string = instanceConfig[driverKeyName]
+      // Create method
+      const createMethodName: string = this.resolveCreateMethodName(driver)
+      if (!(createMethodName in this as any)) {
+        throw new Error(`Method "${createMethodName}" for driver "${driver}" does not exist`)
+      }
+      // Destroy method is optional
     }
   }
 
   /**
-   * Resolve the instance config
+   * Create the instance using the config
    * @param config
    * @returns {any}
    */
-  protected resolve (config: any): T {
+  protected create (config: any): T {
     const driverKeyName: string = this.resolveDriverKeyName()
     const driver: string = config[driverKeyName]
-    const methodName: string = this.resolveCreateMethodName(driver)
+    const createMethodName: string = this.resolveCreateMethodName(driver)
 
-    let method: (config: any) => any = (this as any)[methodName]
-    if (!method) {
-      throw Error(`Method "${methodName}" for driver "${driver}" does not exist`)
+    let createMethod: (config: any) => any = (this as any)[createMethodName]
+    createMethod = createMethod.bind(this)
+    return createMethod(config)
+  }
+
+  /**
+   * Destroy the given config
+   * @param config
+   * @param {T} instance
+   */
+  protected destroy (config: any, instance: T): void {
+    const driverKeyName: string = this.resolveDriverKeyName()
+    const driver: string = config[driverKeyName]
+    const destroyMethodName: string = this.resolveDestroyMethodName(driver)
+
+    let destroyMethod: (config: any, instance: T) => any = (this as any)[destroyMethodName]
+    if (!destroyMethod) {
+      return
     }
-    method = method.bind(this)
 
-    return method(config)
+    destroyMethod = destroyMethod.bind(this)
+    return destroyMethod(config, instance)
   }
 
   /**
@@ -179,5 +205,14 @@ export default abstract class Manager<T> {
    */
   protected resolveCreateMethodName (driver: string) {
     return 'create' + driver.charAt(0).toUpperCase() + driver.slice(1).toLowerCase()
+  }
+
+  /**
+   * Resolve the destroy method name
+   * @param {string} driver
+   * @returns {string}
+   */
+  protected resolveDestroyMethodName (driver: string) {
+    return 'destroy' + driver.charAt(0).toUpperCase() + driver.slice(1).toLowerCase()
   }
 }

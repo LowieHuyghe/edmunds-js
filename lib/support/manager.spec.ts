@@ -68,9 +68,9 @@ describe('manager.js', () => {
     ]
     const manager = new MyManager(edmunds, instances)
 
-    expect(manager.get()).to.equal('John Snow 1')
-    expect(manager.get('john1')).to.equal('John Snow 1')
-    // Only throw error when not long running and instance should actually be loaded
+    expect(() => manager.get()).to.throw('Method "createArya" for driver "arya" does not exist')
+    expect(() => manager.get('john1')).to.throw('Method "createArya" for driver "arya" does not exist')
+    expect(() => manager.get('arya1')).to.throw('Method "createArya" for driver "arya" does not exist')
     expect(() => manager.all()).to.throw('Method "createArya" for driver "arya" does not exist')
   })
 
