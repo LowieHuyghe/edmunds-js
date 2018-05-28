@@ -52,6 +52,7 @@ export default class Edmunds {
     this.root = root
     this.app = app || express()
     this.app.set('edmunds', this)
+    this.app.set('exiting', false)
 
     this.config = config
   }
@@ -152,10 +153,20 @@ export default class Edmunds {
    * Exit the application gracefully
    */
   exit (): void {
+    this.app.set('exiting', true)
+
     const listeners = this.app.listeners('exit')
     for (const listener of listeners) {
       listener()
     }
+  }
+
+  /**
+   * Check if application is exiting
+   * @returns {boolean}
+   */
+  isExiting (): boolean {
+    return this.app.get('exiting')
   }
 
   /**
