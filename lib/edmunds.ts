@@ -141,6 +141,24 @@ export default class Edmunds {
   }
 
   /**
+   * Register on exit listener
+   * @param {() => void} listener
+   */
+  onExit (listener: () => void) {
+    this.app.addListener('exit', listener)
+  }
+
+  /**
+   * Exit the application gracefully
+   */
+  exit (): void {
+    const listeners = this.app.listeners('exit')
+    for (const listener of listeners) {
+      listener()
+    }
+  }
+
+  /**
    * Is environment
    * @param {string} env Given environment to check
    * @returns {boolean}

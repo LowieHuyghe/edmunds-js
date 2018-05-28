@@ -32,11 +32,14 @@ export default abstract class Manager<T> {
   constructor (edmunds: Edmunds, instancesConfig: any[]) {
     this.edmunds = edmunds
     this.instancesConfig = instancesConfig
-    this.instancesConfigIndexesYetToBeLoaded = Object.keys(instancesConfig).map(key => parseInt(key, 10))
+    this.instancesConfigIndexesYetToBeLoaded = Object.keys(this.instancesConfig).map(key => parseInt(key, 10))
+
+    // Register handler when application is exiting
+    this.edmunds.onExit(this.destroyAll.bind(this))
 
     // If application is long-running, load all instance before-hand
     if (this.edmunds.isLongRunning()) {
-      this.loadAll()
+      this.createAll()
     }
   }
 
@@ -47,11 +50,11 @@ export default abstract class Manager<T> {
    */
   get (name?: string): T {
     if (!name) {
-      this.loadFirst()
+      this.createFirst()
       return this.instances[this.instancesConfig[0].name]
     }
 
-    this.loadSingle(name)
+    this.createSingle(name)
     return this.instances[name]
   }
 
@@ -60,14 +63,14 @@ export default abstract class Manager<T> {
    * @returns {T}
    */
   all (): { [key: string]: T } {
-    this.loadAll()
+    this.createAll()
     return { ...this.instances }
   }
 
   /**
    * Load all instances
    */
-  protected loadAll () {
+  protected createAll () {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -85,7 +88,7 @@ export default abstract class Manager<T> {
    * Load single instance
    * @param {string} name Load one specific instance
    */
-  protected loadSingle (name: string) {
+  protected createSingle (name: string) {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -107,7 +110,7 @@ export default abstract class Manager<T> {
   /**
    * Load first instance
    */
-  protected loadFirst () {
+  protected createFirst () {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -121,6 +124,25 @@ export default abstract class Manager<T> {
     const instanceConfig = this.instancesConfig[index]
 
     this.instances[instanceConfig.name] = this.create(instanceConfig)
+  }
+
+  /**
+   * Destroy all instances
+   */
+  protected destroyAll () {
+    const indexes = Object.keys(this.instancesConfig).map(key => parseInt(key, 10))
+    const createdIndexes = indexes.filter(index => this.instancesConfigIndexesYetToBeLoaded.indexOf(index) >= 0)
+
+    for (const index of createdIndexes) {
+      const instanceConfig = this.instancesConfig[index]
+      const instance = this.instances[instanceConfig.name]
+
+      this.destroy(instanceConfig, instance)
+
+      delete this.instances[instanceConfig.name]
+      this.instancesConfigIndexesYetToBeLoaded.push(index)
+      this.instancesConfigIndexesYetToBeLoaded.sort()
+    }
   }
 
   /**
