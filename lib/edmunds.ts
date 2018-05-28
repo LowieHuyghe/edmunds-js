@@ -97,6 +97,14 @@ export default class Edmunds {
   }
 
   /**
+   * Check if application is long running
+   * @returns {boolean}
+   */
+  isLongRunning (): boolean {
+    return this.config.has('app.longrunning') && this.config.get('app.longrunning')
+  }
+
+  /**
    * Get database connection
    * @param {string} name
    * @returns {Connection}

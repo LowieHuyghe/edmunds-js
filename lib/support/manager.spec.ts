@@ -3,6 +3,7 @@ import Manager from './manager'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
+import * as importFresh from 'import-fresh'
 
 describe('manager.js', () => {
 
@@ -25,9 +26,9 @@ describe('manager.js', () => {
     const manager = new MyManager(edmunds, instances)
 
     expect(manager.get()).to.equal('John Snow 1')
-    expect(manager.get('john1')).to.equal('John Snow 1')
-    expect(manager.get('John2')).to.equal('John Snow 2')
     expect(manager.get('arya1')).to.equal('Arya Stark 1')
+    expect(manager.get('John2')).to.equal('John Snow 2')
+    expect(manager.get('john1')).to.equal('John Snow 1')
     expect(manager.all()).to.deep.equal({
       John2: 'John Snow 2',
       john1: 'John Snow 1',
@@ -50,11 +51,10 @@ describe('manager.js', () => {
     const manager = new MyManager(edmunds, instances)
 
     expect(() => manager.get()).to.throw('Re-declaring instance with name "john1"')
-    expect(() => manager.load()).to.throw('Re-declaring instance with name "john1"')
     expect(() => manager.all()).to.throw('Re-declaring instance with name "john1"')
   })
 
-  it('should handle non-existing drivers', () => {
+  it('should handle non-existing drivers when not long-running', () => {
     class MyManager extends Manager<string> {
       protected createJohn (config: any) {
         return 'John Snow ' + config.number
@@ -68,7 +68,33 @@ describe('manager.js', () => {
     ]
     const manager = new MyManager(edmunds, instances)
 
-    expect(() => manager.get()).to.throw('Method "createArya" for driver "arya" does not exist')
+    expect(manager.get()).to.equal('John Snow 1')
+    expect(manager.get('john1')).to.equal('John Snow 1')
+    // Only throw error when not long running and instance should actually be loaded
+    expect(() => manager.all()).to.throw('Method "createArya" for driver "arya" does not exist')
+  })
+
+  it('should handle non-existing drivers when long-running', () => {
+    // Override config
+    process.env.NODE_CONFIG = JSON.stringify({
+      app: {
+        longrunning: true
+      }
+    })
+    class MyManager extends Manager<string> {
+      protected createJohn (config: any) {
+        return 'John Snow ' + config.number
+      }
+    }
+
+    const edmunds = new Edmunds(appRootPath.path)
+    edmunds.config = importFresh('config')
+
+    const instances = [
+      { name: 'john1', driver: 'john', number: 1 },
+      { name: 'arya1', driver: 'arya', number: 1 }
+    ]
+    expect(() => new MyManager(edmunds, instances)).to.throw('Method "createArya" for driver "arya" does not exist')
   })
 
   it('should handle missing name', () => {

@@ -15,6 +15,11 @@ export default abstract class Manager<T> {
   private instancesConfig: any[]
 
   /**
+   * List of instances config that is yet to be loaded
+   */
+  private instancesConfigIndexesYetToBeLoaded: number[]
+
+  /**
    * List of instances
    */
   private instances: { [key: string]: T }
@@ -27,6 +32,12 @@ export default abstract class Manager<T> {
   constructor (edmunds: Edmunds, instancesConfig: any[]) {
     this.edmunds = edmunds
     this.instancesConfig = instancesConfig
+    this.instancesConfigIndexesYetToBeLoaded = Object.keys(instancesConfig).map(key => parseInt(key, 10))
+
+    // If application is long-running, load all instance before-hand
+    if (this.edmunds.isLongRunning()) {
+      this.loadAll()
+    }
   }
 
   /**
@@ -35,12 +46,12 @@ export default abstract class Manager<T> {
    * @returns {T}
    */
   get (name?: string): T {
-    this.load()
-
     if (!name) {
-      name = Object.keys(this.instances)[0]
+      this.loadFirst()
+      return this.instances[this.instancesConfig[0].name]
     }
 
+    this.loadSingle(name)
     return this.instances[name]
   }
 
@@ -49,33 +60,89 @@ export default abstract class Manager<T> {
    * @returns {T}
    */
   all (): { [key: string]: T } {
-    this.load()
-
+    this.loadAll()
     return { ...this.instances }
   }
 
   /**
-   * Load the instances
+   * Load all instances
    */
-  public load () {
-    if (this.instances) {
+  protected loadAll () {
+    if (!this.instances) {
+      this.validate(this.instancesConfig)
+      this.instances = {}
+    }
+
+    while (this.instancesConfigIndexesYetToBeLoaded.length) {
+      const index = this.instancesConfigIndexesYetToBeLoaded.shift()
+      const instanceConfig = this.instancesConfig[index]
+
+      this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+    }
+  }
+
+  /**
+   * Load single instance
+   * @param {string} name Load one specific instance
+   */
+  protected loadSingle (name: string) {
+    if (!this.instances) {
+      this.validate(this.instancesConfig)
+      this.instances = {}
+    } else if (name in this.instances) {
       return
     }
 
-    const instances: { [key: string]: T } = {}
-
-    for (let instanceConfig of this.instancesConfig) {
-      const name: string = instanceConfig.name
-      if (!name) {
-        throw Error('Missing name for declared instance')
-      }
-      if (name in instances) {
-        throw Error(`Re-declaring instance with name "${name}"`)
-      }
-      instances[name] = this.resolve(instanceConfig)
+    const indexPosition = this.instancesConfigIndexesYetToBeLoaded.findIndex(index => this.instancesConfig[index].name === name)
+    if (typeof indexPosition === 'undefined') {
+      throw new Error(`No instance declared with name "${name}"`)
     }
 
-    this.instances = instances
+    const index = this.instancesConfigIndexesYetToBeLoaded.splice(indexPosition, 1)[0]
+    const instanceConfig = this.instancesConfig[index]
+
+    this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+  }
+
+  /**
+   * Load first instance
+   */
+  protected loadFirst () {
+    if (!this.instances) {
+      this.validate(this.instancesConfig)
+      this.instances = {}
+    }
+
+    if (!this.instancesConfigIndexesYetToBeLoaded.length || this.instancesConfigIndexesYetToBeLoaded[0] !== 0) {
+      return
+    }
+
+    const index = this.instancesConfigIndexesYetToBeLoaded.shift()
+    const instanceConfig = this.instancesConfig[index]
+
+    this.instances[instanceConfig.name] = this.resolve(instanceConfig)
+  }
+
+  /**
+   * Validate the given instancesConfig
+   * @param {any[]} instancesConfig
+   */
+  protected validate (instancesConfig: any[]) {
+    if (!instancesConfig.length) {
+      throw new Error('No instances declared')
+    }
+
+    const uniqueNames: string[] = []
+    for (const instanceConfig of instancesConfig) {
+      const name: string = instanceConfig.name
+      if (!name) {
+        throw new Error('Missing name for declared instance')
+      }
+      if (uniqueNames.indexOf(name) >= 0) {
+        throw new Error(`Re-declaring instance with name "${name}"`)
+      }
+      uniqueNames.push(name)
+    }
   }
 
   /**

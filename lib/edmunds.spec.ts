@@ -125,4 +125,20 @@ describe('edmunds.js', () => {
       database: 'database2'
     })
   }).timeout(10000)
+
+  it('should be support long-running', () => {
+    const data = [
+      { given: { app: { } }, expected: false },
+      { given: { app: { longrunning: false } }, expected: false },
+      { given: { app: { longrunning: true } }, expected: true }
+    ]
+
+    for (let { given, expected } of data) {
+      process.env.NODE_CONFIG = JSON.stringify(given)
+      const edmunds = new Edmunds(appRootPath.path)
+      edmunds.config = importFresh('config')
+
+      expect(edmunds.isLongRunning()).to.equal(expected)
+    }
+  })
 })
