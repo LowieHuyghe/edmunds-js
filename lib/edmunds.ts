@@ -155,7 +155,7 @@ export default class Edmunds {
   /**
    * Exit the application gracefully
    */
-  exit (): void {
+  async exit (): Promise<void> {
     this.app.set('exiting', true)
 
     const listeners = this.app.listeners('exit')
