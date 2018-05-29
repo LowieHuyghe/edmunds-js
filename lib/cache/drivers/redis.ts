@@ -74,4 +74,12 @@ export default class Redis implements CacheDriverInterface {
       })
     })
   }
+
+  /**
+   * Close the connection
+   * @returns {Promise<void>}
+   */
+  async close (): Promise<void> {
+    this.redis.end()
+  }
 }

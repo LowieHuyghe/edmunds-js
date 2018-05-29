@@ -9,7 +9,8 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
   /**
    * Database reference
    */
-  public database: firebaseAdmin.database.Reference
+  public database: firebaseAdmin.database.Database
+  public databaseRef: firebaseAdmin.database.Reference
 
   /**
    * Constructor
@@ -19,7 +20,8 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
    */
   constructor (name: string, ref: string, config?: firebaseAdmin.AppOptions) {
     const admin = firebaseAdmin.initializeApp(config, name)
-    this.database = admin.database().ref(ref)
+    this.database = admin.database()
+    this.databaseRef = this.database.ref(ref)
   }
 
   /**
@@ -30,7 +32,7 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
    * @return {Promise<void>}
    */
   set (key: string, data: any, lifetime: number): Promise<void> {
-    const ref = this.database.child(key)
+    const ref = this.databaseRef.child(key)
     const snapshotValue: SnapshotValue = {
       validUntil: lifetime === 0 ? 0 : Math.round(Date.now() / 1000) + lifetime,
       value: data
@@ -45,7 +47,7 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
    * @return {Promise<any>}
    */
   async get (key: string): Promise<any> {
-    const ref = this.database.child(key)
+    const ref = this.databaseRef.child(key)
 
     const snapshot: firebaseAdmin.database.DataSnapshot = await ref.once('value')
 
@@ -67,8 +69,16 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
    * @return {Promise<void>}
    */
   del (key: string): Promise<void> {
-    const ref = this.database.child(key)
+    const ref = this.databaseRef.child(key)
     return ref.remove()
+  }
+
+  /**
+   * Close the connection
+   * @returns {Promise<void>}
+   */
+  async close (): Promise<void> {
+    this.database.goOffline()
   }
 
   /**

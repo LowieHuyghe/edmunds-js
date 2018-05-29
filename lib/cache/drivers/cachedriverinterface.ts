@@ -21,4 +21,10 @@ export default interface CacheDriverInterface {
    * @return {Promise<void>}
    */
   del (key: string): Promise<void>
+
+  /**
+   * Close the connection
+   * @returns {Promise<void>}
+   */
+  close (): Promise<void>
 }

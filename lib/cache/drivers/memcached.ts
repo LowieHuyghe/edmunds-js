@@ -75,4 +75,12 @@ export default class Memcached implements CacheDriverInterface {
       })
     })
   }
+
+  /**
+   * Close the connection
+   * @returns {Promise<void>}
+   */
+  async close (): Promise<void> {
+    this.memcached.end()
+  }
 }

@@ -129,7 +129,7 @@ export default abstract class Manager<T> {
   /**
    * Destroy all instances
    */
-  protected destroyAll () {
+  protected async destroyAll (): Promise<void> {
     const indexes = Object.keys(this.instancesConfig).map(key => parseInt(key, 10))
     const createdIndexes = indexes.filter(index => this.instancesConfigIndexesYetToBeLoaded.indexOf(index) >= 0)
 
@@ -137,7 +137,7 @@ export default abstract class Manager<T> {
       const instanceConfig = this.instancesConfig[index]
       const instance = this.instances[instanceConfig.name]
 
-      this.destroy(instanceConfig, instance)
+      await this.destroy(instanceConfig, instance)
 
       delete this.instances[instanceConfig.name]
       this.instancesConfigIndexesYetToBeLoaded.push(index)
@@ -198,7 +198,7 @@ export default abstract class Manager<T> {
    * @param config
    * @param {T} instance
    */
-  protected destroy (config: any, instance: T): void {
+  protected destroy (config: any, instance: T): Promise<void> {
     const driverKeyName: string = this.resolveDriverKeyName()
     const driver: string = config[driverKeyName]
     const destroyMethodName: string = this.resolveDestroyMethodName(driver)

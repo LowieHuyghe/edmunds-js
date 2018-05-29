@@ -49,4 +49,22 @@ export default class CacheManager extends Manager<CacheDriverInterface> {
 
     return new FirebaseRealtimeDatabase(name, key, options)
   }
+
+  /**
+   * Destroy cache instance
+   * @param {any} config
+   * @param {CacheDriverInterface} instance
+   */
+  protected destroyCache (config: any, instance: CacheDriverInterface): Promise<void> {
+    return instance.close()
+  }
+
+  /**
+   * Resolve the destroy method name
+   * @param {string} driver
+   * @returns {string}
+   */
+  protected resolveDestroyMethodName (driver: string): string {
+    return 'destroyCache'
+  }
 }

@@ -160,7 +160,7 @@ export default class Edmunds {
 
     const listeners = this.app.listeners('exit')
     for (const listener of listeners) {
-      listener()
+      await listener()
     }
   }
 

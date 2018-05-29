@@ -63,7 +63,7 @@ describe('FirebaseRealtimeDatabase', () => {
     getStub.onSecondCall().returns(createSnapshot('secondKey', true, 'secondValue', -10))
     getStub.onThirdCall().returns(createSnapshot('thirdValue', false, 'thirdValue', 10))
     const delStub = sinon.stub().resolves(undefined)
-    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).databaseRef, 'child')
     childStub.withArgs('firstKey').returns({ once: getStub, remove: delStub })
     childStub.withArgs('secondKey').returns({ once: getStub, remove: delStub })
     childStub.withArgs('thirdKey').returns({ once: getStub, remove: delStub })
@@ -106,7 +106,7 @@ describe('FirebaseRealtimeDatabase', () => {
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     let givenValue: any = undefined
-    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).databaseRef, 'child')
     childStub.withArgs('firstKey').returns({
       set: async (value: any) => {
         givenValue = value
@@ -137,7 +137,7 @@ describe('FirebaseRealtimeDatabase', () => {
 
     const delStub = sinon.stub().returns(undefined)
 
-    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).database, 'child')
+    const childStub = sinon.stub((driver as FirebaseRealtimeDatabase).databaseRef, 'child')
     childStub.withArgs('firstKey').returns({ remove: delStub })
     childStub.returns(undefined)
 
