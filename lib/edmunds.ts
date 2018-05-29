@@ -8,6 +8,7 @@ import CacheManager from './cache/cachemanager'
 import FileManager from './filesystem/filesystemmanager'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 import CacheDriverInterface from './cache/drivers/cachedriverinterface'
+import ExitMiddleware from './http/exitmiddleware'
 
 /**
  * Edmunds class
@@ -52,7 +53,9 @@ export default class Edmunds {
     this.root = root
     this.app = app || express()
     this.app.set('edmunds', this)
+
     this.app.set('exiting', false)
+    this.app.use(ExitMiddleware.func())
 
     this.config = config
   }
