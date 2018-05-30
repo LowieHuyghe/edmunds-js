@@ -6,7 +6,8 @@ import * as importFresh from 'import-fresh'
 import * as appRootPath from 'app-root-path'
 import {
   Logger,
-  transports
+  transports,
+  LoggerInstance
 } from 'winston'
 
 describe('loggingserviceprovider.ts', () => {
@@ -16,7 +17,7 @@ describe('loggingserviceprovider.ts', () => {
     expect(edmunds.logger).to.be.an('undefined')
     await edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.be.instanceof(Logger)
-    expect(Object.keys(edmunds.logger.transports).length).to.equal(0)
+    expect(Object.keys((edmunds.logger as LoggerInstance).transports).length).to.equal(0)
   })
 
   it('should have logger', async () => {
@@ -36,9 +37,9 @@ describe('loggingserviceprovider.ts', () => {
     await edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.be.instanceof(Logger)
 
-    expect(edmunds.logger.level).to.equal('info')
-    expect(edmunds.logger.transports.console).to.not.be.a('undefined')
-    expect(edmunds.logger.transports.console).to.be.instanceof(transports.Console)
+    expect((edmunds.logger as LoggerInstance).level).to.equal('info')
+    expect((edmunds.logger as LoggerInstance).transports.console).to.not.be.a('undefined')
+    expect((edmunds.logger as LoggerInstance).transports.console).to.be.instanceof(transports.Console)
   })
 
   it('should have logger options', async () => {
@@ -60,7 +61,7 @@ describe('loggingserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
     await edmunds.register(LoggingServiceProvider)
 
-    expect(edmunds.logger.level).to.equal('warn')
+    expect((edmunds.logger as LoggerInstance).level).to.equal('warn')
   })
 
 })

@@ -1,4 +1,4 @@
-import CacheDriverInterface from './cachedriverinterface'
+import CacheDriverInterface from '../../foundation/cachedriverinterface'
 import * as redis from 'redis'
 
 /**

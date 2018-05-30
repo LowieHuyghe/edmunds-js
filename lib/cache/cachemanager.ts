@@ -1,5 +1,5 @@
 import Manager from '../support/manager'
-import CacheDriverInterface from './drivers/cachedriverinterface'
+import CacheDriverInterface from '../foundation/cachedriverinterface'
 
 export default class CacheManager extends Manager<CacheDriverInterface> {
   /**

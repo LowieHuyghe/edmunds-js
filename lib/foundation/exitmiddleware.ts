@@ -1,5 +1,5 @@
 import { NextFunction } from 'express'
-import Middleware from './middleware'
+import Middleware from '../http/middleware'
 
 export default class ExitMiddleware extends Middleware {
   /**

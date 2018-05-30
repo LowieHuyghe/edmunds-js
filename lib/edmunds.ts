@@ -1,12 +1,11 @@
 import * as express from 'express'
 import ServiceProvider from './support/serviceprovider'
 import * as config from 'config'
-import { LoggerInstance } from 'winston'
-import { Connection } from 'typeorm'
 import 'reflect-metadata'
-import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
-import CacheDriverInterface from './cache/drivers/cachedriverinterface'
-import ExitMiddleware from './http/exitmiddleware'
+import FileSystemDriverInterface from './foundation/filesystemdriverinterface'
+import CacheDriverInterface from './foundation/cachedriverinterface'
+import ExitMiddleware from './foundation/exitmiddleware'
+import LoggerInstance from './foundation/loggingdriverinterface'
 
 /**
  * Edmunds class
@@ -99,9 +98,9 @@ export default class Edmunds {
   /**
    * Get database connection
    * @param {string} name
-   * @returns {Connection}
+   * @returns {typeorm.Connection}
    */
-  database (name?: string): Promise<Connection> {
+  database (name?: string): Promise<any> {
     return this.app.get('edmunds-database-manager').get(name)
   }
 

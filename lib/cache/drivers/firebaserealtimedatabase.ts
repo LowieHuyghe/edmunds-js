@@ -1,6 +1,6 @@
 import * as firebaseFunctions from 'firebase-functions'
 import * as firebaseAdmin from 'firebase-admin'
-import CacheDriverInterface from './cachedriverinterface'
+import CacheDriverInterface from '../../foundation/cachedriverinterface'
 
 /**
  * Caching class using Firebase Realtime Database

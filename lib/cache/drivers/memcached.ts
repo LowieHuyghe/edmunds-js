@@ -1,4 +1,4 @@
-import CacheDriverInterface from './cachedriverinterface'
+import CacheDriverInterface from '../../foundation/cachedriverinterface'
 import * as memcached from 'memcached'
 
 /**
