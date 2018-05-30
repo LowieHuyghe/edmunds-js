@@ -11,7 +11,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('Redis', () => {
-  function getDriver (): Redis {
+  async function getDriver (): Promise<Redis> {
     const options: redis.ClientOpts = {
       host: '192.168.123.123'
     }
@@ -24,14 +24,14 @@ describe('Redis', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const instance = manager.get()
+    const instance = await manager.get()
     expect(instance).to.be.an.instanceof(Redis)
     expect((instance as Redis).redis).to.be.an.instanceof(redis.RedisClient)
     return instance as Redis
   }
 
   it('should have a working get', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyExists = 'myKey1'
     const keyDoesNotExist = 'myKey2'
@@ -58,7 +58,7 @@ describe('Redis', () => {
   })
 
   it('should have a working set', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyWorks = 'myKey1'
     const keyDoesNotWork = 'myKey2'
@@ -85,7 +85,7 @@ describe('Redis', () => {
   })
 
   it('should have a working del', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyWorks = 'myKey1'
     const keyDoesNotWork = 'myKey2'

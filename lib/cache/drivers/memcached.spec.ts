@@ -11,7 +11,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('Memcached', () => {
-  function getDriver (): Memcached {
+  async function getDriver (): Promise<Memcached> {
     const options: memcached.options = {
       maxKeySize: 200
     }
@@ -25,14 +25,14 @@ describe('Memcached', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const instance = manager.get()
+    const instance = await manager.get()
     expect(instance).to.be.an.instanceof(Memcached)
     expect((instance as Memcached).memcached).to.be.an.instanceof(memcached)
     return instance as Memcached
   }
 
   it('should have a working get', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyExists = 'myKey1'
     const keyDoesNotExist = 'myKey2'
@@ -58,7 +58,7 @@ describe('Memcached', () => {
   })
 
   it('should have a working set', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyWorks = 'myKey1'
     const keyDoesNotWork = 'myKey2'
@@ -84,7 +84,7 @@ describe('Memcached', () => {
   })
 
   it('should have a working del', async () => {
-    const driver = getDriver()
+    const driver = await getDriver()
 
     const keyWorks = 'myKey1'
     const keyDoesNotWork = 'myKey2'

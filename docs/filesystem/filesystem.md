@@ -54,17 +54,20 @@ const edmunds = new Edmunds(appRootPath.path)
 await edmunds.register(FileSystemServiceProvider)
 
 // Usage
-const content = await edmunds.fileSystem().read('SomeFile.txt')
-const readStream = await edmunds.fileSystem().readStream('SomeFile.txt')
+const firstDriver = await edmunds.fileSystem()
+const content = await firstDriver.read('SomeFile.txt')
+const readStream = await firstDriver.readStream('SomeFile.txt')
 
-await edmunds.fileSystem('local').write('SomeOtherFile.txt', 'SomeWildContent')
-const writeStream = await edmunds.fileSystem('local').writeStream('SomeOtherFile.txt')
+const localDriver = await edmunds.fileSystem('local')
+await localDriver.write('SomeOtherFile.txt', 'SomeWildContent')
+const writeStream = await localDriver.writeStream('SomeOtherFile.txt')
 
-await edmunds.fileSystem('googlecloudstorage').exists('YetAnotherFile.txt')
+const googleCloudStorageDriver = await googleCloudStorageDriver
+await googleCloudStorageDriver.exists('YetAnotherFile.txt')
 
-await edmunds.fileSystem().move('FileToMove.txt', 'FileToMoveNewLocation.txt')
+await firstDriver.move('FileToMove.txt', 'FileToMoveNewLocation.txt')
 
-await edmunds.fileSystem().copy('FileToCopy.txt', 'CopyOfFileToCopy.txt')
+await firstDriver.copy('FileToCopy.txt', 'CopyOfFileToCopy.txt')
 
-await edmunds.fileSystem('googlecloudstorage').remove('YetAnotherFile.txt')
+await googleCloudStorageDriver.remove('YetAnotherFile.txt')
 ```

@@ -3,15 +3,19 @@ import CacheManager from './cachemanager'
 import FirebaseRealtimeDatabase from './drivers/firebaserealtimedatabase'
 import Memcached from './drivers/memcached'
 import Redis from './drivers/redis'
-import { expect } from 'chai'
+import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
 import * as memcached from 'memcached'
 import * as redis from 'redis'
 
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
+const expect = chai.expect
+
 describe('CacheManager', () => {
 
-  it('should have Redis', () => {
+  it('should have Redis', async () => {
     const options: redis.ClientOpts = {
       host: '192.168.123.123'
     }
@@ -25,14 +29,14 @@ describe('CacheManager', () => {
     const manager = new CacheManager(edmunds, config)
 
     try {
-      expect(manager.get()).to.be.an.instanceof(Redis)
-      expect(manager.get('redis')).to.be.an.instanceof(Redis)
+      expect(await manager.get()).to.be.an.instanceof(Redis)
+      expect(await manager.get('redis')).to.be.an.instanceof(Redis)
     } finally {
-      (manager.get() as Redis).redis.end(false)
+      (await manager.get() as Redis).redis.end(false)
     }
   })
 
-  it('should throw error when instantiating Memcached without servers', () => {
+  it('should throw error when instantiating Memcached without servers', async () => {
     const config = [{
       name: 'memcached',
       driver: 'memcached'
@@ -41,10 +45,10 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw("'servers'-config is missing for cache-instance 'memcached'")
+    await expect(manager.get()).to.be.rejectedWith("'servers'-config is missing for cache-instance 'memcached'")
   })
 
-  it('should have Memcached', () => {
+  it('should have Memcached', async () => {
     const options: memcached.options = {
       maxKeySize: 200
     }
@@ -59,14 +63,14 @@ describe('CacheManager', () => {
     const manager = new CacheManager(edmunds, config)
 
     try {
-      expect(manager.get()).to.be.an.instanceof(Memcached)
-      expect(manager.get('memcached')).to.be.an.instanceof(Memcached)
+      expect(await manager.get()).to.be.an.instanceof(Memcached)
+      expect(await manager.get('memcached')).to.be.an.instanceof(Memcached)
     } finally {
-      (manager.get() as Memcached).memcached.end()
+      (await manager.get() as Memcached).memcached.end()
     }
   })
 
-  it('should have FirebaseRealtimeDatabase', () => {
+  it('should have FirebaseRealtimeDatabase', async () => {
     const config = [{
       name: 'managerfirebaserealtimedatabase',
       driver: 'firebaserealtimedatabase',
@@ -76,7 +80,7 @@ describe('CacheManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver = manager.get()
+    const driver = await manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
   })
 

@@ -62,9 +62,14 @@ const edmunds = new Edmunds(appRootPath.path)
 await edmunds.register(CacheServiceProvider)
 
 // Usage
-const result = await edmunds.cache().get('SomeKey')
-await edmunds.cache('redis').set('SomeOtherKey', 'AWildValue', 60)
-await edmunds.cache('firebaserealtimedatabase').del('YetAnotherKey')
+const firstDriver = await edmunds.cache()
+const result = await firstDriver.get('SomeKey')
+
+const redisDriver = await edmunds.cache('redis')
+await redisDriver.set('SomeOtherKey', 'AWildValue', 60)
+
+const firebaseDriver = await edmunds.cache('firebaserealtimedatabase')
+await firebaseDriver.del('YetAnotherKey')
 ```
 
 Documentation can be found on the link at the top.

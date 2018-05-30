@@ -13,6 +13,13 @@ export default class FileSystemServiceProvider extends ServiceProvider {
     }
 
     // Create manager
-    this.edmunds.fileSystemManager = new FileSystemManager(this.edmunds, instances)
+    const manager = new FileSystemManager(this.edmunds, instances)
+
+    // If application is long-running, load all instance before-hand
+    if (this.edmunds.isLongRunning()) {
+      await manager.all()
+    }
+
+    this.edmunds.fileSystemManager = manager
   }
 }

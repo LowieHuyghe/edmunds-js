@@ -1,13 +1,17 @@
 import Edmunds from '../../edmunds'
 import CacheManager from '../cachemanager'
 import FirebaseRealtimeDatabase from './firebaserealtimedatabase'
-import { expect } from 'chai'
+import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import * as sinon from 'sinon'
 import 'mocha'
 
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
+const expect = chai.expect
+
 describe('FirebaseRealtimeDatabase', () => {
-  it('should have FirebaseRealtimeDatabase with admin-config', () => {
+  it('should have FirebaseRealtimeDatabase with admin-config', async () => {
     const config = [{
       name: 'firebaserealtimedatabase1',
       driver: 'firebaserealtimedatabase'
@@ -16,10 +20,10 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw('Can\'t determine Firebase Database URL.')
+    await expect(manager.get()).to.be.rejectedWith('Can\'t determine Firebase Database URL.')
   })
 
-  it('should have FirebaseRealtimeDatabase with custom-config', () => {
+  it('should have FirebaseRealtimeDatabase with custom-config', async () => {
     const config = [{
       name: 'firebaserealtimedatabase2',
       driver: 'firebaserealtimedatabase',
@@ -29,7 +33,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver = manager.get()
+    const driver = await manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
   })
 
@@ -43,7 +47,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver = manager.get()
+    const driver = await manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     function createSnapshot (key: string, exists: boolean, value: any, lifetime: number) {
@@ -102,7 +106,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver = manager.get()
+    const driver = await manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     let givenValue: any = undefined
@@ -132,7 +136,7 @@ describe('FirebaseRealtimeDatabase', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
 
-    const driver = manager.get()
+    const driver = await manager.get()
     expect(driver).instanceof(FirebaseRealtimeDatabase)
 
     const delStub = sinon.stub().returns(undefined)

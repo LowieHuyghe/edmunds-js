@@ -13,7 +13,7 @@ import * as os from 'os'
 import * as sinon from 'sinon'
 
 describe('GoogleCloudStorage', () => {
-  function getDriver (storagePath: string, prefix?: string): GoogleCloudStorage {
+  async function getDriver (storagePath: string, prefix?: string): Promise<GoogleCloudStorage> {
     const config = [{
       name: 'googlecloudstorage',
       driver: 'googlecloudstorage',
@@ -25,7 +25,7 @@ describe('GoogleCloudStorage', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
 
-    const instance = manager.get()
+    const instance = await manager.get()
     expect(instance).to.be.an.instanceof(GoogleCloudStorage)
     return instance as GoogleCloudStorage
   }
@@ -39,16 +39,16 @@ describe('GoogleCloudStorage', () => {
     }
   })
 
-  it('should have working path function', () => {
+  it('should have working path function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     expect(instance.path()).to.equal(storagePath)
     expect(instance.path('justafile.txt')).to.equal(path.join(storagePath, 'justafile.txt'))
     expect(instance.path(path.join('subdirectory', 'anotherpath.txt'))).to.equal(path.join(storagePath, 'subdirectory', 'anotherpath.txt'))
 
     const prefix = 'prefix.is.nice.'
-    const instanceWithPrefix = getDriver(storagePath, prefix)
+    const instanceWithPrefix = await getDriver(storagePath, prefix)
 
     expect(instanceWithPrefix.path()).to.equal(storagePath)
     expect(instanceWithPrefix.path('justafile.txt')).to.equal(path.join(storagePath, `${prefix}justafile.txt`))
@@ -57,7 +57,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working read(Stream) function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'justafile.txt'
     const content = 'This should be the content'
@@ -89,7 +89,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working write(Stream) function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'subdirectory/justafile.txt'
     const filePath2 = 'subdirectory/justanotherfile.txt'
@@ -124,7 +124,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working exists function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'subdirectory/justanotherfile.exists.txt'
     const content = 'This should be the content'
@@ -144,7 +144,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working delete function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'subdirectory/justanotherfile.delete.txt'
     const content = 'This should be the content'
@@ -164,7 +164,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working move function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'subdirectory/justanotherfile.move.txt'
     const filePath2 = 'subdirectory/justanotherfile.move2.txt'
@@ -188,7 +188,7 @@ describe('GoogleCloudStorage', () => {
 
   it('should have working copy function', async () => {
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(storagePath)
+    const instance = await getDriver(storagePath)
 
     const filePath = 'subdirectory/justanotherfile.copy.txt'
     const filePath2 = 'subdirectory/justanotherfile.copy2.txt'

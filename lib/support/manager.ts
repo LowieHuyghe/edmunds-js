@@ -36,11 +36,6 @@ export default abstract class Manager<T> {
 
     // Register handler when application is exiting
     this.edmunds.onExit(this.destroyAll.bind(this))
-
-    // If application is long-running, load all instance before-hand
-    if (this.edmunds.isLongRunning()) {
-      this.createAll()
-    }
   }
 
   /**
@@ -48,13 +43,13 @@ export default abstract class Manager<T> {
    * @param {string} name
    * @returns {T}
    */
-  get (name?: string): T {
+  async get (name?: string): Promise<T> {
     if (!name) {
-      this.createFirst()
+      await this.createFirst()
       return this.instances[this.instancesConfig[0].name]
     }
 
-    this.createSingle(name)
+    await this.createSingle(name)
     return this.instances[name]
   }
 
@@ -62,15 +57,15 @@ export default abstract class Manager<T> {
    * Get all instances
    * @returns {T}
    */
-  all (): { [key: string]: T } {
-    this.createAll()
+  async all (): Promise<{ [key: string]: T }> {
+    await this.createAll()
     return { ...this.instances }
   }
 
   /**
    * Load all instances
    */
-  protected createAll () {
+  protected async createAll (): Promise<void> {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -80,7 +75,7 @@ export default abstract class Manager<T> {
       const index = this.instancesConfigIndexesYetToBeLoaded.shift()
       const instanceConfig = this.instancesConfig[index]
 
-      this.instances[instanceConfig.name] = this.create(instanceConfig)
+      this.instances[instanceConfig.name] = await this.create(instanceConfig)
     }
   }
 
@@ -88,7 +83,7 @@ export default abstract class Manager<T> {
    * Load single instance
    * @param {string} name Load one specific instance
    */
-  protected createSingle (name: string) {
+  protected async createSingle (name: string): Promise<void> {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -104,13 +99,13 @@ export default abstract class Manager<T> {
     const index = this.instancesConfigIndexesYetToBeLoaded.splice(indexPosition, 1)[0]
     const instanceConfig = this.instancesConfig[index]
 
-    this.instances[instanceConfig.name] = this.create(instanceConfig)
+    this.instances[instanceConfig.name] = await this.create(instanceConfig)
   }
 
   /**
    * Load first instance
    */
-  protected createFirst () {
+  protected async createFirst (): Promise<void> {
     if (!this.instances) {
       this.validate(this.instancesConfig)
       this.instances = {}
@@ -123,7 +118,7 @@ export default abstract class Manager<T> {
     const index = this.instancesConfigIndexesYetToBeLoaded.shift()
     const instanceConfig = this.instancesConfig[index]
 
-    this.instances[instanceConfig.name] = this.create(instanceConfig)
+    this.instances[instanceConfig.name] = await this.create(instanceConfig)
   }
 
   /**
@@ -183,7 +178,7 @@ export default abstract class Manager<T> {
    * @param config
    * @returns {any}
    */
-  protected create (config: any): T {
+  protected async create (config: any): Promise<T> {
     const driverKeyName: string = this.resolveDriverKeyName()
     const driver: string = config[driverKeyName]
     const createMethodName: string = this.resolveCreateMethodName(driver)

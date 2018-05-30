@@ -34,10 +34,10 @@ describe('filesystemserviceprovider.ts', () => {
     await edmunds.register(FileSystemServiceProvider)
     expect(edmunds.fileSystemManager).to.be.instanceof(FileSystemManager)
 
-    expect(edmunds.fileSystem()).to.be.an.instanceof(Local)
-    expect(edmunds.fileSystem('local')).to.be.an.instanceof(Local)
-    expect(edmunds.fileSystemManager.get()).to.be.an.instanceof(Local)
-    expect(edmunds.fileSystemManager.get('local')).to.be.an.instanceof(Local)
+    expect(await edmunds.fileSystem()).to.be.an.instanceof(Local)
+    expect(await edmunds.fileSystem('local')).to.be.an.instanceof(Local)
+    expect(await edmunds.fileSystemManager.get()).to.be.an.instanceof(Local)
+    expect(await edmunds.fileSystemManager.get('local')).to.be.an.instanceof(Local)
   })
 
 })

@@ -15,7 +15,7 @@ import {
 
 describe('loggingmanager.ts', () => {
 
-  it('should have Console by default', () => {
+  it('should have Console by default', async () => {
     const options: ConsoleTransportOptions = {
       logstash: true,
       debugStdout: false
@@ -29,15 +29,15 @@ describe('loggingmanager.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(transports.Console)
-    expect(manager.get('console')).to.be.an.instanceof(transports.Console)
+    expect(await manager.get()).to.be.an.instanceof(transports.Console)
+    expect(await manager.get('console')).to.be.an.instanceof(transports.Console)
 
-    const instance = manager.get() as ConsoleTransportInstance
+    const instance = await manager.get() as ConsoleTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.logstash).to.equal(config[0].logstash)
   })
 
-  it('should have File by default', () => {
+  it('should have File by default', async () => {
     const options: FileTransportOptions = {
       logstash: true,
       maxsize: 10,
@@ -59,10 +59,10 @@ describe('loggingmanager.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(transports.File)
-    expect(manager.get('file')).to.be.an.instanceof(transports.File)
+    expect(await manager.get()).to.be.an.instanceof(transports.File)
+    expect(await manager.get('file')).to.be.an.instanceof(transports.File)
 
-    const instance = manager.get() as FileTransportInstance
+    const instance = await manager.get() as FileTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.logstash).to.equal(config[0].logstash)
     expect(instance.maxsize).to.equal(config[0].maxsize)
@@ -74,7 +74,7 @@ describe('loggingmanager.ts', () => {
     expect(instance.maxRetries).to.equal(config[0].maxRetries)
   })
 
-  it('should have Http by default', () => {
+  it('should have Http by default', async () => {
     const options: HttpTransportOptions = {
       ssl: true
     }
@@ -87,32 +87,32 @@ describe('loggingmanager.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new LoggingManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(transports.Http)
-    expect(manager.get('http')).to.be.an.instanceof(transports.Http)
+    expect(await manager.get()).to.be.an.instanceof(transports.Http)
+    expect(await manager.get('http')).to.be.an.instanceof(transports.Http)
 
-    const instance = manager.get() as HttpTransportInstance
+    const instance = await manager.get() as HttpTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.ssl).to.equal(config[0].ssl)
   })
 
-  it('should not have', () => {
+  it('should not have', async () => {
     const edmunds = new Edmunds(appRootPath.path)
 
     let config = [{ name: 'http', driver: 'http' }]
     let manager = new LoggingManager(edmunds, config)
-    expect(() => manager.get()).to.throw('Driver "http" could not be found for winston. Is the transporter installed?')
+    await expect(manager.get()).to.be.rejectedWith('Driver "http" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'file', driver: 'file' }]
     manager = new LoggingManager(edmunds, config)
-    expect(() => manager.get()).to.throw('Driver "file" could not be found for winston. Is the transporter installed?')
+    await expect(manager.get()).to.be.rejectedWith('Driver "file" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'console', driver: 'console' }]
     manager = new LoggingManager(edmunds, config)
-    expect(() => manager.get()).to.throw('Driver "console" could not be found for winston. Is the transporter installed?')
+    await expect(manager.get()).to.be.rejectedWith('Driver "console" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'mongodb', driver: 'MongoDB' }]
     manager = new LoggingManager(edmunds, config)
-    expect(() => manager.get()).to.throw('Driver "MongoDB" could not be found for winston. Is the transporter installed?')
+    await expect(manager.get()).to.be.rejectedWith('Driver "MongoDB" could not be found for winston. Is the transporter installed?')
   })
 
 })

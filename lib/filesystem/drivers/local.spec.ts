@@ -12,7 +12,7 @@ import * as util from 'util'
 import * as mkdirp from 'mkdirp'
 
 describe('Local', () => {
-  function getDriver (root: string, storagePath: string, prefix?: string): Local {
+  async function getDriver (root: string, storagePath: string, prefix?: string): Promise<Local> {
     const config = [{
       name: 'local',
       driver: 'local',
@@ -23,7 +23,7 @@ describe('Local', () => {
     const edmunds = new Edmunds(root)
     const manager = new FileSystemManager(edmunds, config)
 
-    const instance = manager.get()
+    const instance = await manager.get()
     expect(instance).to.be.an.instanceof(Local)
     return instance as Local
   }
@@ -46,17 +46,17 @@ describe('Local', () => {
     }
   })
 
-  it('should have working path function', () => {
+  it('should have working path function', async () => {
     const root = appRootPath.path
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     expect(instance.path()).to.equal(path.join(root, storagePath))
     expect(instance.path('justafile.txt')).to.equal(path.join(root, storagePath, 'justafile.txt'))
     expect(instance.path(path.join('subdirectory', 'anotherpath.txt'))).to.equal(path.join(root, storagePath, 'subdirectory', 'anotherpath.txt'))
 
     const prefix = 'prefix.is.nice.'
-    const instanceWithPrefix = getDriver(root, storagePath, prefix)
+    const instanceWithPrefix = await getDriver(root, storagePath, prefix)
 
     expect(instanceWithPrefix.path()).to.equal(path.join(root, storagePath))
     expect(instanceWithPrefix.path('justafile.txt')).to.equal(path.join(root, storagePath, `${prefix}justafile.txt`))
@@ -67,7 +67,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'justafile.txt'
     const content = 'This should be the content'
@@ -94,7 +94,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'subdirectory/justafile.txt'
     const filePath2 = 'subdirectory/justanotherfile.txt'
@@ -115,7 +115,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'subdirectory/justanotherfile.exists.txt'
     const content = 'This should be the content'
@@ -129,7 +129,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'subdirectory/justanotherfile.delete.txt'
     const content = 'This should be the content'
@@ -144,7 +144,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'subdirectory/justanotherfile.move.txt'
     const filePath2 = 'subdirectory/justanotherfile.move2.txt'
@@ -163,7 +163,7 @@ describe('Local', () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
     tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
-    const instance = getDriver(root, storagePath)
+    const instance = await getDriver(root, storagePath)
 
     const filePath = 'subdirectory/justanotherfile.copy.txt'
     const filePath2 = 'subdirectory/justanotherfile.copy2.txt'

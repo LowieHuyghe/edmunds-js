@@ -1,14 +1,18 @@
 import Edmunds from '../edmunds'
 import FileSystemManager from './filesystemmanager'
-import { expect } from 'chai'
+import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
 import Local from './drivers/local'
 import GoogleCloudStorage from './drivers/googlecloudstorage'
 
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
+const expect = chai.expect
+
 describe('FileSystemManager', () => {
 
-  it('should throw error when instantiating local without path', () => {
+  it('should throw error when instantiating local without path', async () => {
     const config = [{
       name: 'local',
       driver: 'local'
@@ -17,10 +21,10 @@ describe('FileSystemManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw("'path'-config is missing for filesystem-instance 'local'")
+    await expect(manager.get()).to.be.rejectedWith("'path'-config is missing for filesystem-instance 'local'")
   })
 
-  it('should have local', () => {
+  it('should have local', async () => {
     const config = [{
       name: 'local',
       driver: 'local',
@@ -30,11 +34,11 @@ describe('FileSystemManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(Local)
-    expect(manager.get('local')).to.be.an.instanceof(Local)
+    expect(await manager.get()).to.be.an.instanceof(Local)
+    expect(await manager.get('local')).to.be.an.instanceof(Local)
   })
 
-  it('should throw error when instantiating Google Cloud Storage without bucket', () => {
+  it('should throw error when instantiating Google Cloud Storage without bucket', async () => {
     const config = [{
       name: 'googlecloudstorage',
       driver: 'googlecloudstorage'
@@ -43,10 +47,10 @@ describe('FileSystemManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
 
-    expect(() => manager.get()).to.throw("'bucket'-config is missing for filesystem-instance 'googlecloudstorage'")
+    await expect(manager.get()).to.be.rejectedWith("'bucket'-config is missing for filesystem-instance 'googlecloudstorage'")
   })
 
-  it('should have Google Cloud Storage', () => {
+  it('should have Google Cloud Storage', async () => {
     const config = [{
       name: 'googlecloudstorage',
       driver: 'googlecloudstorage',
@@ -56,8 +60,8 @@ describe('FileSystemManager', () => {
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new FileSystemManager(edmunds, config)
 
-    expect(manager.get()).to.be.an.instanceof(GoogleCloudStorage)
-    expect(manager.get('googlecloudstorage')).to.be.an.instanceof(GoogleCloudStorage)
+    expect(await manager.get()).to.be.an.instanceof(GoogleCloudStorage)
+    expect(await manager.get('googlecloudstorage')).to.be.an.instanceof(GoogleCloudStorage)
   })
 
 })

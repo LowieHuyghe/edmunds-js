@@ -1,19 +1,25 @@
 import ServiceProvider from '../support/serviceprovider'
-import {
-  createConnections,
-  ConnectionOptionsReader
-} from 'typeorm'
+import DatabaseManager from './databasemanager'
 
 export default class DatabaseServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
   async register (): Promise<void> {
-    const optionsReader = new ConnectionOptionsReader({
-      root: this.edmunds.root
-    })
-    const options = await optionsReader.all()
+    // Load instances
+    let instances: any[] = []
+    if (this.edmunds.config.has('database.instances')) {
+      instances = this.edmunds.config.get('database.instances')
+    }
 
-    await createConnections(options)
+    // Create manager
+    const manager = new DatabaseManager(this.edmunds, instances)
+
+    // If application is long-running, load all instance before-hand
+    if (this.edmunds.isLongRunning()) {
+      await manager.all()
+    }
+
+    this.edmunds.databaseManager = manager
   }
 }

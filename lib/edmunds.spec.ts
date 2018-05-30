@@ -100,26 +100,44 @@ describe('edmunds.js', () => {
   })
 
   it('should have functioning database function', async () => {
+    // Override config
+    process.env.NODE_CONFIG = JSON.stringify({
+      database: {
+        instances: [
+          {
+            name: 'default',
+            type: 'sqljs',
+            database: 'database1'
+          },
+          {
+            name: 'sqljs2',
+            type: 'sqljs',
+            database: 'database2'
+          }
+        ]
+      }
+    })
     const edmunds = new Edmunds(appRootPath.path)
+    edmunds.config = importFresh('config')
 
     await edmunds.register(DatabaseServiceProvider)
-    expect(edmunds.database()).to.be.instanceof(Connection)
-    expect(edmunds.database().isConnected).to.equal(true)
-    expect(edmunds.database().options).to.include({
+    expect(await edmunds.database()).to.be.instanceof(Connection)
+    expect((await edmunds.database()).isConnected).to.equal(true)
+    expect((await edmunds.database()).options).to.include({
       name: 'default',
       type: 'sqljs',
       database: 'database1'
     })
-    expect(edmunds.database('default')).to.be.instanceof(Connection)
-    expect(edmunds.database('default').isConnected).to.equal(true)
-    expect(edmunds.database('default').options).to.include({
+    expect(await edmunds.database('default')).to.be.instanceof(Connection)
+    expect((await edmunds.database('default')).isConnected).to.equal(true)
+    expect((await edmunds.database('default')).options).to.include({
       name: 'default',
       type: 'sqljs',
       database: 'database1'
     })
-    expect(edmunds.database('sqljs2')).to.be.instanceof(Connection)
-    expect(edmunds.database('sqljs2').isConnected).to.equal(true)
-    expect(edmunds.database('sqljs2').options).to.include({
+    expect(await edmunds.database('sqljs2')).to.be.instanceof(Connection)
+    expect((await edmunds.database('sqljs2')).isConnected).to.equal(true)
+    expect((await edmunds.database('sqljs2')).options).to.include({
       name: 'sqljs2',
       type: 'sqljs',
       database: 'database2'

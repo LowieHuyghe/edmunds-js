@@ -13,6 +13,13 @@ export default class CacheServiceProvider extends ServiceProvider {
     }
 
     // Create manager
-    this.edmunds.cacheManager = new CacheManager(this.edmunds, instances)
+    const manager = new CacheManager(this.edmunds, instances)
+
+    // If application is long-running, load all instance before-hand
+    if (this.edmunds.isLongRunning()) {
+      await manager.all()
+    }
+
+    this.edmunds.cacheManager = manager
   }
 }
