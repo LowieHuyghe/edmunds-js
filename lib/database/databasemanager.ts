@@ -25,6 +25,14 @@ export default class DatabaseManager extends Manager<Connection> {
   }
 
   /**
+   * Resolve the driver key name
+   * @returns {string}
+   */
+  protected resolveDriverKeyName () {
+    return 'type'
+  }
+
+  /**
    * Resolve the create method name
    * @param {string} driver
    * @returns {string}
