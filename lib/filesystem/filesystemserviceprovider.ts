@@ -20,6 +20,6 @@ export default class FileSystemServiceProvider extends ServiceProvider {
       await manager.all()
     }
 
-    this.edmunds.fileSystemManager = manager
+    this.edmunds.app.set('edmunds-filesystem-manager', manager)
   }
 }

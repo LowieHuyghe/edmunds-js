@@ -11,9 +11,9 @@ describe('cacheserviceprovider.ts', () => {
 
   it('should have cachemanager', async () => {
     const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.cacheManager).to.be.an('undefined')
+    expect(edmunds.app.get('edmunds-cache-manager')).to.be.an('undefined')
     await edmunds.register(CacheServiceProvider)
-    expect(edmunds.cacheManager).to.be.instanceof(CacheManager)
+    expect(edmunds.app.get('edmunds-cache-manager')).to.be.instanceof(CacheManager)
   })
 
   it('should have cachemanager with config', async () => {
@@ -30,17 +30,17 @@ describe('cacheserviceprovider.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
-    expect(edmunds.cacheManager).to.be.an('undefined')
+    expect(edmunds.app.get('edmunds-cache-manager')).to.be.an('undefined')
     await edmunds.register(CacheServiceProvider)
-    expect(edmunds.cacheManager).to.be.instanceof(CacheManager)
+    expect(edmunds.app.get('edmunds-cache-manager')).to.be.instanceof(CacheManager)
 
     try {
       expect(await edmunds.cache()).to.be.an.instanceof(Redis)
       expect(await edmunds.cache('redis')).to.be.an.instanceof(Redis)
-      expect(await edmunds.cacheManager.get()).to.be.an.instanceof(Redis)
-      expect(await edmunds.cacheManager.get('redis')).to.be.an.instanceof(Redis)
+      expect(await edmunds.app.get('edmunds-cache-manager').get()).to.be.an.instanceof(Redis)
+      expect(await edmunds.app.get('edmunds-cache-manager').get('redis')).to.be.an.instanceof(Redis)
     } finally {
-      (await edmunds.cacheManager.get() as Redis).redis.end(false)
+      (await edmunds.app.get('edmunds-cache-manager').get() as Redis).redis.end(false)
     }
   })
 

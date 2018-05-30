@@ -33,9 +33,9 @@ describe('databaseserviceprovider.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
-    expect(edmunds.databaseManager).to.be.an('undefined')
+    expect(edmunds.app.get('edmunds-database-manager')).to.be.an('undefined')
     await edmunds.register(DatabaseServiceProvider)
-    expect(edmunds.databaseManager).to.be.instanceof(DatabaseManager)
+    expect(edmunds.app.get('edmunds-database-manager')).to.be.instanceof(DatabaseManager)
 
     try {
       expect(await edmunds.database()).to.be.instanceof(Connection)
@@ -44,9 +44,9 @@ describe('databaseserviceprovider.ts', () => {
         name: 'database1',
         type: 'sqljs'
       })
-      expect(await edmunds.databaseManager.get()).to.be.instanceof(Connection)
-      expect((await edmunds.databaseManager.get()).isConnected).to.equal(true)
-      expect((await edmunds.databaseManager.get()).options).to.include({
+      expect(await edmunds.app.get('edmunds-database-manager').get()).to.be.instanceof(Connection)
+      expect((await edmunds.app.get('edmunds-database-manager').get()).isConnected).to.equal(true)
+      expect((await edmunds.app.get('edmunds-database-manager').get()).options).to.include({
         name: 'database1',
         type: 'sqljs'
       })

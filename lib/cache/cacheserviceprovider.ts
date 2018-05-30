@@ -20,6 +20,6 @@ export default class CacheServiceProvider extends ServiceProvider {
       await manager.all()
     }
 
-    this.edmunds.cacheManager = manager
+    this.edmunds.app.set('edmunds-cache-manager', manager)
   }
 }

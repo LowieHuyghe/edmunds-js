@@ -20,6 +20,6 @@ export default class DatabaseServiceProvider extends ServiceProvider {
       await manager.all()
     }
 
-    this.edmunds.databaseManager = manager
+    this.edmunds.app.set('edmunds-database-manager', manager)
   }
 }

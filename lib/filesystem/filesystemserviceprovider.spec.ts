@@ -11,9 +11,9 @@ describe('filesystemserviceprovider.ts', () => {
 
   it('should have filesystemmanager', async () => {
     const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.fileSystemManager).to.be.an('undefined')
+    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.an('undefined')
     await edmunds.register(FileSystemServiceProvider)
-    expect(edmunds.fileSystemManager).to.be.instanceof(FileSystemManager)
+    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.instanceof(FileSystemManager)
   })
 
   it('should have filesystemmanager with config', async () => {
@@ -30,14 +30,14 @@ describe('filesystemserviceprovider.ts', () => {
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
-    expect(edmunds.fileSystemManager).to.be.an('undefined')
+    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.an('undefined')
     await edmunds.register(FileSystemServiceProvider)
-    expect(edmunds.fileSystemManager).to.be.instanceof(FileSystemManager)
+    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.instanceof(FileSystemManager)
 
     expect(await edmunds.fileSystem()).to.be.an.instanceof(Local)
     expect(await edmunds.fileSystem('local')).to.be.an.instanceof(Local)
-    expect(await edmunds.fileSystemManager.get()).to.be.an.instanceof(Local)
-    expect(await edmunds.fileSystemManager.get('local')).to.be.an.instanceof(Local)
+    expect(await edmunds.app.get('edmunds-filesystem-manager').get()).to.be.an.instanceof(Local)
+    expect(await edmunds.app.get('edmunds-filesystem-manager').get('local')).to.be.an.instanceof(Local)
   })
 
 })

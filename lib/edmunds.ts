@@ -4,12 +4,9 @@ import * as config from 'config'
 import { LoggerInstance } from 'winston'
 import { Connection } from 'typeorm'
 import 'reflect-metadata'
-import CacheManager from './cache/cachemanager'
-import FileManager from './filesystem/filesystemmanager'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 import CacheDriverInterface from './cache/drivers/cachedriverinterface'
 import ExitMiddleware from './http/exitmiddleware'
-import DatabaseManager from './database/databasemanager'
 
 /**
  * Edmunds class
@@ -34,21 +31,6 @@ export default class Edmunds {
    * Logger
    */
   public logger: LoggerInstance
-
-  /**
-   * Database Manager
-   */
-  public databaseManager: DatabaseManager
-
-  /**
-   * Cache Manager
-   */
-  public cacheManager: CacheManager
-
-  /**
-   * File Manager
-   */
-  public fileSystemManager: FileManager
 
   /**
    * Constructor
@@ -120,7 +102,7 @@ export default class Edmunds {
    * @returns {Connection}
    */
   database (name?: string): Promise<Connection> {
-    return this.databaseManager.get(name)
+    return this.app.get('edmunds-database-manager').get(name)
   }
 
   /**
@@ -129,7 +111,7 @@ export default class Edmunds {
    * @returns {CacheDriverInterface}
    */
   cache (name?: string): Promise<CacheDriverInterface> {
-    return this.cacheManager.get(name)
+    return this.app.get('edmunds-cache-manager').get(name)
   }
 
   /**
@@ -138,7 +120,7 @@ export default class Edmunds {
    * @returns {FileSystemDriverInterface}
    */
   fileSystem (name?: string): Promise<FileSystemDriverInterface> {
-    return this.fileSystemManager.get(name)
+    return this.app.get('edmunds-filesystem-manager').get(name)
   }
 
   /**
