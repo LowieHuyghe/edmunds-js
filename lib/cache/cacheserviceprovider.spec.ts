@@ -34,10 +34,14 @@ describe('cacheserviceprovider.ts', () => {
     await edmunds.register(CacheServiceProvider)
     expect(edmunds.cacheManager).to.be.instanceof(CacheManager)
 
-    expect(await edmunds.cache()).to.be.an.instanceof(Redis)
-    expect(await edmunds.cache('redis')).to.be.an.instanceof(Redis)
-    expect(await edmunds.cacheManager.get()).to.be.an.instanceof(Redis)
-    expect(await edmunds.cacheManager.get('redis')).to.be.an.instanceof(Redis)
+    try {
+      expect(await edmunds.cache()).to.be.an.instanceof(Redis)
+      expect(await edmunds.cache('redis')).to.be.an.instanceof(Redis)
+      expect(await edmunds.cacheManager.get()).to.be.an.instanceof(Redis)
+      expect(await edmunds.cacheManager.get('redis')).to.be.an.instanceof(Redis)
+    } finally {
+      (await edmunds.cacheManager.get() as Redis).redis.end(false)
+    }
   })
 
 })

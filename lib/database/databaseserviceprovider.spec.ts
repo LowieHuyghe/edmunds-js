@@ -8,6 +8,7 @@ import {
   getConnectionManager
 } from 'typeorm'
 import * as importFresh from 'import-fresh'
+import DatabaseManager from './databasemanager'
 
 describe('databaseserviceprovider.ts', () => {
   afterEach(async () => {
@@ -23,45 +24,35 @@ describe('databaseserviceprovider.ts', () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       database: {
-        instances: [
-          {
-            name: 'default',
-            type: 'sqljs',
-            database: 'database1'
-          },
-          {
-            name: 'sqljs2',
-            type: 'sqljs',
-            database: 'database2'
-          }
-        ]
+        instances: [{
+          name: 'database1',
+          type: 'sqljs'
+        }]
       }
     })
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
+    expect(edmunds.databaseManager).to.be.an('undefined')
     await edmunds.register(DatabaseServiceProvider)
-    expect(await edmunds.database()).to.be.instanceof(Connection)
-    expect((await edmunds.database()).isConnected).to.equal(true)
-    expect((await edmunds.database()).options).to.include({
-      name: 'default',
-      type: 'sqljs',
-      database: 'database1'
-    })
-    expect(await edmunds.database('default')).to.be.instanceof(Connection)
-    expect((await edmunds.database('default')).isConnected).to.equal(true)
-    expect((await edmunds.database('default')).options).to.include({
-      name: 'default',
-      type: 'sqljs',
-      database: 'database1'
-    })
-    expect(await edmunds.database('sqljs2')).to.be.instanceof(Connection)
-    expect((await edmunds.database('sqljs2')).isConnected).to.equal(true)
-    expect((await edmunds.database('sqljs2')).options).to.include({
-      name: 'sqljs2',
-      type: 'sqljs',
-      database: 'database2'
-    })
+    expect(edmunds.databaseManager).to.be.instanceof(DatabaseManager)
+
+    try {
+      expect(await edmunds.database()).to.be.instanceof(Connection)
+      expect((await edmunds.database()).isConnected).to.equal(true)
+      expect((await edmunds.database()).options).to.include({
+        name: 'database1',
+        type: 'sqljs'
+      })
+      expect(await edmunds.databaseManager.get()).to.be.instanceof(Connection)
+      expect((await edmunds.databaseManager.get()).isConnected).to.equal(true)
+      expect((await edmunds.databaseManager.get()).options).to.include({
+        name: 'database1',
+        type: 'sqljs'
+      })
+    } finally {
+      await (await edmunds.database()).close()
+    }
   }).timeout(10000)
 
 })
