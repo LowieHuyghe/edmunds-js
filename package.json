@@ -2,8 +2,8 @@
   "name": "edmunds",
   "version": "0.2.1",
   "description": "Edmunds is a Express based framework for building web applications with a firm structure to start from.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/edmunds/index.js",
+  "types": "dist/edmunds/index.d.ts",
   "directories": {
     "lib": "lib"
   },
