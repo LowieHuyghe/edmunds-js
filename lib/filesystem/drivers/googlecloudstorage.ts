@@ -1,4 +1,4 @@
-import DriverInterface from '../../foundation/filesystemdriverinterface'
+import DriverInterface from './filesystemdriverinterface'
 import * as stream from 'stream'
 import * as path from 'path'
 import * as Storage from '@google-cloud/storage'

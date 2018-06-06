@@ -2,10 +2,10 @@ import * as express from 'express'
 import ServiceProvider from './support/serviceprovider'
 import * as config from 'config'
 import 'reflect-metadata'
-import FileSystemDriverInterface from './foundation/filesystemdriverinterface'
-import CacheDriverInterface from './foundation/cachedriverinterface'
-import ExitMiddleware from './foundation/exitmiddleware'
-import LoggerInstance from './foundation/loggingdriverinterface'
+import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
+import CacheDriverInterface from './cache/drivers/cachedriverinterface'
+import ExitMiddleware from './support/exitmiddleware'
+import SimplifiedLoggerInstanceInterface from './logging/simplifiedloggerinstanceinterface'
 
 /**
  * Edmunds class
@@ -29,7 +29,7 @@ export default class Edmunds {
   /**
    * Logger
    */
-  public logger: LoggerInstance
+  public logger: SimplifiedLoggerInstanceInterface
 
   /**
    * Constructor

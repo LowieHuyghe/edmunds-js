@@ -3,7 +3,7 @@
 // winston.LoggerInstance. This file is merely here so the main
 // 'edmunds' package does not need the whole library.
 
-export default interface LoggerInstance extends NodeJS.EventEmitter {
+export default interface SimplifiedLoggerInstanceInterface extends NodeJS.EventEmitter {
   log: LogMethod
 
   // for cli levels
@@ -27,15 +27,15 @@ export default interface LoggerInstance extends NodeJS.EventEmitter {
 }
 
 export interface LogMethod {
-  (level: string, msg: string, callback: LogCallback): LoggerInstance
-  (level: string, msg: string, meta: any, callback: LogCallback): LoggerInstance
-  (level: string, msg: string, ...meta: any[]): LoggerInstance
+  (level: string, msg: string, callback: LogCallback): SimplifiedLoggerInstanceInterface
+  (level: string, msg: string, meta: any, callback: LogCallback): SimplifiedLoggerInstanceInterface
+  (level: string, msg: string, ...meta: any[]): SimplifiedLoggerInstanceInterface
 }
 
 export interface LeveledLogMethod {
-  (msg: string, callback: LogCallback): LoggerInstance
-  (msg: string, meta: any, callback: LogCallback): LoggerInstance
-  (msg: string, ...meta: any[]): LoggerInstance
+  (msg: string, callback: LogCallback): SimplifiedLoggerInstanceInterface
+  (msg: string, meta: any, callback: LogCallback): SimplifiedLoggerInstanceInterface
+  (msg: string, ...meta: any[]): SimplifiedLoggerInstanceInterface
 }
 
 export type LogCallback = (error?: any, level?: string, msg?: string, meta?: any) => void

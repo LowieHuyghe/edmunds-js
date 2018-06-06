@@ -1,4 +1,4 @@
-import DriverInterface from '../../foundation/filesystemdriverinterface'
+import DriverInterface from './filesystemdriverinterface'
 import * as fs from 'fs'
 import * as util from 'util'
 import * as stream from 'stream'
