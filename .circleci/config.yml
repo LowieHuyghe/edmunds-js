@@ -7,13 +7,7 @@ jobs:
       - image: node:latest
     steps:
       - checkout
-      - restore_cache:
-          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - save_cache:
-          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
       - run: npm -v
       - run: npm ls
 
@@ -24,7 +18,7 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: npm install
+      - run: npm ci
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -41,7 +35,7 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: npm install
+      - run: npm ci
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -55,7 +49,7 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: npm install
+      - run: npm ci
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
