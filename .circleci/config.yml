@@ -10,7 +10,6 @@ jobs:
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm prune
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -26,7 +25,6 @@ jobs:
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm prune
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -44,7 +42,6 @@ jobs:
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm prune
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -59,7 +56,6 @@ jobs:
       - restore_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm prune
       - save_cache:
           key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -71,14 +67,7 @@ jobs:
       - image: node:latest
     steps:
       - checkout
-      - restore_cache:
-          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm prune
-      - save_cache:
-          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
       - run: npm run tsc
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: npm publish
