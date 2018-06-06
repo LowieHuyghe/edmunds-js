@@ -1,10 +1,22 @@
 version: 2
 
+default: &default
+  docker:
+    - image: node:latest
+
+restore_npm_cache: &restore_npm_cache
+  key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+save_npm_cache: &save_npm_cache
+  key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  paths:
+    - ~/.npm
+
+
 jobs:
 
   deps-lock:
-    docker:
-      - image: node:latest
+    <<: *default
     steps:
       - checkout
       - run: npm install
@@ -13,62 +25,42 @@ jobs:
       - run: '[ -z "$( git diff package-lock.json )" ]'
 
   test:
-    docker:
-      - image: node:latest
+    <<: *default
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - restore_cache: *restore_npm_cache
       - run: npm ci
-      - save_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm
+      - save_cache: *save_npm_cache
       - run:
           command: |
             npm run test:cover
             ./node_modules/codecov/bin/codecov
 
   compile:
-    docker:
-      - image: node:latest
+    <<: *default
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - restore_cache: *restore_npm_cache
       - run: npm ci
-      - save_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm
+      - save_cache: *save_npm_cache
       - run: npm run tsc
 
   lint:
-    docker:
-      - image: node:latest
+    <<: *default
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - restore_cache: *restore_npm_cache
       - run: npm ci
-      - save_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm
+      - save_cache: *save_npm_cache
       - run: npm run lint
 
   deploy-to-npm:
-    docker:
-      - image: node:latest
+    <<: *default
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - restore_cache: *restore_npm_cache
       - run: npm ci
-      - save_cache:
-          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm
+      - save_cache: *save_npm_cache
       - run: npm run tsc
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: npm publish
