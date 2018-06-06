@@ -2,8 +2,8 @@
   "name": "edmunds",
   "version": "0.2.1",
   "description": "Edmunds is a Express based framework for building web applications with a firm structure to start from.",
-  "main": "dist/edmunds/index.js",
-  "types": "dist/edmunds/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -33,20 +33,27 @@
     "url": "https://github.com/LowieHuyghe/edmunds-js/issues"
   },
   "homepage": "https://github.com/LowieHuyghe/edmunds-js#README",
-  "dependencies": {
+  "peerDependencies": {
     "@google-cloud/storage": "^1.7.0",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.0.2",
+    "memcached": "^2.2.2",
+    "redis": "^2.8.0",
+    "typeorm": "^0.2.0",
+    "winston": "^2.4.0"
+  },
+  "dependencies": {
     "app-root-path": "^2.0.1",
     "commander": "^2.14.1",
     "config": "^1.29.4",
     "express": "^4.16.2",
-    "inquirer": "^5.1.0",
+    "inquirer": "^6.0.0",
     "joi": "^13.1.2",
     "mkdirp": "^0.5.1",
-    "reflect-metadata": "^0.1.12",
-    "typeorm": "^0.2.0",
-    "winston": "^2.4.0"
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
+    "@google-cloud/storage": "^1.7.0",
     "@types/app-root-path": "^1.2.4",
     "@types/body-parser": "^1.16.8",
     "@types/chai": "^4.1.2",
@@ -74,7 +81,7 @@
     "memcached": "^2.2.2",
     "mocha": "^5.0.1",
     "nodemon": "^1.15.1",
-    "nyc": "^11.4.1",
+    "nyc": "^12.0.2",
     "redis": "^2.8.0",
     "rmdir": "^1.2.0",
     "sinon": "^5.0.7",
@@ -83,6 +90,8 @@
     "ts-node": "^6.0.0",
     "tslint": "^5.9.1",
     "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.7.2"
+    "typeorm": "^0.2.0",
+    "typescript": "^2.7.2",
+    "winston": "^2.4.0"
   }
 }
