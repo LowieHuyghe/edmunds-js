@@ -20,6 +20,8 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      # Running npm install twice somehow fixes the issue
+      - run: npm install
       - run: npm -v
       - run: echo "$( git diff package-lock.json )"
       - run: '[ -z "$( git diff package-lock.json )" ]'
