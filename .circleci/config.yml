@@ -9,7 +9,8 @@ jobs:
       - checkout
       - run: npm install
       - run: npm -v
-      - run: npm ls
+      - run: echo "$( git diff package-lock.json )"
+      - run: '[ -z "$( git diff package-lock.json )" ]'
 
   test:
     docker:
