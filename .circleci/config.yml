@@ -7,8 +7,14 @@ jobs:
       - image: node:latest
     steps:
       - checkout
-      - run: npm -v
+      - restore_cache:
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
+      - save_cache:
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm -v
       - run: npm ls
 
   test:
@@ -17,10 +23,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -34,10 +40,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run: npm run tsc
@@ -48,10 +54,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: deps-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run: npm run lint
