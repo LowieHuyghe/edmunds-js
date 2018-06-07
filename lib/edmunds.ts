@@ -1,6 +1,6 @@
 import * as express from 'express'
 import ServiceProvider from './support/serviceprovider'
-import * as config from 'config'
+import { IConfig } from 'config'
 import 'reflect-metadata'
 import FileSystemDriverInterface from './filesystem/drivers/filesystemdriverinterface'
 import CacheDriverInterface from './cache/drivers/cachedriverinterface'
@@ -24,7 +24,7 @@ export default class Edmunds {
   /**
    * Config
    */
-  public config: config.IConfig
+  public config: IConfig
 
   /**
    * Logger
@@ -44,7 +44,7 @@ export default class Edmunds {
     this.app.set('exiting', false)
     this.app.use(ExitMiddleware.func())
 
-    this.config = config
+    this.config = require('config')
   }
 
   /**

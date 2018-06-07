@@ -10,13 +10,6 @@ import Redis from './drivers/redis'
 describe('cacheserviceprovider.ts', () => {
 
   it('should have cachemanager', async () => {
-    const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.app.get('edmunds-cache-manager')).to.be.an('undefined')
-    await edmunds.register(CacheServiceProvider)
-    expect(edmunds.app.get('edmunds-cache-manager')).to.be.instanceof(CacheManager)
-  })
-
-  it('should have cachemanager with config', async () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       cache: {

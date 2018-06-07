@@ -12,14 +12,6 @@ import {
 
 describe('loggingserviceprovider.ts', () => {
 
-  it('should have no logger without config', async () => {
-    const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.logger).to.be.an('undefined')
-    await edmunds.register(LoggingServiceProvider)
-    expect(edmunds.logger).to.be.instanceof(Logger)
-    expect(Object.keys((edmunds.logger as LoggerInstance).transports).length).to.equal(0)
-  })
-
   it('should have logger', async () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({

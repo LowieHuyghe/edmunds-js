@@ -2,26 +2,12 @@ import Edmunds from './edmunds'
 import ServiceProvider from './support/serviceprovider'
 import { expect } from 'chai'
 import * as express from 'express'
-import * as config from 'config'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import * as path from 'path'
-import DatabaseServiceProvider from './database/databaseserviceprovider'
-import {
-  Connection,
-  getConnectionManager
-} from 'typeorm'
 
 describe('edmunds.js', () => {
-  afterEach(async () => {
-    const connManager = getConnectionManager()
-    for (let name of ['default', 'sqljs2']) {
-      if (connManager.has(name) && connManager.get(name).isConnected) {
-        await connManager.get(name).close()
-      }
-    }
-  })
 
   it('should have express', () => {
     const edmunds = new Edmunds(appRootPath.path)
@@ -38,7 +24,7 @@ describe('edmunds.js', () => {
 
   it('should have instance of config', () => {
     const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.config).to.equal(config)
+    expect(edmunds.config).to.equal(require('config'))
   })
 
   it('should have correct root path', () => {

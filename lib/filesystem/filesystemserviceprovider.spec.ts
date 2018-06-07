@@ -10,13 +10,6 @@ import Local from './drivers/local'
 describe('filesystemserviceprovider.ts', () => {
 
   it('should have filesystemmanager', async () => {
-    const edmunds = new Edmunds(appRootPath.path)
-    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.an('undefined')
-    await edmunds.register(FileSystemServiceProvider)
-    expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.instanceof(FileSystemManager)
-  })
-
-  it('should have filesystemmanager with config', async () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       filesystem: {
