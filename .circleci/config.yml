@@ -26,18 +26,6 @@ jobs:
       - run: echo "$( git diff package-lock.json )"
       - run: '[ -z "$( git diff package-lock.json )" ]'
 
-  test:
-    <<: *default
-    steps:
-      - checkout
-      - restore_cache: *restore_npm_cache
-      - run: npm ci
-      - save_cache: *save_npm_cache
-      - run:
-          command: |
-            npm run test:cover
-            ./node_modules/codecov/bin/codecov
-
   compile:
     <<: *default
     steps:
@@ -55,6 +43,16 @@ jobs:
       - run: npm ci
       - save_cache: *save_npm_cache
       - run: npm run lint
+
+  test:
+    <<: *default
+    steps:
+      - checkout
+      - restore_cache: *restore_npm_cache
+      - run: npm ci
+      - save_cache: *save_npm_cache
+      - run: npm run test:cover
+      - run: ./node_modules/codecov/bin/codecov
 
   require:
     <<: *default
@@ -88,10 +86,6 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
-      - test:
-          filters:
-            tags:
-              only: /^v[0-9]+(\.[0-9]+)*$/
       - compile:
           filters:
             tags:
@@ -100,10 +94,18 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
+      - test:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
+          requires:
+            - compile
       - require:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
+          requires:
+            - compile
       - deploy-to-npm:
           filters:
             tags:
