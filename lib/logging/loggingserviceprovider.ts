@@ -1,8 +1,3 @@
-import {
-  Logger,
-  LoggerOptions,
-  TransportInstance
-} from 'winston'
 import ServiceProvider from '../support/serviceprovider'
 import LoggingManager from './loggingmanager'
 
@@ -11,8 +6,10 @@ export default class LoggingServiceProvider extends ServiceProvider {
    * Register the service provider
    */
   async register (): Promise<void> {
+    const { Logger } = require('winston')
+
     // Load all transports
-    let transports: TransportInstance[] = []
+    let transports: any[] = []
     if (this.edmunds.config.has('logging.instances')) {
       const instances: any[] = this.edmunds.config.get('logging.instances')
       const manager = new LoggingManager(this.edmunds, instances)
@@ -21,7 +18,7 @@ export default class LoggingServiceProvider extends ServiceProvider {
     }
 
     // Instantiate logger
-    const loggerOptions: LoggerOptions = this.edmunds.config.has('logging.logger')
+    const loggerOptions = this.edmunds.config.has('logging.logger')
       ? this.edmunds.config.get('logging.logger')
       : {}
     this.edmunds.logger = new Logger({

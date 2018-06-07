@@ -56,7 +56,7 @@ jobs:
       - save_cache: *save_npm_cache
       - run: npm run lint
 
-  run:
+  require:
     <<: *default
     steps:
       - checkout
@@ -100,7 +100,7 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
-      - run:
+      - require:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
@@ -115,4 +115,4 @@ workflows:
             - test
             - compile
             - lint
-            - run
+            - require
