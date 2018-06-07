@@ -70,3 +70,9 @@ typings/
 # Git
 /.git
 /.gitignore
+
+# CI
+/.circle
+
+# Documentation
+/docs
