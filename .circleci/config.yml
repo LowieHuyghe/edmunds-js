@@ -56,6 +56,17 @@ jobs:
       - save_cache: *save_npm_cache
       - run: npm run lint
 
+  run:
+    <<: *default
+    steps:
+      - checkout
+      - restore_cache: *restore_npm_cache
+      - run: npm ci
+      - save_cache: *save_npm_cache
+      - run: npm run tsc
+      - run: npm prune --production
+      - run: node -e "require('./dist/index');"
+
   deploy-to-npm:
     <<: *default
     steps:
@@ -89,6 +100,10 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
+      - run:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - deploy-to-npm:
           filters:
             tags:
@@ -100,3 +115,4 @@ workflows:
             - test
             - compile
             - lint
+            - run
