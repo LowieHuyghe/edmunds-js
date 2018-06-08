@@ -13,9 +13,9 @@
     "tsc:watch": "tsc --watch",
     "lint": "tslint -c tslint.json --exclude '**/*.d.ts' --exclude 'node_modules/**/*.ts' '**/*.ts'",
     "lint:watch": "nodemon --ext ts --exec npm run lint",
-    "test": "NODE_ENV=testing mocha --opts mocha.opts '**/*.spec.ts'",
-    "test:cover": "NODE_ENV=testing nyc mocha --opts mocha.opts '**/*.spec.ts'",
-    "test:watch": "NODE_ENV=testing mocha --watch --opts mocha.opts '**/*.spec.ts'",
+    "test": "NODE_ENV=testing mocha --opts mocha.opts $NODE_DEBUG_OPTION '**/*.spec.ts'",
+    "test:cover": "NODE_ENV=testing nyc mocha --opts mocha.opts $NODE_DEBUG_OPTION '**/*.spec.ts'",
+    "test:watch": "NODE_ENV=testing mocha --watch --opts mocha.opts $NODE_DEBUG_OPTION '**/*.spec.ts'",
     "docs": "docsify serve docs"
   },
   "repository": {
