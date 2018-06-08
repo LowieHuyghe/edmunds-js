@@ -43,7 +43,6 @@
     "winston": "^2.4.0"
   },
   "dependencies": {
-    "app-root-path": "^2.0.1",
     "commander": "^2.14.1",
     "config": "^1.29.4",
     "express": "^4.16.2",
@@ -70,6 +69,7 @@
     "@types/redis": "^2.8.5",
     "@types/sinon": "^5.0.0",
     "@types/winston": "^2.3.8",
+    "app-root-path": "^2.0.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
