@@ -1,6 +1,6 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.3.0 (2018-07-09)
 
 - [#144](https://github.com/LowieHuyghe/edmunds-js/issues/144): Performance optimizations
 
