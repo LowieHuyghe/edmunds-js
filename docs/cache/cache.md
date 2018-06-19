@@ -37,8 +37,9 @@ Example config:
       {
         "name": "firebaserealtimedatabase",
         "driver": "firebaserealtimedatabase",
-        "databaseURL": "https://totally-non-exisiting-project.firebaseio.com"
-      	// ...other firebase config mentioned in the docs
+        // Optional
+        // Custom name given to firebase app when initialized
+        "appName": "customFirebaseAppName"
       }
     ]
   }

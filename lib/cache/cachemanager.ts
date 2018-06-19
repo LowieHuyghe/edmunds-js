@@ -42,12 +42,9 @@ export default class CacheManager extends Manager<CacheDriverInterface> {
 
     const name = config.name
     const key = config.ref ? config.ref : 'cache'
-    let options = undefined
-    if (config.credentials || config.databaseAuthVariableOverride || config.databaseURL || config.storageBucket || config.projectId) {
-      options = config
-    }
+    const appName = config.appName
 
-    return new FirebaseRealtimeDatabase(name, key, options)
+    return new FirebaseRealtimeDatabase(name, key, appName)
   }
 
   /**

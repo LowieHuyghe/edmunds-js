@@ -5,17 +5,27 @@ import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import * as sinon from 'sinon'
 import 'mocha'
+import * as firebaseAdmin from 'firebase-admin'
 
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('FirebaseRealtimeDatabase', () => {
+  afterEach(async () => {
+    const app = firebaseAdmin.app()
+    if (app) {
+      await app.delete()
+    }
+  })
+
   it('should have FirebaseRealtimeDatabase with admin-config', async () => {
     const config = [{
-      name: 'firebaserealtimedatabase1',
+      name: 'firebaserealtimedatabase',
       driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp()
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
@@ -25,10 +35,13 @@ describe('FirebaseRealtimeDatabase', () => {
 
   it('should have FirebaseRealtimeDatabase with custom-config', async () => {
     const config = [{
-      name: 'firebaserealtimedatabase2',
-      driver: 'firebaserealtimedatabase',
-      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+      name: 'firebaserealtimedatabase',
+      driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp({
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+    })
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
@@ -39,10 +52,13 @@ describe('FirebaseRealtimeDatabase', () => {
 
   it('should have a working get', async () => {
     const config = [{
-      name: 'firebaserealtimedatabase3',
-      driver: 'firebaserealtimedatabase',
-      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+      name: 'firebaserealtimedatabase',
+      driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp({
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+    })
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
@@ -98,10 +114,13 @@ describe('FirebaseRealtimeDatabase', () => {
 
   it('should have a working set', async () => {
     const config = [{
-      name: 'firebaserealtimedatabase4',
-      driver: 'firebaserealtimedatabase',
-      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+      name: 'firebaserealtimedatabase',
+      driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp({
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+    })
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
@@ -128,10 +147,13 @@ describe('FirebaseRealtimeDatabase', () => {
 
   it('should have a working del', async () => {
     const config = [{
-      name: 'firebaserealtimedatabase5',
-      driver: 'firebaserealtimedatabase',
-      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+      name: 'firebaserealtimedatabase',
+      driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp({
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+    })
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)

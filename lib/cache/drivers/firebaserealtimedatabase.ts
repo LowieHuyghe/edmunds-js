@@ -16,10 +16,10 @@ export default class FirebaseRealtimeDatabase implements CacheDriverInterface {
    * Constructor
    * @param {string} name
    * @param {string} ref
-   * @param {admin.AppOptions} config
+   * @param {string} appName
    */
-  constructor (name: string, ref: string, config?: firebaseAdmin.AppOptions) {
-    const admin = firebaseAdmin.initializeApp(config, name)
+  constructor (name: string, ref: string, appName?: string) {
+    const admin = firebaseAdmin.app(appName)
     this.database = admin.database()
     this.databaseRef = this.database.ref(ref)
   }

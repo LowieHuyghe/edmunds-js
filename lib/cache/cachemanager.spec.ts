@@ -8,12 +8,24 @@ import * as appRootPath from 'app-root-path'
 import 'mocha'
 import * as memcached from 'memcached'
 import * as redis from 'redis'
+import * as firebaseAdmin from 'firebase-admin'
 
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('CacheManager', () => {
+  afterEach(async () => {
+    let app
+    try {
+      app = firebaseAdmin.app()
+    } catch (e) {
+      // Throws error if default app does not exist
+    }
+    if (app) {
+      await app.delete()
+    }
+  })
 
   it('should have Redis', async () => {
     const options: redis.ClientOpts = {
@@ -72,10 +84,13 @@ describe('CacheManager', () => {
 
   it('should have FirebaseRealtimeDatabase', async () => {
     const config = [{
-      name: 'managerfirebaserealtimedatabase',
-      driver: 'firebaserealtimedatabase',
-      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+      name: 'firebaserealtimedatabase',
+      driver: 'firebaserealtimedatabase'
     }]
+
+    firebaseAdmin.initializeApp({
+      databaseURL: `https://totally-non-exisiting-project-${Math.round(Math.random() * 1000000)}.firebaseio.com`
+    })
 
     const edmunds = new Edmunds(appRootPath.path)
     const manager = new CacheManager(edmunds, config)
