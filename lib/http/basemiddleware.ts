@@ -65,7 +65,7 @@ export default class BaseMiddleware {
    * @returns {(req: Request, res: Response, next: NextFunction) => void}
    */
   protected static baseFunc<T extends BaseMiddleware> (method: string): (req: Request, res: Response, next: NextFunction) => void {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
       // Instantiate the instance
       const instance = new this(req, res)
       // Get the correct method
@@ -73,7 +73,11 @@ export default class BaseMiddleware {
       // Bind context of instance
       instanceMethod = instanceMethod.bind(instance)
       // Call it
-      instanceMethod(req.params, next)
+      try {
+        await instanceMethod(req.params, next)
+      } catch (err) {
+        next(err)
+      }
     }
   }
 
@@ -83,7 +87,7 @@ export default class BaseMiddleware {
    * @returns {(err: Error, req: Request, res: Response, next: NextFunction) => void}
    */
   protected static baseErrFunc<T extends BaseMiddleware> (method: string): (err: Error, req: Request, res: Response, next: NextFunction) => void {
-    return (err: Error, req: Request, res: Response, next: NextFunction) => {
+    return async (err: Error, req: Request, res: Response, next: NextFunction) => {
       // Instantiate the instance
       const instance = new this(req, res)
       // Get the correct method
@@ -91,7 +95,11 @@ export default class BaseMiddleware {
       // Bind context of instance
       instanceMethod = instanceMethod.bind(instance)
       // Call it
-      instanceMethod(err, next)
+      try {
+        await instanceMethod(err, next)
+      } catch (err) {
+        next(err)
+      }
     }
   }
 }
