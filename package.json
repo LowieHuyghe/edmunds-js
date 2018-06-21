@@ -40,7 +40,7 @@
     "memcached": "^2.2.2",
     "redis": "^2.8.0",
     "typeorm": "^0.2.0",
-    "winston": "^2.4.0",
+    "winston": "^3.0.0",
     "winston-transport": "^4.2.0"
   },
   "dependencies": {
