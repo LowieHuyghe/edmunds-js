@@ -4,11 +4,7 @@ import { expect } from 'chai'
 import 'mocha'
 import * as importFresh from 'import-fresh'
 import * as appRootPath from 'app-root-path'
-import {
-  Logger,
-  transports,
-  LoggerInstance
-} from 'winston'
+import { transports } from 'winston'
 
 describe('loggingserviceprovider.ts', () => {
 
@@ -27,11 +23,11 @@ describe('loggingserviceprovider.ts', () => {
 
     expect(edmunds.logger).to.be.an('undefined')
     await edmunds.register(LoggingServiceProvider)
-    expect(edmunds.logger).to.be.instanceof(Logger)
+    expect(edmunds.logger).to.not.be.an('undefined')
 
-    expect((edmunds.logger as LoggerInstance).level).to.equal('info')
-    expect((edmunds.logger as LoggerInstance).transports.console).to.not.be.a('undefined')
-    expect((edmunds.logger as LoggerInstance).transports.console).to.be.instanceof(transports.Console)
+    expect((edmunds.logger as any).level).to.equal('info')
+    expect((edmunds.logger as any).transports[0]).to.not.be.a('undefined')
+    expect((edmunds.logger as any).transports[0]).to.be.instanceof(transports.Console)
   })
 
   it('should have logger options', async () => {
@@ -53,7 +49,7 @@ describe('loggingserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
     await edmunds.register(LoggingServiceProvider)
 
-    expect((edmunds.logger as LoggerInstance).level).to.equal('warn')
+    expect((edmunds.logger as any).level).to.equal('warn')
   })
 
 })

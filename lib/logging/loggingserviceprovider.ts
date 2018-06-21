@@ -6,7 +6,7 @@ export default class LoggingServiceProvider extends ServiceProvider {
    * Register the service provider
    */
   async register (): Promise<void> {
-    const { Logger } = require('winston')
+    const { createLogger } = require('winston')
 
     // Load all transports
     let transports: any[] = []
@@ -21,7 +21,7 @@ export default class LoggingServiceProvider extends ServiceProvider {
     const loggerOptions = this.edmunds.config.has('logging.logger')
       ? this.edmunds.config.get('logging.logger')
       : {}
-    this.edmunds.logger = new Logger({
+    this.edmunds.logger = createLogger({
       transports,
       ...loggerOptions
     })

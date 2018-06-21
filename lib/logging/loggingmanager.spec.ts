@@ -3,28 +3,16 @@ import LoggingManager from './loggingmanager'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
-import {
-  transports,
-  ConsoleTransportInstance,
-  ConsoleTransportOptions,
-  FileTransportInstance,
-  FileTransportOptions,
-  HttpTransportInstance,
-  HttpTransportOptions
-} from 'winston'
+import { transports } from 'winston'
 import { RawConsole } from './drivers/rawconsole'
 
 describe('loggingmanager.ts', () => {
 
   it('should have Console by default', async () => {
-    const options: ConsoleTransportOptions = {
-      logstash: true,
-      debugStdout: false
-    }
     const config = [{
       name: 'console',
       driver: 'Console',
-      ...options
+      level: 'warn'
     }]
 
     const edmunds = new Edmunds(appRootPath.path)
@@ -33,15 +21,15 @@ describe('loggingmanager.ts', () => {
     expect(await manager.get()).to.be.an.instanceof(transports.Console)
     expect(await manager.get('console')).to.be.an.instanceof(transports.Console)
 
-    const instance = await manager.get() as ConsoleTransportInstance
-    expect(instance.name).to.equal(config[0].name)
-    expect(instance.logstash).to.equal(config[0].logstash)
+    const instance = await manager.get() as any
+    expect(instance.level).to.equal(config[0].level)
   })
 
   it('should have RawConsole by default', async () => {
     const config = [{
       name: 'rawconsole',
-      driver: 'RawConsole'
+      driver: 'RawConsole',
+      level: 'info'
     }]
 
     const edmunds = new Edmunds(appRootPath.path)
@@ -50,28 +38,17 @@ describe('loggingmanager.ts', () => {
     expect(await manager.get()).to.be.an.instanceof(RawConsole)
     expect(await manager.get('rawconsole')).to.be.an.instanceof(RawConsole)
 
-    // const instance = await manager.get() as RawConsole
-    // expect(instance.name).to.equal(config[0].name)
-    // expect(instance.logstash).to.equal(config[0].logstash)
+    const instance = await manager.get() as RawConsole
+    expect(instance.level).to.equal(config[0].level)
   })
 
   it('should have File by default', async () => {
-    const options: FileTransportOptions = {
-      logstash: true,
-      maxsize: 10,
-      rotationFormat: true,
-      zippedArchive: false,
-      maxFiles: 11,
-      eol: 'EOL',
-      tailable: true,
-      maxRetries: 12,
-      filename: 'loggylog.txt',
-      dirname: 'app://'
-    }
     const config = [{
       name: 'file',
       driver: 'File',
-      ...options
+      level: 'error',
+      filename: 'loggylog.txt',
+      dirname: 'app://'
     }]
 
     const edmunds = new Edmunds(appRootPath.path)
@@ -80,26 +57,18 @@ describe('loggingmanager.ts', () => {
     expect(await manager.get()).to.be.an.instanceof(transports.File)
     expect(await manager.get('file')).to.be.an.instanceof(transports.File)
 
-    const instance = await manager.get() as FileTransportInstance
+    const instance = await manager.get() as any
     expect(instance.name).to.equal(config[0].name)
-    expect(instance.logstash).to.equal(config[0].logstash)
-    expect(instance.maxsize).to.equal(config[0].maxsize)
-    expect(instance.rotationFormat).to.equal(config[0].rotationFormat)
-    expect(instance.zippedArchive).to.equal(config[0].zippedArchive)
-    expect(instance.maxFiles).to.equal(config[0].maxFiles)
-    expect(instance.eol).to.equal(config[0].eol)
-    expect(instance.tailable).to.equal(config[0].tailable)
-    expect(instance.maxRetries).to.equal(config[0].maxRetries)
+    expect(instance.level).to.equal(config[0].level)
+    expect(instance.filename).to.equal(config[0].filename)
+    expect(instance.dirname).to.equal(config[0].dirname)
   })
 
   it('should have Http by default', async () => {
-    const options: HttpTransportOptions = {
-      ssl: true
-    }
     const config = [{
       name: 'http',
       driver: 'Http',
-      ...options
+      level: 'info'
     }]
 
     const edmunds = new Edmunds(appRootPath.path)
@@ -108,9 +77,9 @@ describe('loggingmanager.ts', () => {
     expect(await manager.get()).to.be.an.instanceof(transports.Http)
     expect(await manager.get('http')).to.be.an.instanceof(transports.Http)
 
-    const instance = await manager.get() as HttpTransportInstance
+    const instance = await manager.get() as any
     expect(instance.name).to.equal(config[0].name)
-    expect(instance.ssl).to.equal(config[0].ssl)
+    expect(instance.level).to.equal(config[0].level)
   })
 
   it('should not have', async () => {
