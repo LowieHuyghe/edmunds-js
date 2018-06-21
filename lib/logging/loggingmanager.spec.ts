@@ -12,6 +12,7 @@ import {
   HttpTransportInstance,
   HttpTransportOptions
 } from 'winston'
+import { RawConsole } from './drivers/rawconsole'
 
 describe('loggingmanager.ts', () => {
 
@@ -35,6 +36,23 @@ describe('loggingmanager.ts', () => {
     const instance = await manager.get() as ConsoleTransportInstance
     expect(instance.name).to.equal(config[0].name)
     expect(instance.logstash).to.equal(config[0].logstash)
+  })
+
+  it('should have RawConsole by default', async () => {
+    const config = [{
+      name: 'rawconsole',
+      driver: 'RawConsole'
+    }]
+
+    const edmunds = new Edmunds(appRootPath.path)
+    const manager = new LoggingManager(edmunds, config)
+
+    expect(await manager.get()).to.be.an.instanceof(RawConsole)
+    expect(await manager.get('rawconsole')).to.be.an.instanceof(RawConsole)
+
+    // const instance = await manager.get() as RawConsole
+    // expect(instance.name).to.equal(config[0].name)
+    // expect(instance.logstash).to.equal(config[0].logstash)
   })
 
   it('should have File by default', async () => {

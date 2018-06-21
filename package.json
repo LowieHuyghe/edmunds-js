@@ -40,7 +40,8 @@
     "memcached": "^2.2.2",
     "redis": "^2.8.0",
     "typeorm": "^0.2.0",
-    "winston": "^2.4.0"
+    "winston": "^2.4.0",
+    "winston-transport": "^4.2.0"
   },
   "dependencies": {
     "commander": "^2.14.1",
@@ -92,6 +93,7 @@
     "tslint-config-standard": "^7.0.0",
     "typeorm": "^0.2.0",
     "typescript": "^2.7.2",
-    "winston": "^2.4.0"
+    "winston": "^2.4.0",
+    "winston-transport": "^4.2.0"
   }
 }

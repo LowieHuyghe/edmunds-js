@@ -7,16 +7,20 @@ export default class LoggingManager extends Manager<any> {
    * @returns {winston.TransportInstance}
    */
   protected createDriver (config: any): any {
-    const { transports } = require('winston')
-
     const driver: string = config.driver
-    const driverClass: new (config: any) => any = (transports as any)[driver]
 
-    if (!driverClass) {
-      throw Error(`Driver "${driver}" could not be found for winston. Is the transporter installed?`)
+    if (driver === 'RawConsole') {
+      const { RawConsole } = require('./drivers/rawconsole')
+      return new RawConsole(config)
     }
 
-    return new driverClass(config)
+    const { transports } = require('winston')
+    let driverClass: new (config: any) => any = (transports as any)[driver]
+    if (driverClass) {
+      return new driverClass(config)
+    }
+
+    throw Error(`Driver "${driver}" could not be found for winston. Is the transporter installed?`)
   }
 
   /**
