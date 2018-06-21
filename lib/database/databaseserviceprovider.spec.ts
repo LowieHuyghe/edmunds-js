@@ -22,14 +22,6 @@ describe('databaseserviceprovider.ts', () => {
 
   it('should have database', async () => {
     // Override config
-    process.env.NODE_CONFIG = JSON.stringify({
-      database: {
-        instances: [{
-          name: 'database1',
-          type: 'sqljs'
-        }]
-      }
-    })
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
 
@@ -38,20 +30,33 @@ describe('databaseserviceprovider.ts', () => {
     expect(edmunds.app.get('edmunds-database-manager')).to.be.instanceof(DatabaseManager)
 
     try {
-      expect(await edmunds.database()).to.be.instanceof(Connection)
-      expect((await edmunds.database()).isConnected).to.equal(true)
-      expect((await edmunds.database()).options).to.include({
-        name: 'database1',
-        type: 'sqljs'
-      })
       expect(await edmunds.app.get('edmunds-database-manager').get()).to.be.instanceof(Connection)
       expect((await edmunds.app.get('edmunds-database-manager').get()).isConnected).to.equal(true)
       expect((await edmunds.app.get('edmunds-database-manager').get()).options).to.include({
-        name: 'database1',
+        name: 'default',
+        type: 'sqljs'
+      })
+      expect(await edmunds.database()).to.be.instanceof(Connection)
+      expect((await edmunds.database()).isConnected).to.equal(true)
+      expect((await edmunds.database()).options).to.include({
+        name: 'default',
+        type: 'sqljs'
+      })
+      expect(await edmunds.database('default')).to.be.instanceof(Connection)
+      expect((await edmunds.database('default')).isConnected).to.equal(true)
+      expect((await edmunds.database('default')).options).to.include({
+        name: 'default',
+        type: 'sqljs'
+      })
+      expect(await edmunds.database('sqljs2')).to.be.instanceof(Connection)
+      expect((await edmunds.database('sqljs2')).isConnected).to.equal(true)
+      expect((await edmunds.database('sqljs2')).options).to.include({
+        name: 'sqljs2',
         type: 'sqljs'
       })
     } finally {
-      await (await edmunds.database()).close()
+      await (await edmunds.database('default')).close()
+      await (await edmunds.database('sqljs2')).close()
     }
   }).timeout(10000)
 

@@ -1,15 +1,19 @@
 import ServiceProvider from '../support/serviceprovider'
 import DatabaseManager from './databasemanager'
+import * as path from 'path'
+import * as fs from 'fs'
 
 export default class DatabaseServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
   async register (): Promise<void> {
+    const ormConfigFilePath = path.join(this.edmunds.root, 'ormconfig.json')
+
     // Load instances
     let instances: any[] = []
-    if (this.edmunds.config.has('database.instances')) {
-      instances = this.edmunds.config.get('database.instances')
+    if (fs.existsSync(ormConfigFilePath)) {
+      instances = require(ormConfigFilePath)
     }
 
     // Create manager
