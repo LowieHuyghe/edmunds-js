@@ -4,6 +4,7 @@
 
 - [#177](https://github.com/LowieHuyghe/edmunds-js/issues/177): Don't initialize the firebase-admin in FirebaseRealtimeDatabase
 - [#173](https://github.com/LowieHuyghe/edmunds-js/issues/173): Use BaseMiddleware to catch unhandled promises and regular errors
+- [#180](https://github.com/LowieHuyghe/edmunds-js/issues/180): Add local config files in instance to gitignore
 - 
 
 
