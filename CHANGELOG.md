@@ -6,6 +6,7 @@
 - [#173](https://github.com/LowieHuyghe/edmunds-js/issues/173): Use BaseMiddleware to catch unhandled promises and regular errors
 - [#180](https://github.com/LowieHuyghe/edmunds-js/issues/180): Add local config files in instance to gitignore
 - [#169](https://github.com/LowieHuyghe/edmunds-js/issues/169): Switch back to typeorm config file as command-line will not work
+- [#179](https://github.com/LowieHuyghe/edmunds-js/issues/179): Add winston transport that prints raw to the console
 - 
 
 
