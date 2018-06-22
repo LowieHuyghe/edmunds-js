@@ -20,5 +20,5 @@ export default abstract class ServiceProvider {
   /**
    * Register the service provider
    */
-  abstract async register (): Promise<void>
+  abstract register (): void
 }

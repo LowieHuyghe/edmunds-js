@@ -5,7 +5,7 @@ export default class LoggingServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
-  async register (): Promise<void> {
+  register (): void {
     const { createLogger } = require('winston')
 
     // Load all transports
@@ -13,7 +13,7 @@ export default class LoggingServiceProvider extends ServiceProvider {
     if (this.edmunds.config.has('logging.instances')) {
       const instances: any[] = this.edmunds.config.get('logging.instances')
       const manager = new LoggingManager(this.edmunds, instances)
-      const managerAll: any = await manager.all()
+      const managerAll: any = manager.all()
       transports = Object.keys(managerAll).map(key => managerAll[key])
     }
 

@@ -32,11 +32,11 @@ describe('edmunds.js', () => {
     expect(edmunds.root).to.equal(path.resolve(__dirname + '/..'))
   })
 
-  it('should register service providers', async () => {
+  it('should register service providers', () => {
     class MyServiceProvider extends ServiceProvider {
       static registerCount: number = 0
 
-      async register (): Promise<void> {
+      register (): void {
         // Registering
         ++MyServiceProvider.registerCount
       }
@@ -44,9 +44,9 @@ describe('edmunds.js', () => {
 
     const edmunds = new Edmunds(appRootPath.path)
     expect(MyServiceProvider.registerCount).to.equal(0)
-    await edmunds.register(MyServiceProvider)
+    edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(1)
-    await edmunds.register(MyServiceProvider)
+    edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(2)
   })
 
@@ -82,22 +82,6 @@ describe('edmunds.js', () => {
       expect(edmunds.isStaging()).to.equal(expected === 'stag')
       expect(edmunds.isProduction()).to.equal(expected === 'prod')
       expect(edmunds.isTesting()).to.equal(expected === 'test')
-    }
-  })
-
-  it('should be support long-running', () => {
-    const data = [
-      { given: { app: { } }, expected: false },
-      { given: { app: { longrunning: false } }, expected: false },
-      { given: { app: { longrunning: true } }, expected: true }
-    ]
-
-    for (let { given, expected } of data) {
-      process.env.NODE_CONFIG = JSON.stringify(given)
-      const edmunds = new Edmunds(appRootPath.path)
-      edmunds.config = importFresh('config')
-
-      expect(edmunds.isLongRunning()).to.equal(expected)
     }
   })
 })

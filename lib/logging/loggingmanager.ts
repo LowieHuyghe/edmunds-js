@@ -1,6 +1,6 @@
-import Manager from '../support/manager'
+import SyncManager from '../support/syncmanager'
 
-export default class LoggingManager extends Manager<any> {
+export default class LoggingManager extends SyncManager<any> {
   /**
    * Create Winston transporter
    * @param {any} config

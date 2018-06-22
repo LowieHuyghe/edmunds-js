@@ -82,24 +82,24 @@ describe('loggingmanager.ts', () => {
     expect(instance.level).to.equal(config[0].level)
   })
 
-  it('should not have', async () => {
+  it('should not have', () => {
     const edmunds = new Edmunds(appRootPath.path)
 
     let config = [{ name: 'http', driver: 'http' }]
     let manager = new LoggingManager(edmunds, config)
-    await expect(manager.get()).to.be.rejectedWith('Driver "http" could not be found for winston. Is the transporter installed?')
+    expect(() => manager.get()).to.throw('Driver "http" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'file', driver: 'file' }]
     manager = new LoggingManager(edmunds, config)
-    await expect(manager.get()).to.be.rejectedWith('Driver "file" could not be found for winston. Is the transporter installed?')
+    expect(() => manager.get()).to.throw('Driver "file" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'console', driver: 'console' }]
     manager = new LoggingManager(edmunds, config)
-    await expect(manager.get()).to.be.rejectedWith('Driver "console" could not be found for winston. Is the transporter installed?')
+    expect(() => manager.get()).to.throw('Driver "console" could not be found for winston. Is the transporter installed?')
 
     config = [{ name: 'mongodb', driver: 'MongoDB' }]
     manager = new LoggingManager(edmunds, config)
-    await expect(manager.get()).to.be.rejectedWith('Driver "MongoDB" could not be found for winston. Is the transporter installed?')
+    expect(() => manager.get()).to.throw('Driver "MongoDB" could not be found for winston. Is the transporter installed?')
   })
 
 })

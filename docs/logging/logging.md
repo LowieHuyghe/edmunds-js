@@ -45,7 +45,7 @@ import {
 const edmunds = new Edmunds(appRootPath.path)
 
 // Logging Service Provider
-await edmunds.register(LoggingServiceProvider)
+edmunds.register(LoggingServiceProvider)
 
 // Default winston usage
 edmunds.logger.info('Hello again distributed logs')

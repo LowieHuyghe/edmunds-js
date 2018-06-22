@@ -1,21 +1,21 @@
 import BaseManager from './basemanager'
 
 /**
- * Manager abstract class
+ * Sync Manager abstract class
  */
-export default abstract class Manager<T> extends BaseManager<T> {
+export default abstract class SyncManager<T> extends BaseManager<T> {
   /**
    * Get the instance
    * @param {string} name
    * @returns {T}
    */
-  async get (name?: string): Promise<T> {
+  get (name?: string): T {
     if (!name) {
-      await this.createFirst()
+      this.createFirst()
       return this.instances[this.instancesConfig[0].name]
     }
 
-    await this.createSingle(name)
+    this.createSingle(name)
     return this.instances[name]
   }
 
@@ -23,8 +23,8 @@ export default abstract class Manager<T> extends BaseManager<T> {
    * Get all instances
    * @returns {T}
    */
-  async all (): Promise<{ [key: string]: T }> {
-    await this.createAll()
+  all (): { [key: string]: T } {
+    this.createAll()
     return { ...this.instances }
   }
 }

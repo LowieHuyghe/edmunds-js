@@ -24,7 +24,7 @@ describe('filesystemserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
 
     expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.an('undefined')
-    await edmunds.register(FileSystemServiceProvider)
+    edmunds.register(FileSystemServiceProvider)
     expect(edmunds.app.get('edmunds-filesystem-manager')).to.be.instanceof(FileSystemManager)
 
     expect(await edmunds.fileSystem()).to.be.an.instanceof(Local)

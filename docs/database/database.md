@@ -17,7 +17,7 @@ import {
 
 const edmunds = new Edmunds(appRootPath.path)
 
-await edmunds.register(DatabaseServiceProvider)
+edmunds.register(DatabaseServiceProvider)
 
 const defaultConnection = await edmunds.database()
 const secondConnection = await edmunds.database('database2')

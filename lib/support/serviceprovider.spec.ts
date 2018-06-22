@@ -6,11 +6,11 @@ import 'mocha'
 
 describe('serviceprovider.js', () => {
 
-  it('should register', async () => {
+  it('should register', () => {
     class MyServiceProvider extends ServiceProvider {
       static registerCount: number = 0
 
-      async register (): Promise<void> {
+      register (): void {
         // Registering
         ++MyServiceProvider.registerCount
       }
@@ -18,9 +18,9 @@ describe('serviceprovider.js', () => {
 
     const edmunds = new Edmunds(appRootPath.path)
     expect(MyServiceProvider.registerCount).to.equal(0)
-    await edmunds.register(MyServiceProvider)
+    edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(1)
-    await edmunds.register(MyServiceProvider)
+    edmunds.register(MyServiceProvider)
     expect(MyServiceProvider.registerCount).to.equal(2)
   })
 

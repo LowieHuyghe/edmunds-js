@@ -51,7 +51,7 @@ import {
 const edmunds = new Edmunds(appRootPath.path)
 
 // File system Service Provider
-await edmunds.register(FileSystemServiceProvider)
+edmunds.register(FileSystemServiceProvider)
 
 // Usage
 const firstDriver = await edmunds.fileSystem()

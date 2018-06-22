@@ -60,7 +60,7 @@ import {
 const edmunds = new Edmunds(appRootPath.path)
 
 // Cache Service Provider
-await edmunds.register(CacheServiceProvider)
+edmunds.register(CacheServiceProvider)
 
 // Usage
 const firstDriver = await edmunds.cache()

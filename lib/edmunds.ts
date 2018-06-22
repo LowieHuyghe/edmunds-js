@@ -88,14 +88,6 @@ export default class Edmunds {
   }
 
   /**
-   * Check if application is long running
-   * @returns {boolean}
-   */
-  isLongRunning (): boolean {
-    return this.config.has('app.longrunning') && this.config.get('app.longrunning')
-  }
-
-  /**
    * Get database connection
    * @param {string} name
    * @returns {typeorm.Connection}
@@ -126,9 +118,9 @@ export default class Edmunds {
    * Register a service provider
    * @param {{new(edmunds: Edmunds): ServiceProvider}} GivenServiceProvider
    */
-  async register (GivenServiceProvider: new (app: Edmunds) => ServiceProvider): Promise<void> {
+  register (GivenServiceProvider: new (app: Edmunds) => ServiceProvider): void {
     const instance = new GivenServiceProvider(this)
-    await instance.register()
+    instance.register()
   }
 
   /**

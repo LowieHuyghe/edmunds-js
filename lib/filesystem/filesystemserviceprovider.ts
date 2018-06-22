@@ -5,7 +5,7 @@ export default class FileSystemServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
-  async register (): Promise<void> {
+  register (): void {
     // Load instances
     let instances: any[] = []
     if (this.edmunds.config.has('filesystem.instances')) {
@@ -14,12 +14,6 @@ export default class FileSystemServiceProvider extends ServiceProvider {
 
     // Create manager
     const manager = new FileSystemManager(this.edmunds, instances)
-
-    // If application is long-running, load all instance before-hand
-    if (this.edmunds.isLongRunning()) {
-      await manager.all()
-    }
-
     this.edmunds.app.set('edmunds-filesystem-manager', manager)
   }
 }

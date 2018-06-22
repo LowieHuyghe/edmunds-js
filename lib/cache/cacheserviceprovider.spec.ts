@@ -24,7 +24,7 @@ describe('cacheserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
 
     expect(edmunds.app.get('edmunds-cache-manager')).to.be.an('undefined')
-    await edmunds.register(CacheServiceProvider)
+    edmunds.register(CacheServiceProvider)
     expect(edmunds.app.get('edmunds-cache-manager')).to.be.instanceof(CacheManager)
 
     try {

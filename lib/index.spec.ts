@@ -6,6 +6,7 @@ import {
   ObjectWrapper,
   ServiceProvider,
   Manager,
+  SyncManager,
   LoggingServiceProvider,
   Kernel,
   Command,
@@ -28,6 +29,7 @@ describe('index.js', () => {
     expect(ObjectWrapper).to.not.be.a('undefined')
     expect(ServiceProvider).to.not.be.a('undefined')
     expect(Manager).to.not.be.a('undefined')
+    expect(SyncManager).to.not.be.a('undefined')
     expect(LoggingServiceProvider).to.not.be.a('undefined')
     expect(Kernel).to.not.be.a('undefined')
     expect(Command).to.not.be.a('undefined')

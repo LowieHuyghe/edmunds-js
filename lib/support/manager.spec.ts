@@ -3,7 +3,6 @@ import Manager from './manager'
 import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
-import * as importFresh from 'import-fresh'
 
 describe('manager.js', () => {
 
@@ -25,10 +24,15 @@ describe('manager.js', () => {
     ]
     const manager = new MyManager(edmunds, instances)
 
+    expect(manager.get()).to.be.instanceof(Promise)
     expect(await manager.get()).to.equal('John Snow 1')
+    expect(manager.get('arya1')).to.be.instanceof(Promise)
     expect(await manager.get('arya1')).to.equal('Arya Stark 1')
+    expect(manager.get('John2')).to.be.instanceof(Promise)
     expect(await manager.get('John2')).to.equal('John Snow 2')
+    expect(manager.get('john1')).to.be.instanceof(Promise)
     expect(await manager.get('john1')).to.equal('John Snow 1')
+    expect(manager.all()).to.be.instanceof(Promise)
     expect(await manager.all()).to.deep.equal({
       John2: 'John Snow 2',
       john1: 'John Snow 1',

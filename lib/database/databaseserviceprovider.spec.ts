@@ -26,7 +26,7 @@ describe('databaseserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
 
     expect(edmunds.app.get('edmunds-database-manager')).to.be.an('undefined')
-    await edmunds.register(DatabaseServiceProvider)
+    edmunds.register(DatabaseServiceProvider)
     expect(edmunds.app.get('edmunds-database-manager')).to.be.instanceof(DatabaseManager)
 
     try {

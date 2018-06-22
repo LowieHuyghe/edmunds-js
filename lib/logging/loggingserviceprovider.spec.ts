@@ -8,7 +8,7 @@ import { transports } from 'winston'
 
 describe('loggingserviceprovider.ts', () => {
 
-  it('should have logger', async () => {
+  it('should have logger', () => {
     // Override config
     process.env.NODE_CONFIG = JSON.stringify({
       logging: {
@@ -22,7 +22,7 @@ describe('loggingserviceprovider.ts', () => {
     edmunds.config = importFresh('config')
 
     expect(edmunds.logger).to.be.an('undefined')
-    await edmunds.register(LoggingServiceProvider)
+    edmunds.register(LoggingServiceProvider)
     expect(edmunds.logger).to.not.be.an('undefined')
 
     expect((edmunds.logger as any).level).to.equal('info')
@@ -47,7 +47,7 @@ describe('loggingserviceprovider.ts', () => {
     })
     const edmunds = new Edmunds(appRootPath.path)
     edmunds.config = importFresh('config')
-    await edmunds.register(LoggingServiceProvider)
+    edmunds.register(LoggingServiceProvider)
 
     expect((edmunds.logger as any).level).to.equal('warn')
   })

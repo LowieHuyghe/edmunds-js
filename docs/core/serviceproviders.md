@@ -19,7 +19,7 @@ export default class MyServiceProvider extends ServiceProvider {
   /**
    * Register the service provider
    */
-  async register (): Promise<void> {
+  register (): void {
     // Load in your module
   }
 }
@@ -36,7 +36,7 @@ import { Edmunds } from 'edmunds'
 import MyServiceProvider from './myserviceprovider'
 
 const edmunds = new Edmunds(appRootPath.path)
-await edmunds.register(MyServiceProvider)
+edmunds.register(MyServiceProvider)
 ```
 
 This way the register-function of your Service Provider provider is called.
