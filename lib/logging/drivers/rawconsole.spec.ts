@@ -1,71 +1,77 @@
 import { RawConsole } from './rawconsole'
-import { LEVEL, MESSAGE } from 'triple-beam'
 import * as sinon from 'sinon'
 import { expect } from 'chai'
+import { createLogger } from 'winston'
 
 describe('rawconsole.ts', () => {
 
   it('should work', async () => {
-    const transport = new RawConsole({})
+    const logger = createLogger({
+      transports: [
+        new RawConsole({
+          level: 'silly'
+        })
+      ]
+    })
 
     const stubs: { [key: string]: sinon.SinonStub } = {}
     const levels = ['error', 'warn', 'info', 'debug', 'log']
     for (const level of levels) {
       const stub = sinon.stub(console, level as any)
       stub.withArgs(level).returns(undefined)
-      stub.throws('Should not get here')
+      stub.throws(`Should not get here with ${level}`)
       stubs[level] = stub
     }
 
     try {
-      transport.log({ [LEVEL]: 'error', [MESSAGE]: 'error' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.notCalled).to.equal(true)
-      expect(stubs.info.notCalled).to.equal(true)
-      expect(stubs.debug.notCalled).to.equal(true)
-      expect(stubs.log.notCalled).to.equal(true)
+      logger.error('error')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(0)
+      expect(stubs.info.callCount).to.equal(0)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(0)
 
-      transport.log({ [LEVEL]: 'warn', [MESSAGE]: 'warn' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.notCalled).to.equal(true)
-      expect(stubs.debug.notCalled).to.equal(true)
-      expect(stubs.log.notCalled).to.equal(true)
+      logger.warn('warn')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(0)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(0)
 
-      transport.log({ [LEVEL]: 'info', [MESSAGE]: 'info' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.calledOnce).to.equal(true)
-      expect(stubs.debug.notCalled).to.equal(true)
-      expect(stubs.log.notCalled).to.equal(true)
+      logger.info('info')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(1)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(0)
 
-      transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'debug' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.calledOnce).to.equal(true)
-      expect(stubs.debug.calledOnce).to.equal(true)
-      expect(stubs.log.notCalled).to.equal(true)
+      logger.verbose('log')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(1)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(1)
 
-      transport.log({ [LEVEL]: 'log', [MESSAGE]: 'log' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.calledOnce).to.equal(true)
-      expect(stubs.debug.calledOnce).to.equal(true)
-      expect(stubs.log.calledOnce).to.equal(true)
+      logger.silly('log')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(1)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(2)
 
-      transport.log({ [LEVEL]: 'verbose', [MESSAGE]: 'log' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.calledOnce).to.equal(true)
-      expect(stubs.debug.calledOnce).to.equal(true)
-      expect(stubs.log.calledTwice).to.equal(true)
+      logger.http('log')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(1)
+      expect(stubs.debug.callCount).to.equal(0)
+      expect(stubs.log.callCount).to.equal(3)
 
-      transport.log({ [LEVEL]: 'jibberish', [MESSAGE]: 'log' }, () => undefined)
-      expect(stubs.error.calledOnce).to.equal(true)
-      expect(stubs.warn.calledOnce).to.equal(true)
-      expect(stubs.info.calledOnce).to.equal(true)
-      expect(stubs.debug.calledOnce).to.equal(true)
-      expect(stubs.log.calledThrice).to.equal(true)
+      logger.debug('debug')
+      expect(stubs.error.callCount).to.equal(1)
+      expect(stubs.warn.callCount).to.equal(1)
+      expect(stubs.info.callCount).to.equal(1)
+      expect(stubs.debug.callCount).to.equal(1)
+      expect(stubs.log.callCount).to.equal(3)
     } finally {
       for (const level of levels) {
         stubs[level].restore()

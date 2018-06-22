@@ -1,5 +1,4 @@
 import * as Transport from 'winston-transport'
-import { LEVEL, MESSAGE } from 'triple-beam'
 
 export class RawConsole extends Transport {
   constructor (opts: any) {
@@ -9,20 +8,25 @@ export class RawConsole extends Transport {
   log (info: any, callback: () => void) {
     setImmediate(() => this.emit('logged', info))
 
-    const level: string = info[LEVEL]
-    const message: string = info[MESSAGE]
+    const { level, message } = info
 
     switch (level) {
       case 'error':
+      case 'emerg':
+      case 'crit':
         console.error(message)
         break
       case 'warn':
+      case 'alert':
+      case 'warning':
         console.warn(message)
         break
       case 'info':
+      case 'notice':
         console.info(message)
         break
       case 'debug':
+      case 'silly':
         console.debug(message)
         break
       default:
