@@ -1,6 +1,6 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.4.0 (2018-07-23)
 
 - [#177](https://github.com/LowieHuyghe/edmunds-js/issues/177): Don't initialize the firebase-admin in FirebaseRealtimeDatabase
 - [#173](https://github.com/LowieHuyghe/edmunds-js/issues/173): Use BaseMiddleware to catch unhandled promises and regular errors
@@ -8,7 +8,6 @@
 - [#169](https://github.com/LowieHuyghe/edmunds-js/issues/169): Switch back to typeorm config file as command-line will not work
 - [#179](https://github.com/LowieHuyghe/edmunds-js/issues/179): Add winston transport that prints raw to the console
 - [#182](https://github.com/LowieHuyghe/edmunds-js/issues/182): App should be bootable without promises
-- 
 
 
 ## Release 0.3.0 (2018-07-09)
