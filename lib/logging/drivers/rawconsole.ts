@@ -13,11 +13,11 @@ export class RawConsole extends Transport {
     switch (level) {
       case 'error':
       case 'emerg':
+      case 'alert':
       case 'crit':
         console.error(message)
         break
       case 'warn':
-      case 'alert':
       case 'warning':
         console.warn(message)
         break
@@ -25,12 +25,13 @@ export class RawConsole extends Transport {
       case 'notice':
         console.info(message)
         break
+      case 'verbose':
+        console.log(message)
+        break
       case 'debug':
       case 'silly':
-        console.debug(message)
-        break
       default:
-        console.log(message)
+        console.debug(message)
         break
     }
 

@@ -7,73 +7,72 @@ describe('rawconsole.ts', () => {
 
   it('should work', async () => {
     const logger = createLogger({
+      levels: { // Combination of npm and syslog levels
+        error: 0,
+        emerg: 1,
+        alert: 2,
+        crit: 3,
+        warn: 4,
+        warning: 5,
+        info: 6,
+        notice: 7,
+        verbose: 8,
+        debug: 9,
+        silly: 10,
+        http: 11,
+        data: 12
+      },
       transports: [
         new RawConsole({
-          level: 'silly'
+          level: 'data'
         })
       ]
     })
 
     const stubs: { [key: string]: sinon.SinonStub } = {}
-    const levels = ['error', 'warn', 'info', 'debug', 'log']
-    for (const level of levels) {
-      const stub = sinon.stub(console, level as any)
-      stub.withArgs(level).returns(undefined)
-      stub.throws(`Should not get here with ${level}`)
-      stubs[level] = stub
+    const methods = ['error', 'warn', 'info', 'debug', 'log']
+    for (const method of methods) {
+      const stub = sinon.stub(console, method as any)
+      stub.withArgs(method).returns(undefined)
+      stub.throws(`Should not get here with ${method}`)
+      stubs[method] = stub
     }
 
     try {
-      logger.error('error')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(0)
-      expect(stubs.info.callCount).to.equal(0)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(0)
+      const levelsAndMethods: { [key: string]: string } = {
+        error: 'error',
+        emerg: 'error',
+        alert: 'error',
+        crit: 'error',
+        warn: 'warn',
+        warning: 'warn',
+        info: 'info',
+        notice: 'info',
+        verbose: 'log',
+        debug: 'debug',
+        silly: 'debug',
+        http: 'debug',
+        data: 'debug'
+      }
 
-      logger.warn('warn')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(0)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(0)
+      const methodCount: { [key: string]: number } = {}
+      for (const method of methods) {
+        methodCount[method] = 0
+      }
 
-      logger.info('info')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(1)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(0)
+      for (const level of Object.keys(levelsAndMethods)) {
+        const method = levelsAndMethods[level]
+        let loggerLevelMethod = (logger as any)[level]
+        loggerLevelMethod = loggerLevelMethod.bind(logger)
+        loggerLevelMethod(method)
+        ++methodCount[method]
 
-      logger.verbose('log')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(1)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(1)
-
-      logger.silly('log')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(1)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(2)
-
-      logger.http('log')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(1)
-      expect(stubs.debug.callCount).to.equal(0)
-      expect(stubs.log.callCount).to.equal(3)
-
-      logger.debug('debug')
-      expect(stubs.error.callCount).to.equal(1)
-      expect(stubs.warn.callCount).to.equal(1)
-      expect(stubs.info.callCount).to.equal(1)
-      expect(stubs.debug.callCount).to.equal(1)
-      expect(stubs.log.callCount).to.equal(3)
+        for (const method of methods) {
+          expect(stubs[method].callCount).to.equal(methodCount[method], `expected ${stubs[method].callCount} to equal ${methodCount[method]} for method "${method}" after level "${level}"`)
+        }
+      }
     } finally {
-      for (const level of levels) {
+      for (const level of methods) {
         stubs[level].restore()
       }
     }
