@@ -13,4 +13,4 @@ matter.
 
 ## Let's get started!
 
-Go to: [https://lowiehuyghe.github.io/edmunds-js](https://lowiehuyghe.github.io/edmunds-js)
+Go to: [https://edmundsjs.com](https://edmundsjs.com)
