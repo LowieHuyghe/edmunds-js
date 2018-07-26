@@ -6,8 +6,8 @@ import * as appRootPath from 'app-root-path'
 import * as sinon from 'sinon'
 import 'mocha'
 import * as firebaseAdmin from 'firebase-admin'
+import * as chaiAsPromised from 'chai-as-promised'
 
-const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 

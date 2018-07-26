@@ -9,8 +9,8 @@ import 'mocha'
 import * as memcached from 'memcached'
 import * as redis from 'redis'
 import * as firebaseAdmin from 'firebase-admin'
+import * as chaiAsPromised from 'chai-as-promised'
 
-const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 

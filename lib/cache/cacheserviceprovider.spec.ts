@@ -2,7 +2,6 @@ import Edmunds from '../edmunds'
 import CacheServiceProvider from './cacheserviceprovider'
 import { expect } from 'chai'
 import 'mocha'
-import * as importFresh from 'import-fresh'
 import * as appRootPath from 'app-root-path'
 import CacheManager from './cachemanager'
 import Redis from './drivers/redis'
@@ -21,7 +20,8 @@ describe('cacheserviceprovider.ts', () => {
       }
     })
     const edmunds = new Edmunds(appRootPath.path)
-    edmunds.config = importFresh('config')
+    delete require.cache[require.resolve('config')]
+    edmunds.config = require('config')
 
     expect(edmunds.app.get('edmunds-cache-manager')).to.be.an('undefined')
     edmunds.register(CacheServiceProvider)

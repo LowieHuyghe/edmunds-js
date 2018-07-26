@@ -7,7 +7,6 @@ import Local from './local'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
-import * as rmdir from 'rmdir'
 import * as util from 'util'
 import * as mkdirp from 'mkdirp'
 
@@ -28,24 +27,6 @@ describe('Local', () => {
     return instance as Local
   }
 
-  const tempDirs: string[] = []
-  afterEach(async () => {
-    while (tempDirs.length) {
-      const tempDir = tempDirs.pop()
-      if (fs.existsSync(tempDir)) {
-        await new Promise((resolve, reject) => {
-          rmdir(tempDir, (err: Error) => {
-            if (err) {
-              reject(err)
-            } else {
-              resolve()
-            }
-          })
-        })
-      }
-    }
-  })
-
   it('should have working path function', async () => {
     const root = appRootPath.path
     const storagePath = path.join('storage', 'files')
@@ -65,7 +46,6 @@ describe('Local', () => {
 
   it('should have working read(Stream) function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 
@@ -92,7 +72,6 @@ describe('Local', () => {
 
   it('should have working write(Stream) function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 
@@ -113,7 +92,6 @@ describe('Local', () => {
 
   it('should have working exists function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 
@@ -127,7 +105,6 @@ describe('Local', () => {
 
   it('should have working delete function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 
@@ -142,7 +119,6 @@ describe('Local', () => {
 
   it('should have working move function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 
@@ -161,7 +137,6 @@ describe('Local', () => {
 
   it('should have working copy function', async () => {
     const root = path.join(os.tmpdir(), 'testing-edmunds')
-    tempDirs.push(root)
     const storagePath = path.join('storage', 'files')
     const instance = await getDriver(root, storagePath)
 

@@ -4,8 +4,8 @@ import * as chai from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
 import { Connection, ConnectionOptions } from 'typeorm'
+import * as chaiAsPromised from 'chai-as-promised'
 
-const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 

@@ -5,8 +5,8 @@ import * as appRootPath from 'app-root-path'
 import * as redis from 'redis'
 import * as chai from 'chai'
 import 'mocha'
+import * as chaiAsPromised from 'chai-as-promised'
 
-const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const expect = chai.expect
 

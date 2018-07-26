@@ -8,7 +8,6 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as util from 'util'
 import * as mkdirp from 'mkdirp'
-import * as rmdir from 'rmdir'
 import * as os from 'os'
 import * as sinon from 'sinon'
 
@@ -31,13 +30,6 @@ describe('GoogleCloudStorage', () => {
   }
 
   const tempDir = path.join(os.tmpdir(), 'testing-edmunds')
-  afterEach((done) => {
-    if (fs.existsSync(tempDir)) {
-      rmdir(tempDir, done)
-    } else {
-      done()
-    }
-  })
 
   it('should have working path function', async () => {
     const storagePath = path.join('storage', 'files')

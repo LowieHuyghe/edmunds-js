@@ -7,7 +7,6 @@ import {
   Connection,
   getConnectionManager
 } from 'typeorm'
-import * as importFresh from 'import-fresh'
 import DatabaseManager from './databasemanager'
 
 describe('databaseserviceprovider.ts', () => {
@@ -23,7 +22,8 @@ describe('databaseserviceprovider.ts', () => {
   it('should have database', async () => {
     // Override config
     const edmunds = new Edmunds(appRootPath.path)
-    edmunds.config = importFresh('config')
+    delete require.cache[require.resolve('config')]
+    edmunds.config = require('config')
 
     expect(edmunds.app.get('edmunds-database-manager')).to.be.an('undefined')
     edmunds.register(DatabaseServiceProvider)
