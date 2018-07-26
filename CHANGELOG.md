@@ -1,5 +1,12 @@
 # Edmunds Changelog
 
+## Release 0.5.0 (2018-07-27)
+
+- Updated dependencies to latest versions
+- Removed unnecessary dependencies
+- Moved to edmundsjs-organisation
+
+
 ## Release 0.4.0 (2018-07-23)
 
 - [#177](https://github.com/edmundsjs/framework/issues/177): Don't initialize the firebase-admin in FirebaseRealtimeDatabase
