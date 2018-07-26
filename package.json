@@ -77,7 +77,7 @@
     "codecov": "^3.0.4",
     "docsify-cli": "^4.2.1",
     "firebase-admin": "^5.13.1",
-    "firebase-functions": "^1.1.0",
+    "firebase-functions": "^2.0.1",
     "import-fresh": "^2.0.0",
     "memcached": "^2.2.2",
     "mocha": "^5.2.0",
