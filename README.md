@@ -1,4 +1,4 @@
-# Edmunds
+![alt text](https://raw.githubusercontent.com/edmundsjs/framework/master/docs/logo.jpg "Edmunds Logo")
 
 [![npm](https://img.shields.io/npm/v/edmunds.svg)](https://www.npmjs.com/package/edmunds)
 [![CircleCI](https://img.shields.io/circleci/project/github/edmundsjs/framework/master.svg)](https://circleci.com/gh/edmundsjs/framework)
