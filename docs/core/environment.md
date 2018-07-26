@@ -2,7 +2,7 @@
 
 The current application environment can be easily fetched through
 Edmunds. The environment is determined using `NODE_ENV` (defaulting
-to `development` ).
+to `development` ). See [expressjs](https://expressjs.com/en/api.html#app.set).
 
 ```typescript
 import * as appRootPath from 'app-root-path'

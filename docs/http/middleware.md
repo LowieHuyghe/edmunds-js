@@ -6,7 +6,7 @@ everywhere you would use a middleware-function.
 
 More on expressjs.com: [Using middleware](http://expressjs.com/en/guide/using-middleware.html)
 
->Note: The Controller-class is based the same principle.
+>Note: The Controller-class is based on the same principle.
 
 
 ## Define
