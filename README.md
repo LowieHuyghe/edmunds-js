@@ -10,7 +10,22 @@ with a firm structure to start from. Edmunds takes away the pain of
 bootstrap code so you can kickoff with the things that really
 matter.
 
+> Note: This repository contains the core code of the Edmunds
+framework. You can visit the main
+[Edmunds repository](https://github.com/edmundsjs/edmunds) too.
 
-## Let's get started!
 
-Go to: [https://edmundsjs.com](https://edmundsjs.com)
+## Getting Started
+
+Create your new project by running the following command in your
+terminal.
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/edmundsjs/edmunds/master/create-edmunds-app.sh)"
+```
+
+
+## Documentation
+
+Take a look at [the documentation](https://edmundsjs.com/) to get the
+hang of it.
