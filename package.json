@@ -35,7 +35,7 @@
   "homepage": "https://github.com/edmundsjs/framework#README",
   "peerDependencies": {
     "@google-cloud/storage": "^1.7.0",
-    "firebase-admin": "^5.13.1",
+    "firebase-admin": "^6.0.0",
     "firebase-functions": "^2.0.1",
     "memcached": "^2.2.2",
     "redis": "^2.8.0",
