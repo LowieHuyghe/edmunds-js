@@ -9,8 +9,16 @@ import * as os from 'os'
 import * as fs from 'fs'
 import * as util from 'util'
 import * as mkdirp from 'mkdirp'
+import * as rimraf from 'rimraf'
 
 describe('Local', () => {
+  afterEach(async () => {
+    const root = path.join(os.tmpdir(), 'testing-edmunds')
+    if (fs.existsSync(root)) {
+      rimraf.sync(root)
+    }
+  })
+
   async function getDriver (root: string, storagePath: string, prefix?: string): Promise<Local> {
     const config = [{
       name: 'local',

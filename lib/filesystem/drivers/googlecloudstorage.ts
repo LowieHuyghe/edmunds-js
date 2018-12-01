@@ -16,7 +16,7 @@ export default class GoogleCloudStorage implements DriverInterface {
    * @param {string | undefined} prefix
    */
   constructor (bucket: string, storagePath?: string, prefix?: string | undefined) {
-    this.storage = Storage()
+    this.storage = new Storage.Storage()
     this.bucket = this.storage.bucket(bucket)
     this.storagePath = storagePath || '.'
     this.prefix = prefix

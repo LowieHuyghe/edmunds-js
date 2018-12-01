@@ -10,8 +10,16 @@ import * as util from 'util'
 import * as mkdirp from 'mkdirp'
 import * as os from 'os'
 import * as sinon from 'sinon'
+import * as rimraf from 'rimraf'
 
 describe('GoogleCloudStorage', () => {
+  afterEach(async () => {
+    const root = path.join(os.tmpdir(), 'testing-edmunds')
+    if (fs.existsSync(root)) {
+      rimraf.sync(root)
+    }
+  })
+
   async function getDriver (storagePath: string, prefix?: string): Promise<GoogleCloudStorage> {
     const config = [{
       name: 'googlecloudstorage',
@@ -59,7 +67,7 @@ describe('GoogleCloudStorage', () => {
     const readStreamStub = sinon.stub(instance.bucket, 'file')
     readStreamStub.withArgs(instance.path(filePath)).returns({
       createReadStream: async () => fs.createReadStream(path.join(tempDir, filePath))
-    })
+    } as any)
 
     expect(await instance.read(filePath)).to.equal(content)
     expect(readStreamStub.calledOnce).equals(true)
@@ -93,13 +101,13 @@ describe('GoogleCloudStorage', () => {
         mkdirp.sync(path.dirname(path.join(tempDir, filePath)))
         return fs.writeFileSync(path.join(tempDir, filePath), content)
       }
-    })
+    } as any)
     writeStreamStub.withArgs(instance.path(filePath2)).returns({
       createWriteStream: async () => {
         mkdirp.sync(path.dirname(path.join(tempDir, filePath2)))
         return fs.createWriteStream(path.join(tempDir, filePath2))
       }
-    })
+    } as any)
 
     await instance.write(filePath, content)
     expect(writeStreamStub.calledOnce).equals(true)
@@ -124,7 +132,7 @@ describe('GoogleCloudStorage', () => {
     const existsStreamStub = sinon.stub(instance.bucket, 'file')
     existsStreamStub.withArgs(instance.path(filePath)).returns({
       exists: async () => [fs.existsSync(path.join(tempDir, filePath))]
-    })
+    } as any)
 
     expect(await instance.exists(filePath)).to.equal(false)
     expect(existsStreamStub.calledOnce).equals(true)
@@ -144,7 +152,7 @@ describe('GoogleCloudStorage', () => {
     const removeStreamStub = sinon.stub(instance.bucket, 'file')
     removeStreamStub.withArgs(instance.path(filePath)).returns({
       delete: async () => fs.unlinkSync(path.join(tempDir, filePath))
-    })
+    } as any)
 
     mkdirp.sync(path.dirname(path.join(tempDir, filePath)))
     fs.writeFileSync(path.join(tempDir, filePath), content)
@@ -165,7 +173,7 @@ describe('GoogleCloudStorage', () => {
     const moveStreamStub = sinon.stub(instance.bucket, 'file')
     moveStreamStub.withArgs(instance.path(filePath)).returns({
       move: async () => fs.renameSync(path.join(tempDir, filePath), path.join(tempDir, filePath2))
-    })
+    } as any)
 
     mkdirp.sync(path.dirname(path.join(tempDir, filePath)))
     fs.writeFileSync(path.join(tempDir, filePath), content)
@@ -189,7 +197,7 @@ describe('GoogleCloudStorage', () => {
     const copyStreamStub = sinon.stub(instance.bucket, 'file')
     copyStreamStub.withArgs(instance.path(filePath)).returns({
       copy: async () => fs.copyFileSync(path.join(tempDir, filePath), path.join(tempDir, filePath2))
-    })
+    } as any)
 
     mkdirp.sync(path.dirname(path.join(tempDir, filePath)))
     fs.writeFileSync(path.join(tempDir, filePath), content)

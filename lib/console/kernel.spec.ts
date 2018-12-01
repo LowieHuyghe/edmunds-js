@@ -15,10 +15,10 @@ describe('Kernel', () => {
 
   it('should pass basics', async () => {
     class ThisKernel extends MyKernel {
-      run (): void {
+      async run () {
         expect(this.edmunds).to.equal(edmunds)
         expect(this.argv).to.deep.equal(process.argv)
-        super.run()
+        await super.run()
       }
     }
 
@@ -64,20 +64,30 @@ class MyCommand extends Command {
   }
 
   async run (...args: any[]): Promise<void> {
-    MyCommand.iRan = true
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        MyCommand.iRan = true
+        resolve()
+      }, 100)
+    })
   }
 }
 
 class MyKernel extends Kernel {
   static iRan = false
 
-  run (): void {
+  async run () {
+    await super.run()
     MyKernel.iRan = true
-    super.run()
   }
 
   protected help (program: commander.Command): void {
     // Don't print help as it closes the current process
+  }
+
+  protected createProgram (): commander.Command {
+    return super.createProgram()
+      .option('-r, --require', 'Dummy to avoid error on debugging')
   }
 
   protected getCommands (): { new(program: commander.Command, app: Edmunds): Command }[] {

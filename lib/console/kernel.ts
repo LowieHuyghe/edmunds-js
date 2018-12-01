@@ -14,11 +14,6 @@ export default abstract class Kernel {
   protected argv: string[]
 
   /**
-   * Check if ran command
-   */
-  protected executed: boolean = false
-
-  /**
    * Constructor
    * @param {Edmunds} edmunds
    * @param {string[]} argv
@@ -31,36 +26,45 @@ export default abstract class Kernel {
   /**
    * Run the program
    */
-  run () {
-    const program = this.createProgram()
-    this.registerCommands(program)
+  async run () {
+    try {
+      await new Promise((resolve, reject) => {
+        const program = this.createProgram()
 
-    program.parse(this.argv)
+        this.registerCommands(program, resolve, reject)
+        program.on('command:*', () => {
+          reject(new Error('Invalid command given'))
+        })
 
-    if (!this.executed) {
-      this.help(program)
+        program.parse(this.argv)
+        if (!program.args.length) {
+          this.help(program)
+          process.exitCode = 1
+          resolve()
+        }
+      })
+    } catch (e) {
+      console.error(e)
+      process.exitCode = 1
     }
   }
 
   /**
    * Register the commands
    * @param {commander.Command} program
+   * @param resolve
+   * @param reject
    */
-  protected registerCommands (program: commander.Command) {
+  protected registerCommands (program: commander.Command, resolve: () => void, reject: (err: Error) => void) {
     for (let commandClass of this.getCommands()) {
       const command = new commandClass(program, this.edmunds)
       command.register(program)
         .action(async (...args: any[]) => {
-          this.executed = true
           try {
             await command.run(...args)
+            resolve()
           } catch (e) {
-            if (e.message && e.stack) {
-              console.error(e.message, e.stack)
-            } else {
-              console.error(e)
-            }
-            process.exitCode = 1
+            reject(e)
           }
         })
     }
