@@ -172,7 +172,7 @@ export default abstract class BaseManager<T> {
    */
   private async destroyAll (): Promise<void> {
     const indexes = Object.keys(this.instancesConfig).map(key => parseInt(key, 10))
-    const createdIndexes = indexes.filter(index => this.instancesConfigIndexesYetToBeLoaded.indexOf(index) >= 0)
+    const createdIndexes = indexes.filter(index => this.instancesConfigIndexesYetToBeLoaded.indexOf(index) < 0)
 
     for (const index of createdIndexes) {
       const instanceConfig = this.instancesConfig[index]

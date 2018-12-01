@@ -106,4 +106,37 @@ describe('manager.js', () => {
     await expect(manager.get()).to.be.rejectedWith('Missing name for declared instance')
   })
 
+  it('should handle destruction', async () => {
+    class MyManager extends Manager<string> {
+      static destroyCalled = 0
+
+      protected createJohn (config: any) {
+        return 'John Snow ' + config.number
+      }
+      protected destroyJohn (config: any, instance: string) {
+        ++MyManager.destroyCalled
+        expect(instance).to.equal('John Snow ' + config.number)
+      }
+    }
+
+    let instances: any = [
+      { name: 'john', driver: 'john', number: 1 }
+    ]
+    let edmunds = new Edmunds(appRootPath.path)
+    let manager = new MyManager(edmunds, instances)
+    expect(MyManager.destroyCalled).to.equal(0)
+    await edmunds.exit()
+    expect(MyManager.destroyCalled).to.equal(0)
+
+    instances = [
+      { name: 'john2', driver: 'john', number: 2 }
+    ]
+    edmunds = new Edmunds(appRootPath.path)
+    manager = new MyManager(edmunds, instances)
+    expect(await manager.get()).to.equal('John Snow 2')
+    expect(MyManager.destroyCalled).to.equal(0)
+    await edmunds.exit()
+    expect(MyManager.destroyCalled).to.equal(1)
+  })
+
 })
