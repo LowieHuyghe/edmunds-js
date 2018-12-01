@@ -1,5 +1,12 @@
 # Edmunds Changelog
 
+## Release 0.6.0 (2018-12-02)
+
+- Updated dependencies to latest versions
+- [#224](https://github.com/edmundsjs/framework/issues/224): Await on Kernel.run does not work
+- [#225](https://github.com/edmundsjs/framework/issues/225): Calling Edmunds.exit with a manager without loaded instances throws error
+
+
 ## Release 0.5.0 (2018-07-27)
 
 - Updated dependencies to latest versions
