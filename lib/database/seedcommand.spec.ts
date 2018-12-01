@@ -80,9 +80,9 @@ class MySeedCommand extends SeedCommand {
 class MyKernel extends Kernel {
   static iRan = false
 
-  run (): void {
+  async run () {
     MyKernel.iRan = true
-    super.run()
+    await super.run()
   }
 
   protected help (program: commander.Command): void {
