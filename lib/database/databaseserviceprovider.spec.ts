@@ -21,6 +21,20 @@ describe('databaseserviceprovider.ts', () => {
 
   it('should have database', async () => {
     // Override config
+    process.env.NODE_CONFIG = JSON.stringify({
+      database: {
+        instances: [
+          {
+            name: 'default',
+            type: 'sqljs'
+          },
+          {
+            name: 'sqljs2',
+            type: 'sqljs'
+          }
+        ]
+      }
+    })
     const edmunds = new Edmunds(appRootPath.path)
     delete require.cache[require.resolve('config')]
     edmunds.config = require('config')
