@@ -62,6 +62,19 @@ const defaultConnection = await edmunds.database()
 const secondConnection = await edmunds.database('second-connection')
 ```
 
+### Cli
+
+As the typeorm-cli gets it's config from the `ormconfig.json/js/...`
+file in the root there will have to be a replacement file that reads
+our config.
+
+```javascript
+// ormconfig.js
+
+const config = require('config')
+module.exports = config.get('database.instances')
+```
+
 Further documentation on how to defined entities, define migrations,
 query data,... can be found on the
 [typeorm-repo](https://github.com/typeorm/typeorm).
