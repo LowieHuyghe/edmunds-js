@@ -1,6 +1,6 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.7.0 (2019-01-15)
 
 - Updated dependencies to latest versions
 - [#241](https://github.com/edmundsjs/framework/issues/241): TypeORM config should come from edmunds-config
