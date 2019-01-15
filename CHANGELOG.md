@@ -2,6 +2,7 @@
 
 ## Next Release
 
+- Updated dependencies to latest versions
 - [#241](https://github.com/edmundsjs/framework/issues/241): TypeORM config should come from edmunds-config
 
 
