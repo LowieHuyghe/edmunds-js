@@ -1,6 +1,6 @@
 {
   "name": "edmunds",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Edmunds is a Express based framework for building web applications with a firm structure to start from.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
