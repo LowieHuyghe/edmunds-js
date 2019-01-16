@@ -8,7 +8,9 @@ export default class FileSystemServiceProvider extends ServiceProvider {
   register (): void {
     // Load instances
     let instances: any[] = []
-    if (this.edmunds.config.has('filesystem.instances')) {
+    if (this.edmunds.config.has('filesystem.instance')) {
+      instances = [this.edmunds.config.get('filesystem.instance')]
+    } else if (this.edmunds.config.has('filesystem.instances')) {
       instances = this.edmunds.config.get('filesystem.instances')
     }
 

@@ -78,6 +78,24 @@ describe('manager.js', () => {
     await expect(manager.all()).to.be.rejectedWith('Method "createArya" for driver "arya" does not exist')
   })
 
+  it('should handle non-existing name', async () => {
+    class MyManager extends Manager<string> {
+      protected createJohn (config: any) {
+        return 'John Snow ' + config.number
+      }
+    }
+
+    const edmunds = new Edmunds(appRootPath.path)
+    const instances = [
+      { name: 'john1', driver: 'john', number: 1 }
+    ]
+    const manager = new MyManager(edmunds, instances)
+
+    expect(await manager.get()).to.equal('John Snow 1')
+    expect(await manager.get('john1')).to.equal('John Snow 1')
+    await expect(manager.get('arya1')).to.be.rejectedWith('No instance declared with name "arya1"')
+  })
+
   it('should handle missing name', async () => {
     class MyManager extends Manager<string> {
       protected createJohn (config: any) {

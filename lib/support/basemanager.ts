@@ -91,7 +91,7 @@ export default abstract class BaseManager<T> {
     }
 
     const indexPosition = this.instancesConfigIndexesYetToBeLoaded.findIndex(index => this.instancesConfig[index].name === name)
-    if (typeof indexPosition === 'undefined') {
+    if (indexPosition < 0) {
       throw new Error(`No instance declared with name "${name}"`)
     }
 

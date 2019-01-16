@@ -8,7 +8,9 @@ export default class DatabaseServiceProvider extends ServiceProvider {
   register (): void {
     // Load instances
     let instances: any[] = []
-    if (this.edmunds.config.has('database.instances')) {
+    if (this.edmunds.config.has('database.instance')) {
+      instances = [this.edmunds.config.get('database.instance')]
+    } else if (this.edmunds.config.has('database.instances')) {
       instances = this.edmunds.config.get('database.instances')
     }
 

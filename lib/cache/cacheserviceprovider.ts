@@ -8,7 +8,9 @@ export default class CacheServiceProvider extends ServiceProvider {
   register (): void {
     // Load instances
     let instances: any[] = []
-    if (this.edmunds.config.has('cache.instances')) {
+    if (this.edmunds.config.has('cache.instance')) {
+      instances = [this.edmunds.config.get('cache.instance')]
+    } else if (this.edmunds.config.has('cache.instances')) {
       instances = this.edmunds.config.get('cache.instances')
     }
 
