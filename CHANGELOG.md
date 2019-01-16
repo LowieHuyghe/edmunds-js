@@ -1,5 +1,10 @@
 # Edmunds Changelog
 
+## Next Release
+
+- [#242](https://github.com/edmundsjs/framework/issues/242): Support `instance` in config next to `instances` to better support config merging
+
+
 ## Release 0.7.0 (2019-01-15)
 
 - Updated dependencies to latest versions
