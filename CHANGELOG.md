@@ -1,6 +1,6 @@
 # Edmunds Changelog
 
-## Next Release
+## Release 0.7.2 (2019-01-29)
 
 - [#255](https://github.com/edmundsjs/framework/issues/255): TypeORM gives: Cannot assign to read only property 'name' of object '#<Object>'
 - [#256](https://github.com/edmundsjs/framework/issues/256): Manager issue: Cannot read property 'close' of undefined
