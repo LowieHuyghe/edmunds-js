@@ -13,6 +13,9 @@ export default class DatabaseServiceProvider extends ServiceProvider {
     } else if (this.edmunds.config.has('database.instances')) {
       instances = this.edmunds.config.get('database.instances')
     }
+    // node-config leaves some traces on the object that don't combine
+    // well with TypeORM
+    instances = JSON.parse(JSON.stringify(instances))
 
     // Create manager
     const manager = new DatabaseManager(this.edmunds, instances)
