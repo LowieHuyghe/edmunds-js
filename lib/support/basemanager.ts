@@ -66,7 +66,9 @@ export default abstract class BaseManager<T> {
       const index = this.instancesConfigIndexesYetToBeLoaded.shift()
       const instanceConfig = this.instancesConfig[index]
 
-      const promiseOrNot = this.create(instanceConfig)
+      const promiseOrNot = this.create(instanceConfig, () => {
+        this.instancesConfigIndexesYetToBeLoaded.unshift(index)
+      })
       if (promiseOrNot instanceof Promise) {
         promises.push(promiseOrNot)
       }
@@ -97,7 +99,9 @@ export default abstract class BaseManager<T> {
 
     const index = this.instancesConfigIndexesYetToBeLoaded.splice(indexPosition, 1)[0]
     const instanceConfig = this.instancesConfig[index]
-    return this.create(instanceConfig)
+    return this.create(instanceConfig, () => {
+      this.instancesConfigIndexesYetToBeLoaded.splice(indexPosition, 0, index)
+    })
   }
 
   /**
@@ -115,7 +119,9 @@ export default abstract class BaseManager<T> {
 
     const index = this.instancesConfigIndexesYetToBeLoaded.shift()
     const instanceConfig = this.instancesConfig[index]
-    return this.create(instanceConfig)
+    return this.create(instanceConfig, () => {
+      this.instancesConfigIndexesYetToBeLoaded.unshift(index)
+    })
   }
 
   /**
@@ -147,9 +153,10 @@ export default abstract class BaseManager<T> {
   /**
    * Create the instance using the config
    * @param config
+   * @param onError Method called in case of error. Error will be thrown after calling this method.
    * @returns {any}
    */
-  private create (config: any): void | Promise<void> {
+  private create (config: any, onError: (e: Error) => void): void | Promise<void> {
     const driverKeyName: string = this.resolveDriverKeyName()
     const driver: string = config[driverKeyName]
     const createMethodName: string = this.resolveCreateMethodName(driver)
@@ -157,13 +164,21 @@ export default abstract class BaseManager<T> {
     let createMethod: (config: any) => any = (this as any)[createMethodName]
     createMethod = createMethod.bind(this)
 
-    const instanceOrPromise = createMethod(config)
-    if (instanceOrPromise instanceof Promise) {
-      return instanceOrPromise.then((instance) => {
-        this.instances[config.name] = instance
-      })
-    } else {
-      this.instances[config.name] = instanceOrPromise
+    try {
+      const instanceOrPromise = createMethod(config)
+      if (instanceOrPromise instanceof Promise) {
+        return instanceOrPromise.then((instance) => {
+          this.instances[config.name] = instance
+        }).catch((e) => {
+          onError(e)
+          throw e
+        })
+      } else {
+        this.instances[config.name] = instanceOrPromise
+      }
+    } catch (e) {
+      onError(e)
+      throw e
     }
   }
 

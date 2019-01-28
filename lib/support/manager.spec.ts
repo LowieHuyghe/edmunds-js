@@ -1,8 +1,12 @@
 import Edmunds from '../edmunds'
 import Manager from './manager'
-import { expect } from 'chai'
 import * as appRootPath from 'app-root-path'
 import 'mocha'
+import * as chai from 'chai'
+import * as chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
+const expect = chai.expect
 
 describe('manager.js', () => {
 
@@ -155,6 +159,53 @@ describe('manager.js', () => {
     expect(MyManager.destroyCalled).to.equal(0)
     await edmunds.exit()
     expect(MyManager.destroyCalled).to.equal(1)
+  })
+
+  it('should handle faulty create and destruction', async () => {
+    class MyManager extends Manager<string> {
+      static destroyCalled = 0
+
+      protected createJohn (config: any) {
+        throw new Error('Could not create John Snow ' + config.number)
+      }
+      protected destroyJohn (config: any, instance: string) {
+        ++MyManager.destroyCalled
+        expect(instance).to.equal('John Snow ' + config.number)
+      }
+    }
+
+    let instances: any = [
+      { name: 'john', driver: 'john', number: 1 }
+    ]
+    let edmunds = new Edmunds(appRootPath.path)
+    let manager = new MyManager(edmunds, instances)
+    await expect(manager.get()).to.be.rejectedWith('Could not create John Snow 1')
+    await expect(manager.get()).to.be.rejectedWith('Could not create John Snow 1')
+    expect(MyManager.destroyCalled).to.equal(0)
+    await edmunds.exit()
+    expect(MyManager.destroyCalled).to.equal(0)
+
+    instances = [
+      { name: 'john2', driver: 'john', number: 2 }
+    ]
+    edmunds = new Edmunds(appRootPath.path)
+    manager = new MyManager(edmunds, instances)
+    await expect(manager.get('john2')).to.be.rejectedWith('Could not create John Snow 2')
+    await expect(manager.get('john2')).to.be.rejectedWith('Could not create John Snow 2')
+    expect(MyManager.destroyCalled).to.equal(0)
+    await edmunds.exit()
+    expect(MyManager.destroyCalled).to.equal(0)
+
+    instances = [
+      { name: 'john2', driver: 'john', number: 3 }
+    ]
+    edmunds = new Edmunds(appRootPath.path)
+    manager = new MyManager(edmunds, instances)
+    await expect(manager.all()).to.be.rejectedWith('Could not create John Snow 3')
+    await expect(manager.all()).to.be.rejectedWith('Could not create John Snow 3')
+    expect(MyManager.destroyCalled).to.equal(0)
+    await edmunds.exit()
+    expect(MyManager.destroyCalled).to.equal(0)
   })
 
 })
